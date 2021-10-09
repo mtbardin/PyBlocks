@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <link href="css/styles.css" type="text/css" rel="stylesheet">
+
+    <!-- include for socket.io -->
+    <script src="/socket.io/socket.io.js" type="text/javascript"></script>
+    <!-- jquery & jquey.ui includes -->
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
+
+    <style>
+        .demo ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            margin-bottom: 10px;
+        }
+
+        .demo li {
+            margin: 5px;
+            padding: 5px;
+            width: 150px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="appContainer">
+
+        <div class="inline-block-child" style="width: 20%; height: 500px;">
+            <!-- List for all blocks -->
+            <h2>List of Blocks</h2>
+            <div class="fullBlockListContainer">
+                <ul>
+                    <li id="draggable">
+                        <div id="printblock">
+                            <label for="printblockcontent">Print</label>
+                            <!-- disabled? -->
+                            <input type="text" class="printblockcontent" />
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="inline-block-child" style="width: 60%; height: 500px;">
+            <!-- area for blocks to be executed -->
+            <h2>Programming Area</h2>
+
+            <div class="programContainer">
+                <ul id="sortable">
+                    <!-- stuff will be added here. -->
+                </ul>
+            </div>
+
+        </div>
+
+        <div class="break" style="height: 100px;"></div>
+
+        <div class="inline-block-child">
+            <h1>Execute</h1>
+            <label for="runcodebutton">Run Code:</label>
+            <input type="text" id="runfilename" value="ls.py" />
+            <textarea id="rundata" hidden></textarea>
+            <button id="run">Run</button>
+        </div>
+
+        <!-- execute code in block button -->
+        <div class="inline-block-child">
+            <h1>Run Print Block</h1>
+            <label for="runPrintBlockButton">Run Block:</label>
+            <input type="text" id="exefileName" value="output.py" hidden />
+            <!--<textarea id="printBlockData" hidden></textarea>--->
+            <button id="exe">Execute</button>
+        </div>
+
+        <div class="break"></div>
+
+        <p style="height: 0px;">output:</p>
+        <div class="break"></div>
+        <pre id="output"></pre>
+    </div>
+
+    <!--
+        todo: 
+        need to fix up the CSS for the blocks and lists
+    -->
+    <!--
+        Old References not yet deleted:
+        https://stackoverflow.com/questions/18399543/jquery-ui-combine-sortable-and-draggable
+        https://stackoverflow.com/questions/39182974/how-to-get-jquery-sortable-list-order
+        https://stackoverflow.com/questions/22699947/jquery-ui-sortable-connected-lists-dropping-on-an-empty-list
+
+    -->
+
+    <script>
+        $(function () {
+            $("#sortable").sortable({
+                placeholder: "ui-state-highlight",
+                revert: true,
+                stop: function (event, ui) {
+                    /*
+                    if (!ui.item.data('tag') && !ui.item.data('handle')) {
+                        ui.item.data('tag', true);
+                    }
+                    var children = $('#sortable').sortable('refreshPositions').children();
+                    console.log('Positions: ');
+                    $.each(children, function () {
+                        console.log($(this).text().trim());
+                    });
+                    */
+                }
+            });
+            $("#draggable").draggable({
+                connectToSortable: '#sortable',
+                helper: 'clone',
+                revert: 'invalid'
+            });
+        });
+    </script>
+
+    <script>
+        // make qS a shortcut for document.querySelector
+        const qS = document.querySelector.bind(document);
+
+        // when the user clicks 'run'
+        qS("#run").addEventListener('click', function () {
+
+            // get the filename and data
+            const filename = qS("#runfilename").value;
+            const data = qS("#rundata").value;
+
+            // run
+            runFile(filename, data, function (err) {
+                if (err) {
+                    alert("failed to run: " + filename + "\n" + err);
+                } else {
+                    qS("#rundata").value = data;
+                    alert("running: " + filename);
+                }
+            });
+        });
+
+        // when the user clicks 'execute'
+        qS("#exe").addEventListener('click', function () {
+
+            // get the filename and data
+            const filename = "output.py";
+            //var data = qS("#printblockcontent").value;
+            var data = "shouldn't be used.";
+
+            var x = document.querySelectorAll(".printblockcontent");
+            var buildPrint = "";
+            var finalProgram = "";
+
+            // Skip the first one for now as I need to figure out how to make it so I can't type in
+            // it with out changing what the second one is.
+            for (let i = 1; i < x.length; i++) {
+                console.log(x[i].value);
+                // regex I found that escapes all the non-escaped quotations in the string
+                data = '"' + x[i].value.replace(/\\([\s\S])|(")/g, "\\$1$2") + '"';
+
+                buildPrintStatement = "print(" + data + ")" + "\n"
+                finalProgram = finalProgram + buildPrintStatement;
+            }
+
+            console.log(finalProgram)
+
+            // save program first before running.
+            saveFile(filename, finalProgram, function (err) {
+                if (err) {
+                    alert("failed to save: " + filename + "\n" + err);
+                } else {
+                    //alert("saved: " + filename);
+                }
+            });
+
+            // now we can run program
+            runFile(filename, buildPrint, function (err) {
+                if (err) {
+                    alert("failed to run: " + filename + "\n" + err);
+                } else {
+                    qS("#rundata").value = data;
+                    alert("running: " + filename);
+                }
+            });
+        });
+
+        function runFile(filename, data, callback) {
+            let call = "run " + filename;
+            //document.getElementById("output").innerHTML = call;
+            doXhr(call, 'PUT', data, callback);
+        }
+
+        function saveFile(filename, data, callback) {
+            let call = "save " + filename;
+            //document.getElementById("output").innerHTML = call;
+            doXhr(call, 'PUT', data, callback);
+        }
+
+        function loadFile(filename, callback) {
+            doXhr(filename, 'GET', '', callback);
+        }
+
+        function doXhr(url, method, data, callback) {
+            const xhr = new XMLHttpRequest();
+            xhr.open(method, url);
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    callback(null, xhr.responseText);
+                } else {
+                    callback('Request failed.  Returned status of ' + xhr.status);
+                }
+            };
+            xhr.send(data);
+        }
+
+        // listen for code execution output.
+        var socket = io();
+        socket.on('progOut', function (data) {
+            //console.log(data.output);
+            document.getElementById("output").innerHTML = data.output;
+        });
+    </script>
+</body>
+</html>

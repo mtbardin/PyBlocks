@@ -1,4 +1,8 @@
-# beginner-html-site-styled
-A simple one page website created to help complete beginners learn HTML basics, which in this repo has also been styled to help beginners learn CSS basics. The styling is explained over the course of [https://developer.mozilla.org/en-US/Learn/Getting_started_with_the_web/CSS_basics](https://developer.mozilla.org/en-US/Learn/Getting_started_with_the_web/CSS_basics).
+# First Block Demo
+This is a simple single block demo.
+Run this program by opening up the location the
+github was downloaded at in the cmd
+then run the command `node server.js`
 
-[Run the example live](http://mdn.github.io/beginner-html-site-styled/).
+## todo:
+still need to clean up the CSS for the blocks
