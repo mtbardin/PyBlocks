@@ -1,0 +1,161 @@
+/* CSS for basic tags in html */
+html {
+    height: 100%;
+}
+
+body{
+    height: 100%;
+}
+
+/* List CSS */
+#draggable {
+    /*list-style-type: none;*/
+}
+#sortable {
+    /*list-style-type: none;*/
+}
+
+.programContainer ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    float: left;
+    margin-right: 10px;
+    background: #eee;
+    padding: 5px;
+    width: 143px;
+}
+.programContainer li {
+    margin: 5px;
+    padding: 5px;
+    font-size: 1.2em;
+    width: 120px;
+    height: 30px;
+}
+
+.fullBlockListContainer ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    float: left;
+    margin-right: 10px;
+    background: #eee;
+    padding: 5px;
+    width: 143px;
+}
+.fullBlockListContainer li {
+    margin: 5px;
+    padding: 5px;
+    font-size: 1.2em;
+    width: 120px;
+    height: 30px;
+}
+/* end list CSS */
+
+input[type="text"]:disabled {
+    background: #ffffff;
+}
+
+/* block display for div elements */
+.inline-block-child {
+    display: inline-block;
+    margin-right: 20px;
+}
+
+/* flex box container CSS */
+.break {
+    flex-basis: 100%;
+    height: 0;
+}
+
+.appContainer {
+    display: flex;
+    flex-wrap: wrap;
+    width: 80%;
+}
+
+.fullBlockListContainer {
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+    display: inline-block;
+    border: 1px solid black;
+}
+
+.programContainer {
+    width: 100%;
+    height: 100%;
+    display: inline-block;
+    border: 1px solid black;
+    flex-grow: 1;
+}
+
+/* Drop and Add CSS */
+.block {
+    padding: 10px;
+    cursor: move;
+    z-index: 10;
+    background-color: #2196F3;
+    color: #fff;
+    position: absolute;
+    border: 1px solid #d3d3d3;
+    text-align: center;
+    display: block;
+}
+
+.dropped-block {
+    padding: 10px;
+    cursor: move;
+    z-index: 10;
+    background-color: #2196F3;
+    color: #fff;
+    position: absolute;
+    border: 1px solid #d3d3d3;
+    text-align: center;
+    display: block;
+}
+
+/**/
+#loaddata {
+  resize: none;
+  display: block;
+}
+
+#savedata {
+  resize: none;
+  display: block;
+}
+
+/* Block CSS */
+/*
+#block {
+    padding: 10px;
+    cursor: move;
+    z-index: 10;
+    background-color: #2196F3;
+    color: #fff;
+    position: absolute;
+    border: 1px solid #d3d3d3;
+    text-align: center;
+    display: block;
+}
+*/
+#printblock {
+    /*display: none;*/
+    z-index: 8;
+    padding: 10px;
+    cursor: move;
+    z-index: 10;
+    background-color: #2196F3;
+    color: #fff;
+    position: absolute;
+    border: 1px solid #d3d3d3;
+    text-align: center;
+    display: block;
+}
+
+.printblockcontent {
+    vertical-align: middle;
+    resize: horizontal;
+}
