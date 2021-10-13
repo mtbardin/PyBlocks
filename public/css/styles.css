@@ -3,7 +3,7 @@ html {
     height: 100%;
 }
 
-body{
+body {
     height: 100%;
 }
 
@@ -11,45 +11,26 @@ body{
 #draggable {
     /*list-style-type: none;*/
 }
+
 #sortable {
     /*list-style-type: none;*/
+    height: 1000px;
 }
 
-.programContainer ul {
+.appContainer ul {
     list-style-type: none;
     margin: 0;
     padding: 0;
-    float: left;
-    margin-right: 10px;
-    background: #eee;
-    padding: 5px;
-    width: 143px;
-}
-.programContainer li {
-    margin: 5px;
-    padding: 5px;
-    font-size: 1.2em;
-    width: 120px;
-    height: 30px;
+    margin-bottom: 10px;
+    height: 1000px;
 }
 
-.fullBlockListContainer ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    float: left;
-    margin-right: 10px;
-    background: #eee;
-    padding: 5px;
-    width: 143px;
-}
-.fullBlockListContainer li {
+.appContainer li {
     margin: 5px;
     padding: 5px;
-    font-size: 1.2em;
-    width: 120px;
-    height: 30px;
+    width: 150px;
 }
+
 /* end list CSS */
 
 input[type="text"]:disabled {
@@ -71,7 +52,14 @@ input[type="text"]:disabled {
 .appContainer {
     display: flex;
     flex-wrap: wrap;
-    width: 80%;
+    width: 100%;
+}
+
+.outputContainer {
+    width: 100%;
+    height: 100%;
+    display: inline-block;
+    border: 1px solid black;
 }
 
 .fullBlockListContainer {
@@ -118,13 +106,13 @@ input[type="text"]:disabled {
 
 /**/
 #loaddata {
-  resize: none;
-  display: block;
+    resize: none;
+    display: block;
 }
 
 #savedata {
-  resize: none;
-  display: block;
+    resize: none;
+    display: block;
 }
 
 /* Block CSS */
@@ -141,7 +129,7 @@ input[type="text"]:disabled {
     display: block;
 }
 */
-#printblock {
+#printBlock {
     /*display: none;*/
     z-index: 8;
     padding: 10px;
@@ -149,13 +137,66 @@ input[type="text"]:disabled {
     z-index: 10;
     background-color: #2196F3;
     color: #fff;
-    position: absolute;
+    /*position: absolute;*/
     border: 1px solid #d3d3d3;
     text-align: center;
     display: block;
+    width: 150%;
 }
 
-.printblockcontent {
+.printBlockContent {
     vertical-align: middle;
     resize: horizontal;
+}
+
+/* Var Block*/
+#varBlock {
+    /*display: none;*/
+    z-index: 8;
+    padding: 10px;
+    cursor: move;
+    z-index: 10;
+    background-color: orange;
+    color: #fff;
+    /*position: absolute;*/
+    border: 1px solid #d3d3d3;
+    text-align: center;
+    display: block;
+    width: 160%;
+}
+#varBlockTypeSelector {
+
+}
+.varName {
+    vertical-align: middle;
+    resize: horizontal;
+}
+.varBlockContent {
+    vertical-align: middle;
+    resize: horizontal;
+}
+
+/* For Block */
+#forBlock {
+    /*display: none;*/
+    z-index: 8;
+    padding: 10px;
+    cursor: move;
+    z-index: 10;
+    background-color: forestgreen;
+    color: #fff;
+    /*position: absolute;*/
+    border: 1px solid #d3d3d3;
+    text-align: center;
+    display: block;
+    width: 150%;
+}
+
+.forBlockContent {
+    vertical-align: middle;
+    resize: horizontal;
+}
+
+#forBlockInternal {
+    text-align: right;
 }
