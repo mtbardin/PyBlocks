@@ -17,7 +17,7 @@ app.use(express.urlencoded({
 //define the route for "/"
  app.get("/", function (request, response){
     //show this file when the "/" is requested
-    response.sendFile(__dirname+"/views/index.html");
+    response.sendFile(__dirname+"/views/tutorials/base_tutorial.html");
  });
 
 app.put('*', function (req, res) {
