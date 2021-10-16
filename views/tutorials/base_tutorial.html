@@ -12,25 +12,35 @@
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
 
     <style>
-        .tut ul {
-            list-style-type: none;
-            margin: 0;
-            padding: 0;
-            margin-bottom: 10px;
+        .tutTextBorder {
+			border-style:solid;
+			border-color:#728FCE;
         }
-
-        .tut li {
-            margin: 5px;
-            padding: 5px;
-            width: 150px;
-        }
+		<!-- Ensure everything used is left aligned-->
+		p {
+		text-align: left;
+		}
+		h1{
+		text-align: left;
+		}
+		h2{
+		text-align: left;
+		}
     </style>
 </head>
 
-<body>
-<p style="font-size:30px">Title of tutorial. Eg. Variables, Branching, etc.</p>
-<p style="font-size:22px">Subtitle 1, for seperating categories</p>
-<p style="font-size:14px">Text Content related to subtitle 1</p>
-<p style="font-size:22px">Subtitle 2, for seperating categories</p>
-<p style="font-size:14px">Text Content related to subtitle 2</p>
+<body style="background-color:paleGoldenRod">
+<h1 style="font-size:30px">
+Title of tutorial. Eg. Variables, Branching, etc.</p>
+<h2 style="font-size:22px">
+Subtitle 1, for seperating categories</p>
+<div>
+<p style="background-color:powderblue;font-size:14px"class="tutTextBorder">
+Text Content related to subtitle 1</p>
+</div>
+<h2 style="font-size:22px">
+Subtitle 2, for seperating categories</p>
+<p style="background-color:powderblue;font-size:14px"class="tutTextBorder">
+Text Content related to subtitle 2</p>
 </body>
+</html>
