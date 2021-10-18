@@ -21,8 +21,8 @@ body {
     list-style-type: none;
     margin: 0;
     padding: 0;
-    margin-bottom: 10px;
-    height: 1000px;
+    margin-bottom: 0px;
+    height: 100%;
 }
 
 .appContainer li {
@@ -116,19 +116,6 @@ input[type="text"]:disabled {
 }
 
 /* Block CSS */
-/*
-#block {
-    padding: 10px;
-    cursor: move;
-    z-index: 10;
-    background-color: #2196F3;
-    color: #fff;
-    position: absolute;
-    border: 1px solid #d3d3d3;
-    text-align: center;
-    display: block;
-}
-*/
 #printBlock {
     /*display: none;*/
     z-index: 8;
@@ -141,7 +128,7 @@ input[type="text"]:disabled {
     border: 1px solid #d3d3d3;
     text-align: center;
     display: block;
-    width: 150%;
+    /width: 150%;
 }
 
 .printBlockContent {
@@ -162,7 +149,7 @@ input[type="text"]:disabled {
     border: 1px solid #d3d3d3;
     text-align: center;
     display: block;
-    width: 160%;
+    /width: 160%;
 }
 #varBlockTypeSelector {
 
@@ -174,6 +161,39 @@ input[type="text"]:disabled {
 .varBlockContent {
     vertical-align: middle;
     resize: horizontal;
+}
+
+/* If Block */
+#ifBlock {
+    /*display: none;*/
+    z-index: 8;
+    padding: 10px;
+    cursor: move;
+    z-index: 10;
+    background-color: mediumpurple;
+    color: #fff;
+    /*position: absolute;*/
+    border: 1px solid #d3d3d3;
+    text-align: left;
+    display: block;
+    /width: 150%;
+}
+
+.ifBody li {
+    list-style-type: none;
+    background: gainsboro;
+    margin: 0;
+    padding: 0;
+    margin-bottom: 10px;
+    height: 100px;
+}
+
+.ifBody ul {
+    margin: 5px;
+    background: gainsboro;
+    padding: 5px;
+    height: 100px;
+    width: 150px;
 }
 
 /* For Block */

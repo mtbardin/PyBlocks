@@ -17,8 +17,14 @@ app.use(express.urlencoded({
 //define the route for "/"
  app.get("/", function (request, response){
     //show this file when the "/" is requested
-    response.sendFile(__dirname+"/views/tutorials/base_tutorial.html");
+    response.sendFile(__dirname+"/views/home_page.html");
  });
+
+//define the route for "/coding_page"
+app.get("/coding_page.html", function (request, response) {
+    //show this file when the "/" is requested
+    response.sendFile(__dirname + "/views/coding_page.html");
+});
 
 app.put('*', function (req, res) {
     let str = req.path;

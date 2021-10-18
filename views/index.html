@@ -10,7 +10,62 @@
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>
+
+    <style>
+        .container {
+            min-height: 200px;
+            background-color: #4474FF;
+            border: 1px solid #1E44B2;
+            border-radius: 2px;
+            display: inline-block;
+            padding: 10px;
+        }
+
+        .fullBlockListContainer {
+            min-height: 200px;
+            background-color: #4474FF;
+            border: 1px solid #1E44B2;
+            border-radius: 2px;
+            display: inline-block;
+            padding: 10px;
+        }
+
+        .programContainer .container {
+            min-height: 100px;
+            background-color: blue;
+            border: 1px solid #04B200;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .container .container {
+            min-height: 100px;
+            background-color: #45FF41;
+            border: 1px solid #04B200;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .item {
+            /*background-color: #FFCB44;
+            //border: 1px solid #B2840C;
+            //margin-bottom: 5px;
+            //border-radius: 2px;
+            //padding: 15px 50px;*/
+        }
+
+        .draggable {
+            background-color: #fff;
+            border: 1px solid #B2840C;
+            margin-bottom: 5px;
+            border-radius: 2px;
+            padding: 15px 50px;
+        }
+    </style>
 </head>
+
+<!-- https://stackoverflow.com/questions/19129476/nest-jquery-ui-sortables?noredirect=1&lq=1 -->
+<!-- https://stackoverflow.com/questions/6940390/how-do-i-duplicate-item-when-using-jquery-sortable -->
 
 <body>
     <div class="appContainer">
@@ -22,75 +77,65 @@
             </div>
         </div>
 
+        
 
         <div class="inline-block-child" style="width: 20%; height: 500px;">
             <!-- List for all blocks -->
             <h2>List of Blocks</h2>
             <div class="fullBlockListContainer">
-                <ul>
-                    <!-- Print Block. -->
-                    <li class="draggable">
-                        <div id="printBlock">
-                            <label for="printBlockTypeSelector">Print </label>
-                            <!-- drop down menu to select type for variable. -->
-                            <select name="printBlockTypeSelector" id="printBlockTypeSelector">
-                                <option value="String">String</option>
-                                <option value="Variable">Variable</option>
-                            </select>
+                <!-- Print Block. -->
 
-                            <label for="printBlockContent"></label>
-                            <!-- disabled? -->
-                            <input type="text" class="printBlockContent" style="width: 100%;" />
-                        </div>
-                    </li>
+                    <div id="printBlock" class="draggable">
+                        <label for="printBlockTypeSelector">Print </label>
+                        <!-- drop down menu to select type for variable. -->
+                        <select name="printBlockTypeSelector" id="printBlockTypeSelector">
+                            <option value="String">String</option>
+                            <option value="Variable">Variable</option>
+                        </select>
 
-                    <!-- Variable Block -->
-                    <li class="draggable">
-                        <div id="varBlock">
-                            <label for="varBlockTypeSelector">Create Variable: Type =</label>
-                            <!-- drop down menu to select type for variable. -->
-                            <select name="varBlockTypeSelector" id="varBlockTypeSelector">
-                                <option value="String">String</option>
-                                <option value="Integer">Integer</option>
-                                <option value="Float">Float</option>
-                                <option value="Boolean">Boolean</option>
-                                <option value="List">List</option>
-                            </select>
-                            <br>
-                            <label for="varName">Name = </label>
-                            <!-- input for value of variable. -->
-                            <input type="text" class="varName" />
-                            <br>
-                            <label for="varBlockContent">Value = </label>
-                            <!-- input for value of variable. -->
-                            <input type="text" class="varBlockContent" />
-                        </div>
-                    </li>
-
-                    <!-- For Block --
-                <li class="draggable">
-                    <div id="forBlock">
-                        <label for="forBlockLoopInput">for: </label>
-                        <!-- area for inputing the loop restrictions. --
-                        <!-- can be variables or numbers --
-                        <!-- default: i=0, i<[input]; i++ (maybe?)--
-                        <input type="text" class="forBlockLoopInput" />
-                        <ul class="sortable">
-                            <!-- stuff will be added here. --
-                        </ul>
-
-                        <label for="forBlockInternal">body: </label>
-                        <!--
-                        have a droppable area in the for block to make it able to
-                        add other types of blocks to it.
-                        --
-                        <ul class="">
-                            <!-- stuff will be added here. --
-                        </ul>
+                        <label for="printBlockContent"></label>
+                        <!-- disabled? -->
+                        <input type="text" class="printBlockContent" style="width: 100%;" />
                     </div>
-                </li>
-                -->
-                </ul>
+
+
+                <!-- Variable Block -->
+
+                    <div id="varBlock" class="draggable">
+                        <label for="varBlockTypeSelector">Create Variable: Type =</label>
+                        <!-- drop down menu to select type for variable. -->
+                        <select name="varBlockTypeSelector" id="varBlockTypeSelector">
+                            <option value="String">String</option>
+                            <option value="Integer">Integer</option>
+                            <option value="Float">Float</option>
+                            <option value="Boolean">Boolean</option>
+                            <option value="List">List</option>
+                        </select>
+                        <br>
+                        <label for="varName">Name = </label>
+                        <!-- input for value of variable. -->
+                        <input type="text" class="varName" />
+                        <br>
+                        <label for="varBlockContent">Value = </label>
+                        <!-- input for value of variable. -->
+                        <input type="text" class="varBlockContent" />
+                    </div>
+
+
+                <!-- If Block -->
+                <!-- https://stackoverflow.com/questions/3308672/sortable-nested-lists-with-jquery-ui-1-8-2 Consult this for nested list structure. -->
+
+                    <div id="ifBlock" class="draggable">
+                        <label for="ifBlockConditional">If: </label>
+                        <input type="text" class="ifBlockConditional" />
+                        <br>
+                        <label for="ifBody">Then: </label>
+                        <!-- draggable area for body of if block. -->
+                        <div class="container">
+                            <!-- stuff will be added here. -->
+                        </div>
+                    </div>
+
             </div>
         </div>
 
@@ -99,9 +144,7 @@
             <h2>Programming Area</h2>
 
             <div class="programContainer">
-                <ul id="sortable">
-                    <!-- stuff will be added here. -->
-                </ul>
+                <!-- stuff will be added here. -->
             </div>
 
         </div>
@@ -129,10 +172,6 @@
     </div>
 
     <!--
-        todo: 
-        need to fix up the CSS for the blocks and lists
-    -->
-    <!--
         Old References not yet deleted:
         https://stackoverflow.com/questions/18399543/jquery-ui-combine-sortable-and-draggable
         https://stackoverflow.com/questions/39182974/how-to-get-jquery-sortable-list-order
@@ -141,19 +180,30 @@
     -->
 
     <script>
+        // need to add functionalities where I can delete blocks when dragged
+        // out of the programContainer.
         $(function () {
-            $("#sortable").sortable({
-                placeholder: "ui-state-highlight",
-                revert: true,
-                start: function (e, ui) {
-                    
+            $('.fullBlockListContainer').sortable({
+                connectWith: '.programContainer',
+                forcePlaceholderSize: false,
+                helper: function (e, li) {
+                    copyHelper = li.clone().insertAfter(li);
+                    return li.clone();
                 },
-                stop: function (event, ui) {
-                   
+                stop: function () {
+                    copyHelper && copyHelper.remove();
                 }
             });
+
+            $('.programContainer').sortable({
+                connectWith: '.programContainer',
+                receive: function (e, ui) {
+                    copyHelper = null;
+                }
+            });
+
             $(".draggable").draggable({
-                connectToSortable: '#sortable',
+                connectToSortable: '.programContainer',
                 dropOnEmpty: true,
                 helper: 'clone',
                 revert: 'invalid'
@@ -196,99 +246,33 @@
             var buildForStatement = "";
             var finalProgram = "";
 
-            var block_collection = document.querySelector(".programContainer").getElementsByTagName("li");
+            var block_collection = document.querySelector(".programContainer").getElementsByTagName("div");
+            console.log(block_collection);
             var blockId = "";
             // for each block in the program container.
             for (let i = 0; i < block_collection.length; i++) {
                 // get the block's id.
-                blockId = block_collection[i].childNodes[1].id;
-                //console.log(blockId);
+                blockId = block_collection[i].id;
+                console.log(blockId);
 
-                // begin building program.
+                // begin building the program.
+                // Build code for Print Blocks.
                 if (blockId == "printBlock") {
-                    console.log(block_collection[i].childNodes[1].children)
-                    var printDataType = block_collection[i].childNodes[1].children[1].value;
-                    var printData = "";
-                    console.log(printDataType);
-
-                    if (printDataType == "String") {
-                        // get the string in the print block. since we know the format of the block
-                        // and it won't ever change we can just directly extract it.
-                        printData = block_collection[i].childNodes[1].children[3].value;
-
-                        // regex I found that escapes all the non-escaped quotations in the string
-                        printData = '"' + printData.replace(/\\([\s\S])|(")/g, "\\$1$2") + '"';
-                    }
-                    else if (printDataType == "Variable") {
-                        // get the name of the variable, leave as it is.
-                        printData = block_collection[i].childNodes[1].children[3].value;
-                    }
-                    else {
-                        alert("Issue with print type selection.");
-                        return -1;
-                    }
-                   
-                    buildPrintStatement = "print(" + printData + ")" + "\n";
+                    var buildPrintStatement = buildPrintCode(block_collection[i]);
                     finalProgram = finalProgram + buildPrintStatement;
                 }
 
+                // Build code for Variable Blocks.
                 else if (blockId == "varBlock") {
-                    //console.log(block_collection[i].childNodes[1].children);
-
-                    // type selector data.
-                    // can be integer, float, boolean, or string.
-                    var varDataType = block_collection[i].childNodes[1].children[1].value;
-                    console.log(varDataType);
-                    var varName = "";
-                    var varValue = "";
-
-                    if (varDataType == "String") {
-                        // name data.
-                        varName = block_collection[i].childNodes[1].children[4].value;
-
-                        //value data.
-                        varValue = block_collection[i].childNodes[1].children[7].value;
-
-                        // regex I found that escapes all the non-escaped quotations in a string
-                        varValue = '"' + varValue.replace(/\\([\s\S])|(")/g, "\\$1$2") + '"';
-
-                        buildVarStatement = varName + " = " + varValue + "\n";
-                    }
-                    else if (varDataType == "Integer") {
-                        // name data.
-                        varName = block_collection[i].childNodes[1].children[4].value;
-
-                        //value data.
-                        varValue = parseInt(block_collection[i].childNodes[1].children[7].value);
-
-                        // check that the parsing worked.
-                        if (isNaN(varValue)) {
-                            alert("Variable value not an interger.");
-                            return -1;
-                        }
-
-                        buildVarStatement = varName + " = " + varValue + "\n";
-                    }
-                    else if (varDataType == "Float") {
-                        alert("Not Implemented Yet");
-                        return -1;
-                    }
-                    else if (varDataType == "Boolean") {
-                        alert("Not Implemented Yet");
-                        return -1;
-                    }
-                    else if (varDataType == "List") {
-                        /* varName = [] */
-                        alert("Not Implemented Yet");
-                        return -1;
-                    }
-                    else {
-                        alert("Something wrong has happened with variable type selection.");
-                        return -1;
-                    }
-
-                    //console.log(buildVarStatement);
+                    var buildVarStatement = buildVarCode(block_collection[i]);
                     finalProgram = finalProgram + buildVarStatement;
+                }
+
+                else if (blockId == "ifBlock") {
+                    alert("Not Implemented Yet");
+                    return -1;
+                    var buildIfStatement = buildIfCode(block_collection[i]);
+                    finalProgram = finalProgram + buildIfStatement;
                 }
 
                 else if (blockId == "forBlock") {
@@ -325,6 +309,101 @@
                 }
             });
         });
+
+        function buildPrintCode(blockData) {
+            // Pass in a whole node so we can extract the data from it.
+            // Return the final string to be added to the program.
+            var buildPrint = "";
+
+            //console.log(blockData.children)
+            var printDataType = blockData.children[1].value;
+            var printData = "";
+            //console.log(printDataType);
+
+            if (printDataType == "String") {
+                // get the string in the print block. since we know the format of the block
+                // and it won't ever change we can just directly extract it.
+                printData = blockData.children[3].value;
+
+                // regex I found that escapes all the non-escaped quotations in the string
+                printData = '"' + printData.replace(/\\([\s\S])|(")/g, "\\$1$2") + '"';
+            }
+            else if (printDataType == "Variable") {
+                // get the name of the variable, leave as it is.
+                printData = blockData.children[3].value;
+            }
+            else {
+                alert("Issue with print type selection.");
+                return -1;
+            }
+
+            buildPrint = "print(" + printData + ")" + "\n";
+
+            return buildPrint;
+        }
+
+        function buildVarCode(blockData) {
+            //console.log(blockData.children);
+
+            // type selector data.
+            // can be integer, float, boolean, or string.
+            var varDataType = blockData.children[1].value;
+            //console.log(varDataType);
+            var varName = "";
+            var varValue = "";
+            var buildVar = "";
+
+            if (varDataType == "String") {
+                // name data.
+                varName = blockData.children[4].value;
+
+                //value data.
+                varValue = blockData.children[7].value;
+
+                // regex I found that escapes all the non-escaped quotations in a string
+                varValue = '"' + varValue.replace(/\\([\s\S])|(")/g, "\\$1$2") + '"';
+
+                buildVar = varName + " = " + varValue + "\n";
+            }
+            else if (varDataType == "Integer") {
+                // name data.
+                varName = blockData.children[4].value;
+
+                //value data.
+                varValue = parseInt(blockData.children[7].value);
+
+                // check that the parsing worked.
+                if (isNaN(varValue)) {
+                    alert("Variable value not an interger.");
+                    return -1;
+                }
+
+                buildVar = varName + " = " + varValue + "\n";
+            }
+            else if (varDataType == "Float") {
+                alert("Not Implemented Yet");
+                return -1;
+            }
+            else if (varDataType == "Boolean") {
+                alert("Not Implemented Yet");
+                return -1;
+            }
+            else if (varDataType == "List") {
+                /* varName = [] */
+                alert("Not Implemented Yet");
+                return -1;
+            }
+            else {
+                alert("Something wrong has happened with variable type selection.");
+                return -1;
+            }
+
+            return buildVar;
+        }
+
+        function buildIfCode(blockData) {
+
+        }
 
         function runFile(filename, data, callback) {
             let call = "run " + filename;
@@ -364,3 +443,27 @@
     </script>
 </body>
 </html>
+
+<!--For Block --
+<li class="draggable">
+    <div id="forBlock">
+        <label for="forBlockLoopInput">for: </label>
+        <!-- area for inputing the loop restrictions. --
+        <!-- can be variables or numbers --
+        <!-- default: i=0, i<[input]; i++ (maybe?)--
+        <input type="text" class="forBlockLoopInput" />
+        <ul class="sortable">
+            <!-- stuff will be added here. --
+        </ul>
+
+        <label for="forBlockInternal">body: </label>
+        <!--
+        have a droppable area in the for block to make it able to
+        add other types of blocks to it.
+        --
+        <ul class="">
+            <!-- stuff will be added here. --
+        </ul>
+    </div>
+</li>
+-->

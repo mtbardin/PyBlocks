@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <link href="css/styles.css" type="text/css" rel="stylesheet">
+
+    <!-- include for socket.io -->
+    <script src="/socket.io/socket.io.js" type="text/javascript"></script>
+    <!-- jquery & jquey.ui includes -->
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>
+</head>
+
+<body>
+    <div class="appContainer">
+        <div class="inline-block-child" style="width: 30%; height: 500px;">
+            <h2>Output</h2>
+            <!-- area for executed output to be displayed -->
+            <div class="outputContainer">
+                <pre id="output" style="margin-left: 5px; font-family: Consolas, 'Lucida Console'; font-size: 14px; white-space: pre-wrap;"></pre>
+            </div>
+        </div>
+
+
+        <div class="inline-block-child" style="width: 20%; height: 500px;">
+            <!-- List for all blocks -->
+            <h2>List of Blocks</h2>
+            <div class="fullBlockListContainer">
+                <ul>
+                    <!-- Print Block. -->
+                    <li class="draggable">
+                        <div id="printBlock">
+                            <label for="printBlockTypeSelector">Print </label>
+                            <!-- drop down menu to select type for variable. -->
+                            <select name="printBlockTypeSelector" id="printBlockTypeSelector">
+                                <option value="String">String</option>
+                                <option value="Variable">Variable</option>
+                            </select>
+
+                            <label for="printBlockContent"></label>
+                            <!-- disabled? -->
+                            <input type="text" class="printBlockContent" style="width: 100%;" />
+                        </div>
+                    </li>
+
+                    <!-- Variable Block -->
+                    <li class="draggable">
+                        <div id="varBlock">
+                            <label for="varBlockTypeSelector">Create Variable: Type =</label>
+                            <!-- drop down menu to select type for variable. -->
+                            <select name="varBlockTypeSelector" id="varBlockTypeSelector">
+                                <option value="String">String</option>
+                                <option value="Integer">Integer</option>
+                                <option value="Float">Float</option>
+                                <option value="Boolean">Boolean</option>
+                                <option value="List">List</option>
+                            </select>
+                            <br>
+                            <label for="varName">Name = </label>
+                            <!-- input for value of variable. -->
+                            <input type="text" class="varName" />
+                            <br>
+                            <label for="varBlockContent">Value = </label>
+                            <!-- input for value of variable. -->
+                            <input type="text" class="varBlockContent" />
+                        </div>
+                    </li>
+
+                    <!-- If Block -->
+                    <!-- 
+                        https://stackoverflow.com/questions/3308672/sortable-nested-lists-with-jquery-ui-1-8-2 
+                        Consult this for nested list structure.
+                        -->
+                    <li class="draggable">
+                        <div id="ifBlock">
+                            <label for="ifBlockConditional">If: </label>
+                            <input type="text" class="ifBlockConditional" />
+                            <br>
+                            <label for="ifBody">Then: </label>
+                            <!-- draggable area for body of if block. -->
+                            <ul class="ifBody">
+                                <!-- stuff will be added here. -->
+                                <li>drag here</li>
+                            </ul>
+                        </div>
+                    </li>
+
+                    
+                </ul>
+            </div>
+        </div>
+
+        <div class="inline-block-child" style="width: 40%; height: 500px;">
+            <!-- area for blocks to be executed -->
+            <h2>Programming Area</h2>
+
+            <div class="programContainer">
+                <ul class="sortable">
+                    <!-- stuff will be added here. -->
+                </ul>
+            </div>
+
+        </div>
+
+        <div class="break" style="height: 100px;"></div>
+
+        <div class="inline-block-child">
+            <h1>Execute</h1>
+            <label for="runcodebutton">Run Code:</label>
+            <input type="text" id="runfilename" value="ls.py" />
+            <textarea id="rundata" hidden></textarea>
+            <button id="run">Run</button>
+        </div>
+
+        <!-- execute code in block button -->
+        <div class="inline-block-child">
+            <h1>Run Program</h1>
+            <label for="runPrintBlockButton">Run:</label>
+            <input type="text" id="exefileName" value="output.py" hidden />
+            <!--<textarea id="printBlockData" hidden></textarea>--->
+            <button id="exe">Execute</button>
+        </div>
+
+        <div class="break"></div>
+    </div>
+
+    <!--
+        Old References not yet deleted:
+        https://stackoverflow.com/questions/18399543/jquery-ui-combine-sortable-and-draggable
+        https://stackoverflow.com/questions/39182974/how-to-get-jquery-sortable-list-order
+        https://stackoverflow.com/questions/22699947/jquery-ui-sortable-connected-lists-dropping-on-an-empty-list
+
+    -->
+
+    <script>
+        // need to add functionalities where I can delete blocks when dragged
+        // out of the programContainer.
+        $(function () {
+            $(".sortable, .ifBody").sortable({
+                placeholder: "ui-state-highlight",
+                revert: true,
+                start: function (e, ui) {},
+                stop: function (e, ui) {}
+            }).disableSelection();
+            /*$(".ifBody").sortable({
+                placeholder: "ui-state-highlight",
+                connectWith: '.sortable',
+                revert: true,
+                start: function (e, ui) {},
+                stop: function (e, ui) {}
+            });*/
+            $(".draggable").draggable({
+                connectToSortable: '.sortable',
+                dropOnEmpty: true,
+                helper: 'clone',
+                revert: 'invalid'
+            });
+        });
+    </script>
+
+    <script>
+        // make qS a shortcut for document.querySelector
+        const qS = document.querySelector.bind(document);
+
+        // when the user clicks 'run'
+        qS("#run").addEventListener('click', function () {
+
+            // get the filename and data
+            const filename = qS("#runfilename").value;
+            const data = qS("#rundata").value;
+
+            // run
+            runFile(filename, data, function (err) {
+                if (err) {
+                    alert("failed to run: " + filename + "\n" + err);
+                } else {
+                    qS("#rundata").value = data;
+                    alert("running: " + filename);
+                }
+            });
+        });
+
+        // when the user clicks 'execute'
+        qS("#exe").addEventListener('click', function () {
+
+            // get the filename and data
+            const filename = "output.py";
+            //var data = qS("#printBlockContent").value;
+            var data = "shouldn't be used.";
+
+            var buildPrintStatement = "";
+            var buildVarStatement = "";
+            var buildForStatement = "";
+            var finalProgram = "";
+
+            var block_collection = document.querySelector(".programContainer").getElementsByTagName("li");
+            var blockId = "";
+            // for each block in the program container.
+            for (let i = 0; i < block_collection.length; i++) {
+                // get the block's id.
+                blockId = block_collection[i].childNodes[1].id;
+                //console.log(blockId);
+
+                // begin building the program.
+                // Build code for Print Blocks.
+                if (blockId == "printBlock") {
+                    var buildPrintStatement = buildPrintCode(block_collection[i]);
+                    finalProgram = finalProgram + buildPrintStatement;
+                }
+
+                // Build code for Variable Blocks.
+                else if (blockId == "varBlock") {
+                    var buildVarStatement = buildVarCode(block_collection[i]);
+                    finalProgram = finalProgram + buildVarStatement;
+                }
+
+                else if (blockId == "ifBlock") {
+                    alert("Not Implemented Yet");
+                    return -1;
+                    var buildIfStatement = buildIfCode(block_collection[i]);
+                    finalProgram = finalProgram + buildIfStatement;
+                }
+
+                else if (blockId == "forBlock") {
+                    alert("Not Implemented Yet");
+                    return -1;
+
+                    finalProgram = finalProgram + buildForStatement;
+                }
+
+                else {
+                    alert("Something wrong has happened with reading in a block.");
+                    return -1;
+                }
+            }
+
+            console.log(finalProgram)
+
+            // save program first before running.
+            saveFile(filename, finalProgram, function (err) {
+                if (err) {
+                    alert("failed to save: " + filename + "\n" + err);
+                } else {
+                    //alert("saved: " + filename);
+                }
+            });
+
+            // now we can run program
+            runFile(filename, finalProgram, function (err) {
+                if (err) {
+                    alert("failed to run: " + filename + "\n" + err);
+                } else {
+                    qS("#rundata").value = data;
+                    alert("running: " + filename);
+                }
+            });
+        });
+
+        function buildPrintCode(blockData) {
+            // Pass in a whole node so we can extract the data from it.
+            // Return the final string to be added to the program.
+            var buildPrint = "";
+
+            //console.log(block_collection[i].childNodes[1].children)
+            var printDataType = blockData.childNodes[1].children[1].value;
+            var printData = "";
+            //console.log(printDataType);
+
+            if (printDataType == "String") {
+                // get the string in the print block. since we know the format of the block
+                // and it won't ever change we can just directly extract it.
+                printData = blockData.childNodes[1].children[3].value;
+
+                // regex I found that escapes all the non-escaped quotations in the string
+                printData = '"' + printData.replace(/\\([\s\S])|(")/g, "\\$1$2") + '"';
+            }
+            else if (printDataType == "Variable") {
+                // get the name of the variable, leave as it is.
+                printData = blockData.childNodes[1].children[3].value;
+            }
+            else {
+                alert("Issue with print type selection.");
+                return -1;
+            }
+
+            buildPrint = "print(" + printData + ")" + "\n";
+            
+            return buildPrint;
+        }
+
+        function buildVarCode(blockData) {
+            //console.log(block_collection[i].childNodes[1].children);
+
+            // type selector data.
+            // can be integer, float, boolean, or string.
+            var varDataType = blockData.childNodes[1].children[1].value;
+            //console.log(varDataType);
+            var varName = "";
+            var varValue = "";
+            var buildVar = "";
+
+            if (varDataType == "String") {
+                // name data.
+                varName = blockData.childNodes[1].children[4].value;
+
+                //value data.
+                varValue = blockData.childNodes[1].children[7].value;
+
+                // regex I found that escapes all the non-escaped quotations in a string
+                varValue = '"' + varValue.replace(/\\([\s\S])|(")/g, "\\$1$2") + '"';
+
+                buildVar = varName + " = " + varValue + "\n";
+            }
+            else if (varDataType == "Integer") {
+                // name data.
+                varName = blockData.childNodes[1].children[4].value;
+
+                //value data.
+                varValue = parseInt(blockData.childNodes[1].children[7].value);
+
+                // check that the parsing worked.
+                if (isNaN(varValue)) {
+                    alert("Variable value not an interger.");
+                    return -1;
+                }
+
+                buildVar = varName + " = " + varValue + "\n";
+            }
+            else if (varDataType == "Float") {
+                alert("Not Implemented Yet");
+                return -1;
+            }
+            else if (varDataType == "Boolean") {
+                alert("Not Implemented Yet");
+                return -1;
+            }
+            else if (varDataType == "List") {
+                /* varName = [] */
+                alert("Not Implemented Yet");
+                return -1;
+            }
+            else {
+                alert("Something wrong has happened with variable type selection.");
+                return -1;
+            }
+
+            return buildVar;
+        }
+
+        function buildIfCode(blockData) {
+
+        }
+
+        function runFile(filename, data, callback) {
+            let call = "run " + filename;
+            //document.getElementById("output").innerHTML = call;
+            doXhr(call, 'PUT', data, callback);
+        }
+
+        function saveFile(filename, data, callback) {
+            let call = "save " + filename;
+            //document.getElementById("output").innerHTML = call;
+            doXhr(call, 'PUT', data, callback);
+        }
+
+        function loadFile(filename, callback) {
+            doXhr(filename, 'GET', '', callback);
+        }
+
+        function doXhr(url, method, data, callback) {
+            const xhr = new XMLHttpRequest();
+            xhr.open(method, url);
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    callback(null, xhr.responseText);
+                } else {
+                    callback('Request failed.  Returned status of ' + xhr.status);
+                }
+            };
+            xhr.send(data);
+        }
+
+        // listen for code execution output.
+        var socket = io();
+        socket.on('progOut', function (data) {
+            //console.log(data.output);
+            document.getElementById("output").innerHTML = data.output;
+        });
+    </script>
+</body>
+</html>
+
+<!--
+        For Block --
+    <li class="draggable">
+        <div id="forBlock">
+            <label for="forBlockLoopInput">for: </label>
+            <!-- area for inputing the loop restrictions. --
+            <!-- can be variables or numbers --
+            <!-- default: i=0, i<[input]; i++ (maybe?)--
+            <input type="text" class="forBlockLoopInput" />
+            <ul class="sortable">
+                <!-- stuff will be added here. --
+            </ul>
+
+            <label for="forBlockInternal">body: </label>
+            <!--
+            have a droppable area in the for block to make it able to
+            add other types of blocks to it.
+            --
+            <ul class="">
+                <!-- stuff will be added here. --
+            </ul>
+        </div>
+    </li>
+    -->
