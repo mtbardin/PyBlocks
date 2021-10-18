@@ -6,7 +6,7 @@ file_name = sys.argv[1]
 
 # Check if it is a python file.
 if file_name.split(".", 1)[1] == "py":
-    print(file_name, "is a python file.")
+    # print(file_name, "is a python file.")
 
     # Execute the file being passed in.
     exec(open(file_name).read())

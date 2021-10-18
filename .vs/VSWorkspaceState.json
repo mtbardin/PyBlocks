@@ -4,8 +4,9 @@
     "\\public",
     "\\public\\code",
     "\\public\\css",
-    "\\public\\images",
+    "\\public\\scripts",
     "\\views"
   ],
+  "SelectedNode": "\\views\\coding_page.html",
   "PreviewInSolutionExplorer": false
 }

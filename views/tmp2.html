@@ -1,0 +1,121 @@
+<!-- https://stackoverflow.com/questions/39348112/drop-a-sortable-into-a-sortable-nested-divs -->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"></script>
+    <link rel="stylesheet" type="text/css" media="screen" href="https://code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css" />
+
+    <style>
+        .container {
+            min-height: 200px;
+            background-color: #4474FF;
+            border: 1px solid #1E44B2;
+            border-radius: 2px;
+            display: inline-block;
+            padding: 10px;
+        }
+
+        .dragContainer {
+            min-height: 200px;
+            background-color: #4474FF;
+            border: 1px solid #1E44B2;
+            border-radius: 2px;
+            display: inline-block;
+            padding: 10px;
+        }
+
+        .dragContainer .container {
+            min-height: 100px;
+            background-color: blue;
+            border: 1px solid #04B200;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .container .container {
+            min-height: 100px;
+            background-color: #45FF41;
+            border: 1px solid #04B200;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .item {
+            background-color: #FFCB44;
+            border: 1px solid #B2840C;
+            margin-bottom: 5px;
+            border-radius: 2px;
+            padding: 15px 50px;
+        }
+
+        .draggable {
+            background-color: #fff;
+            border: 1px solid #B2840C;
+            margin-bottom: 5px;
+            border-radius: 2px;
+            padding: 15px 50px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="dragContainer">
+        <div style="background-color: mediumpurple">
+            If Block
+            <div class="container">
+                Body
+            </div>
+        </div>
+        <div class="draggable"></div>
+        <div class="draggable"></div>
+    </div><br>
+    <div class="container">
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+    </div>
+    <!--
+    <div class="container">
+        <div class="item"></div>
+        <div class="container-wrapper">
+            <div class="container">
+                <div class="item"></div>
+                <div class="item"></div>
+                <div class="item"></div>
+            </div>
+        </div>
+        <div class="item"></div>
+    </div>-->
+
+    <script type="text/javascript">
+        $('.dragContainer').sortable({
+            connectWith: '.container',
+            forcePlaceholderSize: false,
+            helper: function (e, li) {
+                copyHelper = li.clone().insertAfter(li);
+                return li.clone();
+            },
+            stop: function () {
+                copyHelper && copyHelper.remove();
+            }
+        });
+
+        $('.container').sortable({
+            connectWith: '.container',
+            receive: function (e, ui) {
+                copyHelper = null;
+            }
+        });
+
+        $(".draggable").draggable({
+            connectToSortable: '.container',
+            dropOnEmpty: true,
+            helper: 'clone',
+            revert: 'invalid'
+        });
+    </script>
+</body>
+</html>

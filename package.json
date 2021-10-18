@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/mtbardin/PyBlocks#readme",
   "dependencies": {
+    "blockly": "^6.20210701.0",
     "express": "^4.17.1",
     "socket.io": "^4.2.0"
   }
