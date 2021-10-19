@@ -1,10 +1,8 @@
-'X=3'
+pi = None
 
-if 3 != 0:
-  print('dick lol')
-elif False:
-  pass
+pi = 3.14
+print('Pie is')
+if pi == 3.14:
+  print('yummy')
 else:
-  pass
-
-0
+  print('gross')
