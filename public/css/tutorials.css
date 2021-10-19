@@ -1,0 +1,55 @@
+/* CSS for basic tags in html */
+html {
+    height: 100%;
+}
+
+body {
+    height: 100%;
+}
+
+/* block display for div elements */
+.inline-block-child {
+    display: inline-block;
+    margin-right: 20px;
+}
+
+/* flex box container CSS */
+.break {
+    flex-basis: 100%;
+    height: 0;
+}
+
+.appContainer {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.outputContainer {
+    width: 100%;
+    height: 100%;
+    display: inline-block;
+    border: 1px solid black;
+}
+
+.fullBlockListContainer {
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+    display: inline-block;
+    border: 1px solid black;
+}
+
+.programContainer {
+    width: 100%;
+    height: 100%;
+    display: inline-block;
+    border: 1px solid black;
+    flex-grow: 1;
+}
+
+.tutTextBorder {
+	border-style:solid;
+	border-color:#728FCE;
+}

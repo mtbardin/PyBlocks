@@ -26,6 +26,12 @@ app.get("/coding_page.html", function (request, response) {
     response.sendFile(__dirname + "/views/coding_page.html");
 });
 
+//define the route for "/base tutorial"
+app.get("/1", function (request, response) {
+    //show this file when the "/" is requested
+    response.sendFile(__dirname + "/views/tutorials/base_tutorial.html");
+});
+
 app.put('*', function (req, res) {
     let str = req.path;
     const flag = str.split("%20");
