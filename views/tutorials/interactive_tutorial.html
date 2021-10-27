@@ -18,61 +18,43 @@
 
 <body>
     <div class="appContainer">
-        <div class="inline-block-child" style="width: 30%; height: 500px;">
-            <h2>Output</h2>
+        <div class="inline-block-child" style="width: 400px; height: 200px;">
+            <!-- List for all blocks -->
+            <h2 class="inline-block-child" style="margin-bottom: 0px;">Interactive Demo Section</h2>
+            <p> Try and print the string "Hello World!" </p>
+            <div class="blockly-editor">
+                <div id="blocklyDiv" style="height: 100%; width: 100%;"></div>
+                <xml id="toolbox" style="display: none">
+                    <block type="text"></block>
+                </xml>
+            </div>
+        </div>
+
+        <div class="inline-block-child" style="width: 400px; height: 200px;">
+            <h2 style="margin-bottom: 50px;">Output</h2>
             <!-- area for executed output to be displayed -->
             <div class="outputContainer">
                 <pre id="output" style="margin-left: 5px; font-family: Consolas, 'Lucida Console'; font-size: 14px; white-space: pre-wrap;"></pre>
             </div>
         </div>
 
-        <div class="inline-block-child" style="width: 60%; height: 500px;">
-            <!-- List for all blocks -->
-            <h2 class="inline-block-child">List of Blocks</h2>
-            <h2 class="inline-block-child">Programming Area</h2>
-            <div class="blockly-editor">
-                <div id="blocklyDiv" style="height: 100%; width: 100%;"></div>
-                <xml id="toolbox" style="display: none">
-                    <block type="controls_if"></block>
-
-                    <block type="logic_compare"></block>
-                    <block type="logic_operation"></block>
-                    <block type="logic_negate"></block>
-                    <block type="logic_boolean"></block>
-
-                    <block type="math_number"></block>
-                    <block type="math_arithmetic"></block>
-
-                    <block type="text"></block>
-                    <block type="text_print"></block>
-
-                    <block type="variables_get"></block>
-                    <block type="variables_set"></block>
-                </xml>
-            </div>
-
-        </div>
-
         <div class="break" style="height: 100px;"></div>
-
-        <div class="inline-block-child">
-            <h1>Run Program</h1>
-            <label for="runfilename"></label>
-            <input type="text" id="runfilename" value="ls.py" />
-            <textarea id="rundata" hidden></textarea>
-            <button id="run">Run</button>
-        </div>
 
         <!-- execute code in block button -->
         <div class="inline-block-child">
-            <h1>Execute Code</h1>
-            <label for="exefileName"></label>
+            <h1>Execute Demo</h1>
+            <label for="exe"></label>
             <input type="text" id="exefileName" value="output.py" hidden />
             <!--<textarea id="printBlockData" hidden></textarea>--->
             <button id="exe">Execute</button>
         </div>
 
-        <div class="break"></div>
+        <div class="break" style="height: 100px;"></div>
+
+        <div class="announcementContainer">
+            <h2 id="announcement"></h2>
+        </div>
+
     </div>
 
     <!-- Blockly Include -->
@@ -82,6 +64,6 @@
     <script src="/scripts/python_compressed.js"></script>
 
     <!-- PyBlock Scripts -->
-    <script src="/scripts/main.js"></script>
+    <script src="/scripts/interactive_demo.js"></script>
 </body>
 </html>
