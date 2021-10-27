@@ -5,8 +5,9 @@
     "\\public\\code",
     "\\public\\css",
     "\\public\\scripts",
-    "\\views"
+    "\\views",
+    "\\views\\tutorials"
   ],
-  "SelectedNode": "\\views\\coding_page.html",
+  "SelectedNode": "\\public\\scripts\\interactive_demo.js",
   "PreviewInSolutionExplorer": false
 }

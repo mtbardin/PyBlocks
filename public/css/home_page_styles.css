@@ -14,6 +14,7 @@ html {
 
 body {
     height: 100%;
+    width: 100%;
     margin: 0px;
     padding: 0px;
 }
@@ -40,10 +41,10 @@ body {
     list-style-type: none;
     margin: 0px;
     padding: 10px;
+    box-sizing: border-box; /* makes padding not account for width */
     background-color: lightgray;
     overflow: hidden;
-    /* fixed at top of screen */
-    //position: fixed;
+    //position: fixed; /* fixed at top of screen */
     //top: 0;
     width: 100%;
     display: block;
