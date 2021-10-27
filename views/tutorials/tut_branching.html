@@ -10,6 +10,11 @@
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
+    <meta charset="utf-8">
+    <link href="css/coding_page_styles.css" type="text/css" rel="stylesheet">
+
+    <!-- Favicon Icon -->
+    <link rel="icon" href="images/PyBlocks Logo.png">
 
 </head>
 
@@ -18,44 +23,45 @@
         <button type="button" id="back_home_button" onclick="document.location='/'">
 		Back Home</button>
     </div>
-	<h1 style="font-size:30px">
+	<h1 style="font-size:40px">
 	Branching</h1>
 
-	<h2 style="font-size:22px">
-	What actually is this thing?</h2>
+	<h2 style="font-size:29px">
+	What actually is this?</h2>
 
-	<p style="background-color:powderblue;font-size:14px;width:20%"class="tutTextBorder">
+	<p style="background-color:powderblue;font-size:19px;width:40%"class="tutTextBorder">
 	Branching is the most basic way to begin more complicated programming. 
 	For this tutorial, we'll focus on if-else conditions. There are three options for you.<br><br>
-	"If" is followed by a condition, like the variable 'X' being greater than some number.<br>
-	"Else" is not followed by a condition, because it holds everything that happens if the "if" statement is false.<br>
+	"If" is followed by a condition, like the variable 'X' being greater than some number.<br><br>
+	"Else" is not followed by a condition, because it holds everything that happens if the "if" statement is false.<br><br>
 	"Else if" is a special option, in case you want to set up multiple checks using the same statement.<br><br>
 	 [Insert Images for showing different parts of the if-else block and code]
 	</p>
 
-	<h2 style="font-size:22px">
+	<h2 style="font-size:29px">
 	Why should you need to know this?</h2>
 
-	<p style="background-color:powderblue;font-size:14px;width:20%"class="tutTextBorder">
-	Normally, a computer will run all the commands you tell it to, one by one.
+	<p style="background-color:powderblue;font-size:19px;width:40%"class="tutTextBorder">
+	Normally, a computer will run all the commands you tell it to, one by one.<br><br>
 	Branching lets you tell it to run certain ones, depending on the condition you set up.
-	It allows you to set up a system of checks that cause the program to "branch" out, similar to a tree.<br><br>
-	It's one of the core parts of programming, and something you'll be using consistently. 
+	This allows you to set up your own system of checks that cause the program to "branch" out, similar to a tree.<br><br>
+	It's one of the core parts of programming, and something you'll be using pretty consistently. 
 	</p>
 
-	<h2 style="font-size:22px">
+	<h2 style="font-size:29px">
 	How are you supposed to set this up and use it?</h2>
 
-	<p style="background-color:powderblue;font-size:14px;width:20%"class="tutTextBorder">
+	<p style="background-color:powderblue;font-size:19px;width:40%"class="tutTextBorder">
 	[Using Blocks]<br><br>
 	[Using Code?]
 	</p>
-	<img src="/images/tutorials/Test.png" alt="Test" width="500" height = "250">
+	<img src="/images/tutorials/IMG_BranchingUsage.png" alt="Branching Example" width="500" height = "250">
 	
+	<!-- User Interaction at the end of the tutorial -->
     <div class="appContainer">
         <div class="inline-block-child" style="width: 400px; height: 200px;">
             <!-- List for all blocks -->
-            <h2 class="inline-block-child" style="margin-bottom: 0px;">Interactive Demo Section</h2>
+            <h2 class="inline-block-child" style="margin-bottom: 0px;">Now you try.</h2>
             <p> Try and print the string "Hello World!" </p>
             <div class="blockly-editor">
                 <div id="blocklyDiv" style="height: 100%; width: 100%;"></div>
@@ -68,7 +74,7 @@
         <div class="inline-block-child" style="width: 400px; height: 200px;">
             <h2 style="margin-bottom: 50px;">Output</h2>
             <!-- area for executed output to be displayed -->
-            <div class="outputContainer">
+            <div class="outputContainer" style=" background-color: #FFFFFF">
                 <pre id="output" style="margin-left: 5px; font-family: Consolas, 'Lucida Console'; font-size: 14px; white-space: pre-wrap;"></pre>
             </div>
         </div>
