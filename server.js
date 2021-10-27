@@ -29,7 +29,7 @@ app.get("/coding_page.html", function (request, response) {
 //define the route for "/base tutorial"
 app.get("/1", function (request, response) {
     //show this file when the "/" is requested
-    response.sendFile(__dirname + "/views/tutorials/base_tutorial.html");
+    response.sendFile(__dirname + "/views/tutorials/tut_branching.html");
 });
 
 app.put('*', function (req, res) {
