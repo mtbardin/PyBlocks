@@ -19,43 +19,86 @@
 		Back Home</button>
     </div>
 	<h1 style="font-size:30px">
-	Title of tutorial. Eg. Variables, Branching, etc.</h1>
-
-	<h2 style="font-size:22px">
-	Why should you need to know this?</h2>
-
-	<p style="background-color:powderblue;font-size:14px;width:20%"class="tutTextBorder">
-	Text Content related to why. Extra writing to fill in space that I want to do in order to properly test both how well the code handles wrapping when the width is reduced and how to enter images in an effective manner. <br><br>
-	Blah Blah Blah Blah Blah Blah Blah<br><br>
-	Blah Blah Blah Blah Blah Blah Blah<br><br>
-	Blah Blah Blah Blah Blah Blah Blah<br><br>
-	Blah Blah Blah Blah Blah Blah Blah<br><br>
-	</p>
+	Branching</h1>
 
 	<h2 style="font-size:22px">
 	What actually is this thing?</h2>
 
 	<p style="background-color:powderblue;font-size:14px;width:20%"class="tutTextBorder">
-	Text Content related to what.<br><br>
-	Still trying to fill in space, since this would probably be more writing than some tutorials, but less than others.<br><br>
-	Notes: <br><br>
-	Colors and font sizes are subject to change. I like blue and chose the closest color I could get to what some website said was complementary to this blue.<br><br>
+	Branching is the most basic way to begin more complicated programming. 
+	For this tutorial, we'll focus on if-else conditions. There are three options for you.<br><br>
+	"If" is followed by a condition, like the variable 'X' being greater than some number.<br>
+	"Else" is not followed by a condition, because it holds everything that happens if the "if" statement is false.<br>
+	"Else if" is a special option, in case you want to set up multiple checks using the same statement.<br><br>
+	 [Insert Images for showing different parts of the if-else block and code]
+	</p>
+
+	<h2 style="font-size:22px">
+	Why should you need to know this?</h2>
+
+	<p style="background-color:powderblue;font-size:14px;width:20%"class="tutTextBorder">
+	Normally, a computer will run all the commands you tell it to, one by one.
+	Branching lets you tell it to run certain ones, depending on the condition you set up.
+	It allows you to set up a system of checks that cause the program to "branch" out, similar to a tree.<br><br>
+	It's one of the core parts of programming, and something you'll be using consistently. 
 	</p>
 
 	<h2 style="font-size:22px">
 	How are you supposed to set this up and use it?</h2>
 
 	<p style="background-color:powderblue;font-size:14px;width:20%"class="tutTextBorder">
-	Text Content related to how.<br><br>
-	Still trying to fill in space, since this would probably be more writing than some tutorials, but less than others.<br><br>
-	Notes: <br><br>
-	Colors and font sizes are subject to change. I like blue and chose the closest color I could get to what some website said was complementary to this blue.<br><br>
+	[Using Blocks]<br><br>
+	[Using Code?]
 	</p>
 	<img src="/images/tutorials/Test.png" alt="Test" width="500" height = "250">
 	
-    <div class="botright">
-        <button type="button" id="to_work_button" onclick="document.location='coding_page.html'">
-		To Challenge</button>
+    <div class="appContainer">
+        <div class="inline-block-child" style="width: 400px; height: 200px;">
+            <!-- List for all blocks -->
+            <h2 class="inline-block-child" style="margin-bottom: 0px;">Interactive Demo Section</h2>
+            <p> Try and print the string "Hello World!" </p>
+            <div class="blockly-editor">
+                <div id="blocklyDiv" style="height: 100%; width: 100%;"></div>
+                <xml id="toolbox" style="display: none">
+                    <block type="text"></block>
+                </xml>
+            </div>
+        </div>
+
+        <div class="inline-block-child" style="width: 400px; height: 200px;">
+            <h2 style="margin-bottom: 50px;">Output</h2>
+            <!-- area for executed output to be displayed -->
+            <div class="outputContainer">
+                <pre id="output" style="margin-left: 5px; font-family: Consolas, 'Lucida Console'; font-size: 14px; white-space: pre-wrap;"></pre>
+            </div>
+        </div>
+
+        <div class="break" style="height: 100px;"></div>
+
+        <!-- execute code in block button -->
+        <div class="inline-block-child">
+            <h1>Execute Demo</h1>
+            <label for="exe"></label>
+            <input type="text" id="exefileName" value="output.py" hidden />
+            <!--<textarea id="printBlockData" hidden></textarea>--->
+            <button id="exe">Execute</button>
+        </div>
+
+        <div class="break" style="height: 100px;"></div>
+
+        <div class="announcementContainer">
+            <h2 id="announcement"></h2>
+        </div>
+
     </div>
+
+    <!-- Blockly Include -->
+    <!-- reroute the python_compressed into the node_modules folder? -->
+    <script src="https://unpkg.com/blockly/blockly.min.js"></script>
+    <!--<script src="/scripts/blockly_compressed.js"></script>-->
+    <script src="/scripts/python_compressed.js"></script>
+
+    <!-- PyBlock Scripts -->
+    <script src="/scripts/interactive_demo.js"></script>
 </body>
 </html>
