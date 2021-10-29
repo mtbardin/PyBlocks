@@ -5,10 +5,29 @@
     });
 
     var xmlContent = '<xml id="initiated" style="display: none">' +
+		'	<block type="variables_set" deletable="false" movable="false">' +
+		'		<field name="VAR">X</field>' +
+		'		<value name="VALUE">' +
+		'			<block type="math_number" deletable="false" movable="false">' +
+		'				<field name="VAR">10</field>' +
+		'			</block>' +
+		'		</value>' +
+		'	</block>' +
         '  <block type="controls_if" inline="false" deletable="false">' +
 		'		<mutation else="1" elseif="1"></mutation>' +
 		'		<statement name="IF0">' +
 		'			<block type="logic_compare" deletable="false">' +
+		'				<field name="OP">EQ</field>' +
+		'				<value name="A">' +
+		'					<block type="variables_get">' +
+		'						<field name="VAR">X</field>' +
+		'					</block>' +
+		'				</value>' +
+		'				<value name="B">' +
+		'					<block type="math_number">' +
+		'						<field name="NUM">2</field>' +
+		'					</block>' +
+		'				</value>' +
 		'			</block>' +
 		'		</statement>' +
 		'		<statement name="DO0">' +
@@ -22,6 +41,17 @@
 		'		</statement>' +
 		'		<statement name="IF1">' +
 		'			<block type="logic_compare" deletable="false">' +
+		'				<field name="OP">GT</field>' +
+		'				<value name="A">' +
+		'					<block type="variables_get">' +
+		'						<field name="VAR">X</field>' +
+		'					</block>' +
+		'				</value>' +
+		'				<value name="B">' +
+		'					<block type="math_number">' +
+		'						<field name="NUM">5</field>' +
+		'					</block>' +
+		'				</value>' +
 		'			</block>' +
 		'		</statement>' +
 		'		<statement name="DO1">' +
