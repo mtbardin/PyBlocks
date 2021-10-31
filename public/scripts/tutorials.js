@@ -118,7 +118,7 @@
 
         // String for comparison needs to have "\r\n" added to the end,
         // otherwise the whole thing won't work.
-        if (data.output == "Good Morning, World!!\r\n") {
+        if (data.output == "Good Morning, World!\r\n") {
             $("#announcement").text("You Did it Right, Great Job!");
         }
         else {
