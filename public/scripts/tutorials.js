@@ -9,11 +9,11 @@
 		'		<field name="VAR">X</field>' +
 		'		<value name="VALUE">' +
 		'			<block type="math_number" deletable="false" movable="false">' +
-		'				<field name="VAR">10</field>' +
+		'				<field name="NUM">10</field>' +
 		'			</block>' +
 		'		</value>' +
 		'	</block>' +
-        '  <block type="controls_if" inline="false" deletable="false">' +
+        '  <block type="controls_if" inline="false" deletable="false" x="0" y="50">' +
 		'		<mutation else="1" elseif="1"></mutation>' +
 		'		<statement name="IF0">' +
 		'			<block type="logic_compare" deletable="false">' +
@@ -118,14 +118,11 @@
 
         // String for comparison needs to have "\r\n" added to the end,
         // otherwise the whole thing won't work.
-        if (data.output == "Hello World!\r\n") {
+        if (data.output == "Good Morning, World!!\r\n") {
             $("#announcement").text("You Did it Right, Great Job!");
         }
-        else if (data.output == "Hello World\r\n") {
-            $("#announcement").text("Try being a little more excited!");
-        }
         else {
-            $("#announcement").text("You made a Mistake, Try Again.");
+            $("#announcement").text("You made a slight mistake, recheck your code and Try Again.");
         }
     });
 })();

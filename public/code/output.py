@@ -1,7 +1,7 @@
 X = None
 
 
-X = 3
+X = 2
 if X == 2:
   print('Good Morning, World!')
 elif X > 5:
