@@ -42,6 +42,12 @@ app.get("/interactive_tutorial", function (request, response) {
     response.sendFile(__dirname + "/views/tutorials/interactive_tutorial.html");
 });
 
+//define the route for "/Branching"
+app.get("/Branching", function (request, response) {
+    //show this file when the "/" is requested
+    response.sendFile(__dirname + "/views/tutorials/tut_branching.html");
+});
+
 app.use(express.static(baseDir));
 
 const server = require('http').createServer(app);
