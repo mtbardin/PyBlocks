@@ -10,12 +10,26 @@
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
-    <meta charset="utf-8">
-    <link href="css/coding_page_styles.css" type="text/css" rel="stylesheet">
 
     <!-- Favicon Icon -->
     <link rel="icon" href="images/PyBlocks Logo.png">
 
+	<!-- Open Tab Script -->
+	<script>
+		function openTab(evt, tabName) {
+		  var i, tabcontent, tablinks;
+		  tabcontent = document.getElementsByClassName("tabcontent");
+		  for (i = 0; i < tabcontent.length; i++) {
+			tabcontent[i].style.display = "none";
+		  }
+		  tablinks = document.getElementsByClassName("tablinks");
+		  for (i = 0; i < tablinks.length; i++) {
+			tablinks[i].className = tablinks[i].className.replace(" active", "");
+		  }
+		  document.getElementById(tabName).style.display = "block";
+		  evt.currentTarget.className += " active";
+		}
+	</script>
 </head>
 
 <body style="background-color:paleGoldenRod">
@@ -23,207 +37,220 @@
         <button type="button" id="back_home_button" onclick="document.location='/'">
 		Back Home</button>
     </div>
+	<div class="tab">
+		<button class="tablinks" onclick="openTab(event, 'GenKnow')" id="defaultOpen">General Knowledge</button>
+		<button class="tablinks" onclick="openTab(event, 'SinBran')">1 Branch</button>
+		<button class="tablinks" onclick="openTab(event, 'TwoBran')">2 Branches</button>
+		<button class="tablinks" onclick="openTab(event, 'ThrBran')">3+ Branches</button>
+		<button class="tablinks" onclick="openTab(event, 'MultAct')">Multiple Actions</button>
+	</div>
+	
 	<h1 style="font-size:40px">
 	Branching</h1>
 	
 	<!--General Knowledge-->
-	<h2 style="font-size:35px">
-	General Knowledge</h2>
+	<div id="GenKnow" class="tabcontent">
+		<h2 style="font-size:35px">
+		General Knowledge</h2>
 
-	<h3 style="font-size:26px">
-	What actually is this?</h3>
+		<h3 style="font-size:26px">
+		Why should you need to know this?</h3>
 
-	<p style="background-color:powderblue;font-size:19px;width:40%"class="tutTextBorder">
-	Branching is the most basic way to begin more complicated programming. 
-	For this tutorial, we'll focus on if-else conditions. There are three options for you.<br><br>
-	"If" is followed by a condition, like the variable 'X' being greater than some number.<br><br>
-	"Else" is not followed by a condition, because it holds everything that happens if the "if" statement is false.<br><br>
-	"Else if" is a special option, in case you want to set up multiple checks using the same statement.<br><br>
-	</p>
-	<img src="/images/tutorials/IMG_BranchingUsage.png" alt="Branching Example" width="500" height = "250">
+		<p style="background-color:powderblue;font-size:19px;width:40%"class="tutTextBorder">
+		Normally, a computer will run all the commands you tell it to, one by one.<br><br>
+		Branching lets you tell it to run certain ones, depending on the condition you set up.
+		This allows you to set up your own system of checks that cause the program to "branch" out, similar to a tree.<br><br>
+		It's one of the core parts of programming, and something you'll be using pretty consistently. 
+		</p>
 
-	<h3 style="font-size:26px">
-	Why should you need to know this?</h3>
+		<h3 style="font-size:26px">
+		What actually is this?</h3>
 
-	<p style="background-color:powderblue;font-size:19px;width:40%"class="tutTextBorder">
-	Normally, a computer will run all the commands you tell it to, one by one.<br><br>
-	Branching lets you tell it to run certain ones, depending on the condition you set up.
-	This allows you to set up your own system of checks that cause the program to "branch" out, similar to a tree.<br><br>
-	It's one of the core parts of programming, and something you'll be using pretty consistently. 
-	</p>
+		<p style="background-color:powderblue;font-size:19px;width:40%"class="tutTextBorder">
+		Branching is the most basic way to begin more complicated programming. 
+		For this tutorial, we'll focus on if-else conditions. There are three options for you.<br><br>
+		"If" is followed by a condition, like the variable 'X' being greater than some number.<br><br>
+		"Else" is not followed by a condition, because it holds everything that happens if the "if" statement is false.<br><br>
+		"Else if" is a special option, in case you want to set up multiple checks using the same statement.<br><br>
+		</p>
+		<img src="/images/tutorials/IMG_BranchingUsage.png" alt="Branching Example" width="500" height = "250">
 
-	<h3 style="font-size:26px">
-	How are you supposed to set this up and use it?</h3>
+		<h3 style="font-size:26px">
+		How are you supposed to set this up and use it?</h3>
 
-	<p style="background-color:powderblue;font-size:19px;width:40%"class="tutTextBorder">
-	The block system has a if-else block set up and ready to go.<br><br>
-	Just drag is onto the working field, and start making your branches.<br><br>
-	The little cog symbol in the top left of the block opens a small menu, which lets you add more if you want to. Not sure why you would? Keep on reading!<br>
-	</p>
+		<p style="background-color:powderblue;font-size:19px;width:40%"class="tutTextBorder">
+		The block system has a if-else block set up and ready to go.<br><br>
+		Just drag is onto the working field, and start making your branches.<br><br>
+		The little cog symbol in the top left of the block opens a small menu, which lets you add more if you want to. Not sure why you would? Keep on reading!<br>
+		</p>
+		<!-- User Interaction at the end of the tutorial -->
+		<div class="appContainer">
+			<div class="inline-block-child" style="width: 600px; height: 300px;">
+				<h2 class="inline-block-child" style="margin-bottom: 0px;">Now you try.</h2>
+				<p> Try and print the string "Good Morning, World!" </p>
+				<div class="blockly-editor">
+					<div id="blocklyDiv" style="height: 100%; width: 100%;"></div>
+				</div>
+			</div>
+
+			<div class="inline-block-child" style="width: 600px; height: 300px;">
+				<h2 style="margin-bottom: 50px;">Output</h2>
+				<!-- area for executed output to be displayed -->
+				<div class="outputContainer" style="background-color: #FFFFFF">
+					<pre id="output" style="margin-left: 5px; font-family: Consolas, 'Lucida Console'; font-size: 14px; white-space: pre-wrap;"></pre>
+				</div>
+			</div>
+
+			<div class="break" style="height: 100px;"></div>
+
+			<!-- execute code in block button -->
+			<div class="inline-block-child">
+				<h1>Execute Demo</h1>
+				<label for="exe"></label>
+				<input type="text" id="exefileName" value="output.py" hidden />
+				<!--<textarea id="printBlockData" hidden></textarea>--->
+				<button id="exe">Execute</button>
+			</div>
+
+			<div class="break" style="height: 100px;"></div>
+
+			<div class="announcementContainer">
+				<h2 id="announcement"></h2>
+			</div>
+
+		</div>
+	</div>
 		
 	<!--Single Branch-->
-	<h2 style="font-size:35px">
-	Single Branch</h2>
-	
-	<h3 style="font-size:26px">
-	What actually is this?</h3>
-	<p style="background-color:powderblue;font-size:19px;width:40%"class="tutTextBorder">
-	The absolute most basic form of branching. A very simple "if" statement. <br><br>
-	No "elses", no "else-if's", nothing to complicate it.<br><br>
-	Just a simple "if this statement is true, do this thing, and then move on."<br>
-	</p>
-	
-	<h3 style="font-size:26px">
-	Why should you need to know this?</h3>
-	<p style="background-color:powderblue;font-size:19px;width:40%"class="tutTextBorder">
-	In case you every want to do something unobtrusive, of course!<br><br>
-	Let's say you want to tell someone to pick up yellow flowers as they walk around.<br><br>
-	This is how you would do that. You'll learn how to make them walk around later, but once they are...<br>
-	"IF flower = yellow"<br>
-	"    pickUp(flower)"
-	</p>
-	
-	<h3 style="font-size:26px">
-	How are you supposed to set this up and use it?</h3>
-	<p style="background-color:powderblue;font-size:19px;width:40%"class="tutTextBorder">
-	Just use the block you already know, and keep the "else" part empty.<br><br>
-	It really is just that simple.<br>
-	</p>
+	<div id="SinBran" class="tabcontent">
+		<h2 style="font-size:35px">
+		Single Branch</h2>
+		
+		<h3 style="font-size:26px">
+		Why should you need to know this?</h3>
+		<p style="background-color:powderblue;font-size:19px;width:40%"class="tutTextBorder">
+		In case you every want to do something unobtrusive, of course!<br><br>
+		Let's say you want to tell someone to pick up yellow flowers as they walk around.<br><br>
+		This is how you would do that. You'll learn how to make them walk around later, but once they are...<br>
+		"IF flower = yellow"<br>
+		"    pickUp(flower)"
+		</p>
+		
+		<h3 style="font-size:26px">
+		What actually is this?</h3>
+		<p style="background-color:powderblue;font-size:19px;width:40%"class="tutTextBorder">
+		The absolute most basic form of branching. A very simple "if" statement. <br><br>
+		No "elses", no "else-if's", nothing to complicate it.<br><br>
+		Just a simple "if this statement is true, do this thing, and then move on."<br>
+		</p>
+		
+		<h3 style="font-size:26px">
+		How are you supposed to set this up and use it?</h3>
+		<p style="background-color:powderblue;font-size:19px;width:40%"class="tutTextBorder">
+		Just use the block you already know, and keep the "else" part empty.<br><br>
+		It really is just that simple.<br>
+		</p>
+	</div>
 		
 	<!--Two Branches-->
-	<h2 style="font-size:35px">
-	Two Branches</h2>
-	
-	<h3 style="font-size:26px">
-	What actually is this?</h3>
-	<p style="background-color:powderblue;font-size:19px;width:40%"class="tutTextBorder">
-	This can actually take two different forms, and really depends on what you want to do.<br><br>
-	The first is still very basic, the "if-else". This is what the "if" block starts with by default.<br><br>
-	All this does is say "If this statement is true, do this thing. If it isn't true, do this other thing." Simple."<br><br>
-	The other, though, is where things get a little more complicated.<br><br>
-	The "If-elseif", where you set up two different statements. The normal "else" is blank, but you add the "else if"<br><br>
-	This says "If this statement is true, do thing one, if it isn't, check statement two. If statement two is true, do thing two. If neither are true, move on."<br><br>
-	</p>
-	
-	<h3 style="font-size:26px">
-	Why should you need to know this?</h3>
-	<p style="background-color:powderblue;font-size:19px;width:40%"class="tutTextBorder">
-	This lets you begin moving into even more complicated things.<br><br>
-	Let's use an example.<br>
-	If you're controlling a robot on a hike, you probably want it to avoid bears. So when presented with two different paths, would you take the path that says "Danger: Bears!", or the one that says nothing at all?<br><br>
-	Well, with branching you can tell your robot to avoid the dangerous bears.<br>
-	If you want to that is. Maybe you want your robot to fight bears. Who am I to judge?
-	</p>
-	
-	<h3 style="font-size:26px">
-	How are you supposed to set this up and use it?</h3>
-	<p style="background-color:powderblue;font-size:19px;width:40%"class="tutTextBorder">
-	First, choose which type you want. "If-else", or "If-elseif".<br><br>
-	If you want the second one, you'll need to use the gear to add the "elseif" statement to the block, and leave the "else" bit blank.<br><br>
-	Otherwise, just leave it as is. The block defaults to a "If-else" statment, so you're in luck there.<br><br>
-	Then, fill in the block with whatever statements and lines you want to run.
-	</p>
+	<div id="TwoBran" class="tabcontent">
+		<h2 style="font-size:35px">
+		Two Branches</h2>
+		
+		<h3 style="font-size:26px">
+		Why should you need to know this?</h3>
+		<p style="background-color:powderblue;font-size:19px;width:40%"class="tutTextBorder">
+		This lets you begin moving into even more complicated things.<br><br>
+		Let's use an example.<br>
+		If you're controlling a robot on a hike, you probably want it to avoid bears. So when presented with two different paths, would you take the path that says "Danger: Bears!", or the one that says nothing at all?<br><br>
+		Well, with branching you can tell your robot to avoid the dangerous bears.<br>
+		If you want to that is. Maybe you want your robot to fight bears. Who am I to judge?
+		</p>
+		
+		<h3 style="font-size:26px">
+		What actually is this?</h3>
+		<p style="background-color:powderblue;font-size:19px;width:40%"class="tutTextBorder">
+		This can actually take two different forms, and really depends on what you want to do.<br><br>
+		The first is still very basic, the "if-else". This is what the "if" block starts with by default.<br><br>
+		All this does is say "If this statement is true, do this thing. If it isn't true, do this other thing." Simple."<br><br>
+		The other, though, is where things get a little more complicated.<br><br>
+		The "If-elseif", where you set up two different statements. The normal "else" is blank, but you add the "else if"<br><br>
+		This says "If this statement is true, do thing one, if it isn't, check statement two. If statement two is true, do thing two. If neither are true, move on."<br><br>
+		</p>
+		
+		<h3 style="font-size:26px">
+		How are you supposed to set this up and use it?</h3>
+		<p style="background-color:powderblue;font-size:19px;width:40%"class="tutTextBorder">
+		First, choose which type you want. "If-else", or "If-elseif".<br><br>
+		If you want the second one, you'll need to use the gear to add the "elseif" statement to the block, and leave the "else" bit blank.<br><br>
+		Otherwise, just leave it as is. The block defaults to a "If-else" statment, so you're in luck there.<br><br>
+		Then, fill in the block with whatever statements and lines you want to run.
+		</p>
+	</div>
 		
 	<!--Three+ branches-->
-	<h2 style="font-size:35px">
-	Three(Or more) Branches</h2>
-	
-	<h3 style="font-size:26px">
-	What actually is this?</h3>
-	<p style="background-color:powderblue;font-size:19px;width:40%"class="tutTextBorder">
-	The most complex form a branching, technically going as high as you care to set up.<br><br>
-	It combines all three possible statements. "If", "Else-If", and "Else".<br><br>
-	This means you can check the first statement, then the second one, and if neither are true, run some other code.<br><br>
-	It's the natural combination of everything up to this point.<br><br>
-	Obviously, if you don't want to have the "Else" statement, it's not a requirement.<br>
-	Just run all "If" and "Else-If" statements, and make sure nothing happens by default.
-	</p>
-	
-	<h3 style="font-size:26px">
-	Why should you need to know this?</h3>
-	<p style="background-color:powderblue;font-size:19px;width:40%"class="tutTextBorder">
-	This lets you set up the most complicated and interesting options within your programs.
-	An example is what a lemonade stand owner would want to do each day.<br>
-	If they're out of lemonade, they should order more, right? Statment one. "If Lemon Stocks = 0, order more."<br><br>
-	But if they have enough, it might be too cold to sell lemonade. Not many people want to eat lemon ice, after all. That's statement two. "Else-If Weather = Cold, wait for tomorrow."<br><br>
-	But if they have enough lemons, and it's not too cold, they get to sell their wonderful lemonade. "Else, Sell lemonade."<br><br>
-	</p>
-	
-	<h3 style="font-size:26px">
-	How are you supposed to set this up and use it?</h3>
-	<p style="background-color:powderblue;font-size:19px;width:40%"class="tutTextBorder">
-	Once again, we go to our trusty little corner cog.<br><br>
-	Add as many "Else-If" checks as you like, and start filling them and their instructions in.
-	</p>
-	
+	<div id="ThrBran" class="tabcontent">
+		<h2 style="font-size:35px">
+		Three(Or more) Branches</h2>
+		
+		<h3 style="font-size:26px">
+		Why should you need to know this?</h3>
+		<p style="background-color:powderblue;font-size:19px;width:40%"class="tutTextBorder">
+		This lets you set up the most complicated and interesting options within your programs.
+		An example is what a lemonade stand owner would want to do each day.<br>
+		If they're out of lemonade, they should order more, right? Statment one. "If Lemon Stocks = 0, order more."<br><br>
+		But if they have enough, it might be too cold to sell lemonade. Not many people want to eat lemon ice, after all. That's statement two. "Else-If Weather = Cold, wait for tomorrow."<br><br>
+		But if they have enough lemons, and it's not too cold, they get to sell their wonderful lemonade. "Else, Sell lemonade."<br><br>
+		</p>
+		
+		<h3 style="font-size:26px">
+		What actually is this?</h3>
+		<p style="background-color:powderblue;font-size:19px;width:40%"class="tutTextBorder">
+		The most complex form a branching, technically going as high as you care to set up.<br><br>
+		It combines all three possible statements. "If", "Else-If", and "Else".<br><br>
+		This means you can check the first statement, then the second one, and if neither are true, run some other code.<br><br>
+		It's the natural combination of everything up to this point.<br><br>
+		Obviously, if you don't want to have the "Else" statement, it's not a requirement.<br>
+		Just run all "If" and "Else-If" statements, and make sure nothing happens by default.
+		</p>
+		
+		<h3 style="font-size:26px">
+		How are you supposed to set this up and use it?</h3>
+		<p style="background-color:powderblue;font-size:19px;width:40%"class="tutTextBorder">
+		Once again, we go to our trusty little corner cog.<br><br>
+		Add as many "Else-If" checks as you like, and start filling them and their instructions in.
+		</p>
+	</div>
 		
 	<!--Multiple Actions per Branch-->
-	<h2 style="font-size:35px">
-	Multiple Actions in each branch?</h2>
-	
-	<h3 style="font-size:26px">
-	What actually is this?</h3>
-	<p style="background-color:powderblue;font-size:19px;width:40%"class="tutTextBorder">
-	Instead of having a single instruction for each branch, try fitting in more than one.<br><br>
-	This is how you get the most out of each branch.<br><br>
-	Doing multiple things might mean some branches get larger than others, but that just means they can hold heavier fruit!<br><br>
-	</p>
-	
-	<h3 style="font-size:26px">
-	Why should you need to know this?</h3>
-	<p style="background-color:powderblue;font-size:19px;width:40%"class="tutTextBorder">
-	Well, in case you want to have multiple instructions in each branch of course!<br><br>
-	Going back to the bear example. If you for some reason want your robot to fight a bear, it would be better served by bringing out some anti-bear spray.<br><br>
-	So you'd have your statement look something like this: "If bearSign, choose that path, and pull out anti-bear spray"<br><br>
-	Now your robot is well protected as they hunt their bears.
-	</p>
-	
-	<h3 style="font-size:26px">
-	How are you supposed to set this up and use it?</h3>
-	<p style="background-color:powderblue;font-size:19px;width:40%"class="tutTextBorder">
-	Luckily for you, the blocks handle this perfectly!<br><br>
-	If you just drag multiple blocks into the right area, they should all slot right in!<br><br>
-	</p>
-	
-
-	
-	<!-- User Interaction at the end of the tutorial -->
-    <div class="appContainer">
-        <div class="inline-block-child" style="width: 600px; height: 300px;">
-            <!-- List for all blocks -->
-            <h2 class="inline-block-child" style="margin-bottom: 0px;">Now you try.</h2>
-            <p> Try and print the string "Good Morning, World!" </p>
-            <div class="blockly-editor">
-                <div id="blocklyDiv" style="height: 100%; width: 100%;"></div>
-            </div>
-        </div>
-
-        <div class="inline-block-child" style="width: 600px; height: 300px;">
-            <h2 style="margin-bottom: 50px;">Output</h2>
-            <!-- area for executed output to be displayed -->
-            <div class="outputContainer" style=" background-color: #FFFFFF">
-                <pre id="output" style="margin-left: 5px; font-family: Consolas, 'Lucida Console'; font-size: 14px; white-space: pre-wrap;"></pre>
-            </div>
-        </div>
-
-        <div class="break" style="height: 100px;"></div>
-
-        <!-- execute code in block button -->
-        <div class="inline-block-child">
-            <h1>Execute Demo</h1>
-            <label for="exe"></label>
-            <input type="text" id="exefileName" value="output.py" hidden />
-            <!--<textarea id="printBlockData" hidden></textarea>--->
-            <button id="exe">Execute</button>
-        </div>
-
-        <div class="break" style="height: 100px;"></div>
-
-        <div class="announcementContainer">
-            <h2 id="announcement"></h2>
-        </div>
-
-    </div>
+	<div id="MultAct" class="tabcontent">
+		<h2 style="font-size:35px">
+		Multiple Actions in each branch?</h2>
+		
+		<h3 style="font-size:26px">
+		Why should you need to know this?</h3>
+		<p style="background-color:powderblue;font-size:19px;width:40%"class="tutTextBorder">
+		Well, in case you want to have multiple instructions in each branch of course!<br><br>
+		Going back to the bear example. If you for some reason want your robot to fight a bear, it would be better served by bringing out some anti-bear spray.<br><br>
+		So you'd have your statement look something like this: "If bearSign, choose that path, and pull out anti-bear spray"<br><br>
+		Now your robot is well protected as they hunt their bears.
+		</p>
+		
+		<h3 style="font-size:26px">
+		What actually is this?</h3>
+		<p style="background-color:powderblue;font-size:19px;width:40%"class="tutTextBorder">
+		Instead of having a single instruction for each branch, try fitting in more than one.<br><br>
+		This is how you get the most out of each branch.<br><br>
+		Doing multiple things might mean some branches get larger than others, but that just means they can hold heavier fruit!<br><br>
+		</p>
+		
+		<h3 style="font-size:26px">
+		How are you supposed to set this up and use it?</h3>
+		<p style="background-color:powderblue;font-size:19px;width:40%"class="tutTextBorder">
+		Luckily for you, the blocks handle this perfectly!<br><br>
+		If you just drag multiple blocks into the right area, they should all slot right in!<br><br>
+		</p>
+	</div>
 
     <!-- Blockly Include -->
     <!-- reroute the python_compressed into the node_modules folder? -->
@@ -233,5 +260,10 @@
 
     <!-- PyBlock Scripts -->
     <script src="/scripts/tutorials.js"></script>
+	
+	<!-- Script for Default Tab Open-->
+	<script>
+		document.getElementById("defaultOpen").click();
+	</script>
 </body>
 </html>
