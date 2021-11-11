@@ -14,24 +14,55 @@
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>
+
+    <!-- Blockly Include -->
+    <!-- reroute the python_compressed into the node_modules folder? -->
+    <script src="https://unpkg.com/blockly/blockly.min.js"></script>
+    <!--<script src="/scripts/blockly_compressed.js"></script>-->
+    <script src="/scripts/python_compressed.js"></script>
+
+    <!-- Custom Blocks Scripts -->
+    <script src="/scripts/custom_blocks.js"></script>
 </head>
 
 <body>
     <div class="appContainer">
-        <div class="inline-block-child" style="width: 400px; height: 200px;">
+        <!-- Grid World Container -->
+        <div class="inline-block-child" style="width: 600px; height: 600px;">
+            <h2 class="inline-block-child" style="margin-bottom: 0px;">Grid World</h2>
+            
+
+        </div>
+        
+        <div class="inline-block-child" style="width: 600px; height: 400px;">
             <!-- List for all blocks -->
-            <h2 class="inline-block-child" style="margin-bottom: 0px;">Interactive Demo Section</h2>
+            <h2 class="inline-block-child" style="margin-bottom: 0px;">Block Section:</h2>
             <p> Try and print the string "Hello World!" </p>
             <div class="blockly-editor">
                 <div id="blocklyDiv" style="height: 100%; width: 100%;"></div>
-                <xml id="toolbox" style="display: none">
-                    <block type="text"></block>
+                <xml xmlns="https://developers.google.com/blockly/xml" id="toolbox" style="display: none">
+                    <category name="Text" colour="120">
+                        <block type="text"></block>
+                        <block type="text_print">
+                            <value name="TEXT">
+                                <shadow type="text">
+                                    <field name="TEXT">print what goes here...</field>
+                                </shadow>
+                            </value>
+                        </block>
+                    </category>
+                    <category name="Movement" colour="260">
+                        <block type="move_up"></block>
+                        <block type="move_down"></block>
+                        <block type="move_left"></block>
+                        <block type="move_right"></block>
+                    </category>
                 </xml>
             </div>
         </div>
 
-        <div class="inline-block-child" style="width: 400px; height: 200px;">
-            <h2 style="margin-bottom: 50px;">Output</h2>
+        <div class="inline-block-child" style="width: 600px; height: 400px;">
+            <h2 style="margin-bottom: 50px;">Printed Output:</h2>
             <!-- area for executed output to be displayed -->
             <div class="outputContainer">
                 <pre id="output" style="margin-left: 5px; font-family: Consolas, 'Lucida Console'; font-size: 14px; white-space: pre-wrap;"></pre>
@@ -57,13 +88,6 @@
 
     </div>
 
-    <!-- Blockly Include -->
-    <!-- reroute the python_compressed into the node_modules folder? -->
-    <script src="https://unpkg.com/blockly/blockly.min.js"></script>
-    <!--<script src="/scripts/blockly_compressed.js"></script>-->
-    <script src="/scripts/python_compressed.js"></script>
-
-    <!-- PyBlock Scripts -->
     <script src="/scripts/interactive_demo.js"></script>
 </body>
 </html>
