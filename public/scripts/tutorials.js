@@ -1,4 +1,9 @@
 (function () {
+    var workspaceTutBranchGenKnow = Blockly.inject('blocklyDivBranchGenKnow', {
+        toolbox: document.getElementById('toolbox'),
+        scrollbars: false,
+    });
+	
     var workspace = Blockly.inject('blocklyDiv', {
         toolbox: document.getElementById('toolbox'),
         scrollbars: false,
@@ -73,10 +78,11 @@
 		'			</block>' +
 		'		</statement>' +
         '  </block>' +
-        '</xml>';;
+        '</xml>';
 
     dom = Blockly.Xml.textToDom(xmlContent);
     Blockly.Xml.domToWorkspace(dom, workspace);
+    Blockly.Xml.domToWorkspace(dom, workspaceTutBranchGenKnow);
 })();
 
 
