@@ -1,10 +1,22 @@
 (function () {
+	/*Generic Bits, copy from here.
     var workspace = Blockly.inject('blocklyDiv', {
         toolbox: document.getElementById('toolbox'),
         scrollbars: false,
     });
+	var xmlContentTutBranchGenKnow = '';
+	
+    domTBGK = Blockly.Xml.textToDom(xmlContentTutBranchGenKnow);
+    Blockly.Xml.domToWorkspace(dom, workspace);
+	*/
+	
+	//Tutorial: Branching. Section: General Knowledge
+    var workspaceTutBranchGenKnow = Blockly.inject('blocklyDivBranchGenKnow', {
+        toolbox: document.getElementById('toolbox'),
+        scrollbars: false,
+    });
 
-    var xmlContent = '<xml id="initiated" style="display: none">' +
+    var xmlContentTutBranchGenKnow = '<xml id="initiated" style="display: none">' +
 		'	<block type="variables_set" deletable="false" movable="false">' +
 		'		<field name="VAR">X</field>' +
 		'		<value name="VALUE">' +
@@ -73,10 +85,55 @@
 		'			</block>' +
 		'		</statement>' +
         '  </block>' +
-        '</xml>';;
+        '</xml>';
+    domTBGK = Blockly.Xml.textToDom(xmlContentTutBranchGenKnow);
+    Blockly.Xml.domToWorkspace(domTBGK, workspaceTutBranchGenKnow);
+	
+	//Tutorial: Branching. Section: 1 Branch
+    var workspaceTutBranchOne = Blockly.inject('blocklyDivBranchOne', {
+        toolbox: document.getElementById('toolbox'),
+        scrollbars: false,
+    });
 
-    dom = Blockly.Xml.textToDom(xmlContent);
-    Blockly.Xml.domToWorkspace(dom, workspace);
+    var xmlContentTutBranchOne = '<xml id="initiated" style="display: none">' +
+		'	<block type="variables_set" deletable="false" movable="false">' +
+		'		<field name="VAR">X</field>' +
+		'		<value name="VALUE">' +
+		'			<block type="math_number" deletable="false" movable="false">' +
+		'				<field name="NUM">15</field>' +
+		'			</block>' +
+		'		</value>' +
+		'	</block>' +
+        '  <block type="controls_if" inline="false" deletable="false" x="0" y="50">' +
+		'		<statement name="IF0">' +
+		'			<block type="logic_compare" deletable="false">' +
+		'				<field name="OP">LTE</field>' +
+		'				<value name="A">' +
+		'					<block type="variables_get">' +
+		'						<field name="VAR">X</field>' +
+		'					</block>' +
+		'				</value>' +
+		'				<value name="B">' +
+		'					<block type="math_number">' +
+		'						<field name="NUM">14</field>' +
+		'					</block>' +
+		'				</value>' +
+		'			</block>' +
+		'		</statement>' +
+		'		<statement name="DO0">' +
+		'			<block type="text_print" deletable="false" movable="false">' +
+		'				<value name="TEXT">' +
+		'					<block type="text" deletable="false" movable="false">' +
+		'						<field name="TEXT">You did it! Congratulations!</field>' +
+		'					</block>' +
+		'				</value>' +
+		'			</block>' +
+		'		</statement>' +
+        '  </block>' +
+        '</xml>';
+    domTBO = Blockly.Xml.textToDom(xmlContentTutBranchOne);
+    Blockly.Xml.domToWorkspace(domTBO, workspaceTutBranchOne);
+	
 })();
 
 

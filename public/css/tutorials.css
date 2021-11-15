@@ -54,6 +54,14 @@ body {
 	border-color:#728FCE;
 }
 
+/* Blockly CSS */
+.blockly-editor {
+    height: 300px;
+    width: 600px;
+    background-color: #FFFFFF;
+    border: 1px solid black;
+}
+
 /*For button alignment*/
 .topright {
   position: absolute;
@@ -64,7 +72,35 @@ body {
 
 .botright {
   position: absolute;
-  bottom: 8px;
+  top: 30px;
   right: 16px;
   font-size: 18px;
+}
+
+/*For making the tabs work*/
+.tab {
+  overflow: hidden;
+  border: 1px solid #ccc;
+  background-color: #f1f1f1;
+}
+
+.tab button {
+	background-color: inherit;
+	float: left;
+	cursor: pointer;
+	padding: 14px 16px;
+	transition: 0.3s;
+	font-size: 17px;
+}
+
+.tab button:hover {
+	background-color: #ddd;
+}
+
+.tab button.active {
+	background-color: #ccc;
+}
+
+.tabcontent {
+  padding: 6px 12px;
 }
