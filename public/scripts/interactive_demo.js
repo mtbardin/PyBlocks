@@ -88,15 +88,15 @@
                     code = 87;
                 }
                 // MOVE_DOWN
-                else if ("8b32429247158c80deab773f4e04e1c2") {
+                else if (token == "8b32429247158c80deab773f4e04e1c2") {
                     code = 83;
                 }
                     // MOVE_LEFT
-                else if ("d7aa835d76fc894935ade13f4d0624f8") {
+                else if (token == "d7aa835d76fc894935ade13f4d0624f8") {
                     code = 65;
                 }
                     // MOVE_RIGHT
-                else if ("3dc5ed1f827e8c9a6392edb90af992d5") {
+                else if (token == "3dc5ed1f827e8c9a6392edb90af992d5") {
                     code = 68;
                 }
                 $(window).trigger('keydown', code);

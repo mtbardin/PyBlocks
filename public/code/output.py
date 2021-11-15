@@ -1,2 +1,1 @@
 print("TOKEN:8b32429247158c80deab773f4e04e1c2");
-print("TOKEN:8b32429247158c80deab773f4e04e1c2");

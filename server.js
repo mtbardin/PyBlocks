@@ -24,7 +24,7 @@ app.use('/scripts', express.static(__dirname + '/node_modules/blockly/'));
 app.use('/assets', express.static('assets'));
 
 // define the route for "/"
- app.get("/", function (request, response){s
+ app.get("/", function (request, response){
     //show this file when the "/" is requested
     response.sendFile(__dirname+"/views/home_page.html");
  });

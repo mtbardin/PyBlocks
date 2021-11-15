@@ -45,7 +45,7 @@
 
     let moveRightJson = {
         "type": "move_right",
-        "message0": "Move Left",
+        "message0": "Move Right",
         "previousStatement": null,
         "nextStatement": null,
         "colour": 260,
