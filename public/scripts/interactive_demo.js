@@ -81,7 +81,25 @@
             // Only add line to output if it isn't a valid token.
             if (lineIsToken) {
                 // Do stuff according to the token type.
-
+                let token = testForToken[1].trim();
+                let code = -1;
+                      // MOVE_UP
+                if (token == "e397b4fa67c25cc1c9eae980cfdd43eb") {
+                    code = 87;
+                }
+                // MOVE_DOWN
+                else if ("8b32429247158c80deab773f4e04e1c2") {
+                    code = 83;
+                }
+                    // MOVE_LEFT
+                else if ("d7aa835d76fc894935ade13f4d0624f8") {
+                    code = 65;
+                }
+                    // MOVE_RIGHT
+                else if ("3dc5ed1f827e8c9a6392edb90af992d5") {
+                    code = 68;
+                }
+                $(window).trigger('keydown', code);
             }
             else {
                 // Add the line to the output.
@@ -98,6 +116,7 @@
 
         // String for comparison needs to have "\r\n" added to the end,
         // otherwise the whole thing won't work.
+        /*
         if (programOutput == "Hello World!\r\n") {
             $("#announcement").text("You Did it Right, Great Job!");
         }
@@ -107,5 +126,6 @@
         else {
             $("#announcement").text("You made a Mistake, Try Again.");
         }
+        */
     });
 })();
