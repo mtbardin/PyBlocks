@@ -8,362 +8,20 @@
  * https://labs.phaser.io/assets/
  * https://github.com/photonstorm/phaser3-examples
  */
+
 /*
-var config = {
-    type: Phaser.AUTO,
-    parent: 'phaserContainer', // name of the DOM element phaser inits inside of.
-    width: 800,
-    height: 600,
-    //zoom: 1,
-    /*scale: {
-        mode: Phaser.Scale.RESIZE,
-        parent: 'phaserContainer',
-        width: window.innerWidth,
-        height: window.innerHeight
-    },/
-    pixelArt: true,
-    scene: {
-        preload: preload,
-        create: create//,
-        //update: update,
-        //render: render
-    }
-};
-
-var game = new Phaser.Game(config);
-
-function preload() {
-    //this.load.setBaseURL('http://labs.phaser.io');
-    //this.load.setBaseURL('public');
-
-    this.load.image('sky', 'assets/space3.png');
-    this.load.image('logo', 'assets/phaser3-logo.png');
-    this.load.image('red', 'assets/red.png');
-
-    this.load.image('tiles', 'assets/terrain-v7.png');
-
-    this.load.image('character', 'assets/char_walk_right.gif');
-};
-
-function create() {
-    /*this.add.image(400, 300, 'sky');
-
-    var particles = this.add.particles('red');
-
-    var emitter = particles.createEmitter({
-        speed: 100,
-        scale: { start: 1, end: 0 },
-        blendMode: 'ADD'
-    });
-
-    var logo = this.physics.add.image(400, 100, 'logo');
-
-    logo.setVelocity(100, 200);
-    logo.setBounce(1, 1);
-    logo.setCollideWorldBounds(true);
-
-    emitter.startFollow(logo);
-    *
+ * https://developer.mozilla.org/en-US/docs/Games/Techniques/Tilemaps
+ * https://developer.mozilla.org/en-US/docs/Games/Techniques/Tilemaps/Square_tilemaps_implementation:_Static_maps
+ * https://medium.com/geekculture/make-your-own-tile-map-with-vanilla-javascript-a627de67b7d9
+ * https://github.com/mozdevs/gamedev-js-tiles
+ * https://developer.mozilla.org/en-US/docs/Games/Techniques/Tilemaps#performance
+ */
     
-    const level = [[288, 289, 289, 289, 289, 289, 290],
-        [320, 321, 321, 321, 321, 321, 322],
-        [320, 321, 321, 321, 321, 321, 322],
-        [320, 321, 321, 321, 321, 321, 322],
-        [320, 321, 321, 321, 321, 321, 322],
-        [320, 321, 321, 321, 321, 321, 322],
-        [352, 353, 353, 353, 353, 353, 354]];
-
-    const map = this.make.tilemap({ data: level, tileWidth: 32, tileHeight: 32 });
-    const tiles = map.addTilesetImage('tiles');
-    const layer = map.createLayer(0, tiles, 0, 0);
-    //layer.width = 400;
-
-    const player = this.add.image(32 + 16, 32 + 16, 'character');
-
-    //this.input.keyboard.enabled = false;
-    //this.input.keyboard.enableGlobalCapture();
-
-    this.input.keyboard.on('keydown', function (event) {
-        console.log(event.keyCode);
-    });
-
-    //  Left
-    this.input.keyboard.on('keydown-A', () => {
-        const tile = layer.getTileAtWorldXY(player.x - 32, player.y, true);
-
-        if (tile.index != 321) {
-            //  Blocked, we can't move
-        }
-        else {
-            player.x -= 32;
-            //player.angle = 180;
-        }
-    });
-
-    //  Right
-    this.input.keyboard.on('keydown-D', () => {
-        const tile = layer.getTileAtWorldXY(player.x + 32, player.y, true);
-
-        if (tile.index != 321) {
-            //  Blocked, we can't move
-        }
-        else {
-            player.x += 32;
-            //player.angle = 0;
-        }
-    });
-
-    //  Up
-    this.input.keyboard.on('keydown-W', () => {
-        const tile = layer.getTileAtWorldXY(player.x, player.y - 32, true);
-
-        if (tile.index != 321) {
-            //  Blocked, we can't move
-        }
-        else {
-            player.y -= 32;
-            //player.angle = -90;
-        }
-    });
-
-    //  Down
-    this.input.keyboard.on('keydown-S', () => {
-        //alert('keypress triggered');
-        const tile = layer.getTileAtWorldXY(player.x, player.y + 32, true);
-
-        if (tile.index != 321) {
-            //  Blocked, we can't move
-        }
-        else {
-            player.y += 32;
-            //player.angle = 90;
-        }
-    });
-
-   
-};
-*/
 
 (function () {
-    /*
-    let mapLayer1 = {
-        cols: 10,    // The width of the map, in columns.
-        rows: 10,    // The height of the map, in rows.
-        tsize: 17,  // The tile size, in pixels.
+    // listen for the output of the code execution.
+    var socket = io();
 
-        // A 1-dimensional array containing the grid of tiles to be generated.
-        tiles: [
-            5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
-            5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
-            5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
-            5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
-            5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
-            5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
-            5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
-            5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
-            5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
-            5, 5, 5, 5, 5, 5, 5, 5, 5, 5
-        ],
-
-        // A helper method that gets the tile index in a certain position.
-        getTile: function (col, row) {
-            return this.tiles[row * mapLayer1.cols + col]
-        }
-    };
-
-    let mapLayer2 = {
-        cols: 10,    // The width of the map, in columns.
-        rows: 10,    // The height of the map, in rows.
-        tsize: 16,  // The tile size, in pixels.
-
-        // A 1-dimensional array containing the grid of tiles to be generated.
-        tiles: [
-            0, 0, 0, 0, 0, 5, 0, 588, 0, 5,
-            0, 344, 345, 345, 345, 346, 0, 645, 0, 585,
-            588, 401, 402, 402, 402, 403, 585, 0, 0, 642,
-            645, 458, 459, 459, 459, 460, 642, 0, 0, 594,
-            0, 0, 0, 0, 0, 0, 0, 594, 585, 0,
-            0, 0, 0, 0, 0, 0, 0, 0, 642, 0,
-            0, 0, 0, 0, 536, 0, 2, 3, 4, 0,
-            0, 0, 0, 0, 0, 0, 116, 60, 61, 0,
-            0, 0, 0, 0, 0, 0, 0, 116, 118, 536,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0
-        ],
-
-        // A helper method that gets the tile index in a certain position.
-        getTile: function (col, row) {
-            return this.tiles[row * mapLayer2.cols + col]
-        }
-    };
-    */
-    /*
-    var context = document.getElementById('gridWorld1').getContext('2d');
-    let tileAtlas = new Image();
-    tileAtlas.src = "/images/roguelikeSheet_transparent.png";
-    tileAtlas.onload = function () {
-        for (var c = 8; c < mapLayer1.cols; c++) {
-            for (var r = 8; r < mapLayer1.rows; r++) {
-                var tile = mapLayer1.getTile(c, r);
-                //console.log(mapLayer1.tsize, tile);
-
-                if (tile !== 0) { // 0 => empty tile
-                    context.drawImage(
-                        tileAtlas, // image
-                        (tile) * mapLayer1.tsize, // source x
-                        0, // source y
-                        mapLayer1.tsize - 1, // source width
-                        mapLayer1.tsize - 1, // source height
-                        c * mapLayer1.tsize - 1, // target x
-                        r * mapLayer1.tsize - 1, // target y
-                        mapLayer1.tsize + 1, // target width
-                        mapLayer1.tsize + 1 // target height
-                    );
-                };
-            };
-        };
-    };
-    */
-    /*
-     * https://developer.mozilla.org/en-US/docs/Games/Techniques/Tilemaps
-     * https://developer.mozilla.org/en-US/docs/Games/Techniques/Tilemaps/Square_tilemaps_implementation:_Static_maps
-     * https://medium.com/geekculture/make-your-own-tile-map-with-vanilla-javascript-a627de67b7d9
-     * https://github.com/mozdevs/gamedev-js-tiles
-     * https://developer.mozilla.org/en-US/docs/Games/Techniques/Tilemaps#performance
-     */
-    /*
-    let layers = [
-        {
-            "data": [6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6],
-            "height": 10,
-            "id": 1,
-            "name": "Tile Layer 1",
-            "opacity": 1,
-            "type": "tilelayer",
-            "visible": true,
-            "width": 10,
-            "x": 0,
-            "y": 0
-        },
-        {
-            "data": [0, 0, 0, 0, 0, 6, 0, 589, 0, 6, 0, 345, 346, 346, 346, 347, 0, 646, 0, 586, 589, 402, 403, 403, 403, 404, 586, 0, 0, 643, 646, 459, 460, 460, 460, 461, 643, 0, 0, 595, 0, 0, 0, 0, 0, 0, 0, 595, 586, 0, 0, 0, 0, 0, 0, 0, 0, 0, 643, 0, 0, 0, 0, 0, 537, 0, 3, 4, 5, 0, 0, 0, 0, 0, 0, 0, 117, 61, 62, 0, 0, 0, 0, 0, 0, 0, 0, 117, 119, 537, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            "height": 10,
-            "id": 2,
-            "name": "Tile Layer 2",
-            "opacity": 1,
-            "type": "tilelayer",
-            "visible": true,
-            "width": 10,
-            "x": 0,
-            "y": 0
-        }];
-
-    let level1Map = [
-        1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-        1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-        1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-        1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-        1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-        1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-        1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-        1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-        1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-        1, 1, 1, 1, 1, 1, 1, 1, 1, 1
-    ];
-
-    const canvas = document.getElementById('gridWorld1');
-    const ctx = canvas.getContext('2d');
-
-    const tileAtlas = new Image();
-    tileAtlas.src = "/images/small_roguelikeSheet_noGap.png";
-
-    let tileSize = 16;
-    let tileOutputSize = 1; // can set to 1 for 32px or higher
-    let updatedTileSize = tileSize * tileOutputSize;
-
-    let atlasCol = 4;
-    let atlasRow = 2;
-    let mapCols = 10;
-    let mapRows = 10;
-    let mapHeight = mapRows * tileSize;
-    let mapWidth = mapCols * tileSize
-
-    let mapIndex = 0;
-    let sourceX = 0;
-    let sourceY = 0;
-
-    //tileAtlas.onload = function () {
-    //    ctx.drawImage(tileAtlas, (0 % atlasCol) * tileSize, Math.floor(0 / atlasCol) * tileSize, tileSize,
-    //        tileSize, 0 * tileOutputSize, 0 * tileOutputSize,
-    //        updatedTileSize, updatedTileSize);
-    //};
-
-    
-    tileAtlas.onload = function () {
-        for (let col = 0; col < mapHeight; col += tileSize) {
-            for (let row = 0; row < mapWidth; row += tileSize) {
-                //let tileVal = mapLayer1.getTile(c, r);
-                let tileVal = level1Map[mapIndex];
-                if (tileVal != 0) {
-                    tileVal -= 1;
-                    sourceY = Math.floor(tileVal / atlasCol) * tileSize;
-                    sourceX = (tileVal % atlasCol) * tileSize;
-                    ctx.drawImage(tileAtlas, sourceX, sourceY, tileSize,
-                        tileSize, row * tileOutputSize, col * tileOutputSize,
-                        updatedTileSize, updatedTileSize);
-                }
-                mapIndex++;
-            };
-        };
-    };
-    */
-
-    /*
-    const canvas = document.getElementById('grid-world-1');
-    const ctx = canvas.getContext('2d');
-
-    console.log("here");
-    let tileAtlas = new Image();
-    tileAtlas.src = "/images/roguelikeSheet_transparent.png";
-    tileAtlas.onload = draw;
-
-    let tileSize = 16;
-    let tileOutputSize = 1;
-    let updatedTileSize = tileSize * tileOutputSize;
-
-    let atlasCol = 10;
-    let atlasRow = 10;
-    let mapCols = 57;
-    let mapRows = 31;
-    let mapHeight = mapRows * tileSize;
-    let mapWidth = mapCols * tileSize
-
-    let mapIndex = 0;
-    let sourceX = 0;
-    let sourceY = 0;
-    function draw() {
-        for (let col = 0; col < mapHeight; col += tileSize) {
-            for (let row = 0; row < mapWidth; row += tileSize) {
-                let tileVal = mapLayer1[mapIndex];
-                if (tileVal != 0) {
-                    tileVal -= 1;
-                    sourceY = Math.floor(tileVal / atlasCol) * tileSize;
-                    sourceX = (tileVal % atlasCol) * tileSize;
-                    ctx.drawImage(tileAtlas, sourceX, sourceY, tileSize,
-                        tileSize, row * tileOutputSize, col * tileOutputSize,
-                        updatedTileSize, updatedTileSize);
-                }
-                mapIndex++;
-            }
-        }
-    };
-    */
-
-})();
-
-// listen for the output of the code execution.
-var socket = io();
-
-(function () {
     // https://github.com/mozdevs/gamedev-js-tiles/blob/gh-pages/square/layers.js
 
     // Asset loader
@@ -405,7 +63,7 @@ var socket = io();
     Keyboard._keys = {};
 
     Keyboard.listenForEvents = function (keys) {
-        $(window).on('keydown', function (event, code, callback) {
+        $(window).on('autoPress', function (event, code, callback) {
             //console.log("key down");
             var keyCode = parseInt(code);
             if (keyCode in Keyboard._keys) {
@@ -413,7 +71,6 @@ var socket = io();
                 Keyboard._keys[keyCode] = true;
             }
         });
-
         keys.forEach(function (key) {
             this._keys[key] = false;
         }.bind(this));
@@ -440,9 +97,37 @@ var socket = io();
         var p = this.load();
         Promise.all(p).then(function (loaded) {
             this.init();
-            window.requestAnimationFrame(this.tick);
+            //window.requestAnimationFrame(this.tick);
+            $(window).trigger('animate', -1, function () { console.log("movement done"); });
         }.bind(this));
     };
+
+    $(window).on('animate', function (event, code, callback) {
+        var times_run = 0;
+        let interval = setInterval(function(){
+            console.log("animation frame");
+
+            times_run++;
+            if (times_run == 4) {
+                console.log("stoping walk");
+                clearInterval(interval);
+            }
+
+            $(window).trigger('autoPress', code);
+
+            // clear previous frame
+            Game.ctx.clearRect(0, 0, 512, 512);
+
+            delta = 1;
+
+            Game.update(delta);
+            Game.render();
+        }, 500);
+        console.log(typeof callback);
+        if (typeof callback === 'function') {
+            callback();
+        }
+    });
 
     Game.tick = function (elapsed) {
         window.requestAnimationFrame(this.tick);
@@ -574,7 +259,7 @@ var socket = io();
     }
 
     // changed from 256
-    Hero.SPEED = 64; // pixels per second
+    Hero.SPEED = 16; // pixels per animation
 
     Hero.prototype.move = function (delta, dirx, diry) {
         // move hero
