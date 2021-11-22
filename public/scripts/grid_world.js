@@ -98,35 +98,94 @@
         Promise.all(p).then(function (loaded) {
             this.init();
             //window.requestAnimationFrame(this.tick);
-            $(window).trigger('animate', -1, function () { console.log("movement done"); });
+            //let tmp = [-1]
+            //$(window).trigger('animate', tmp);
+            this.ctx.clearRect(0, 0, 512, 512);
+            this.update(1);
+            this.render();
         }.bind(this));
     };
 
-    $(window).on('animate', function (event, code, callback) {
-        var times_run = 0;
-        let interval = setInterval(function(){
-            console.log("animation frame");
+    $(window).on('animate', async function (event, moves) {
+        /*
+         * Thanks to Jonas Williams for the second part of his answer to
+         * https://stackoverflow.com/questions/3583724/how-do-i-add-a-delay-in-a-javascript-loop 
+         */
 
-            times_run++;
-            if (times_run == 4) {
-                console.log("stoping walk");
-                clearInterval(interval);
-            }
+        console.log("In Animation Loop");
+        console.log("moves = ", moves);
 
-            $(window).trigger('autoPress', code);
+        const pause = ms => new Promise(res => setTimeout(res, ms))
 
-            // clear previous frame
+        async function update(step, move) { // 3
+            await pause(100);
+            console.log("step: ", step);
+            $(window).trigger('autoPress', move);
             Game.ctx.clearRect(0, 0, 512, 512);
-
             delta = 1;
-
             Game.update(delta);
             Game.render();
-        }, 500);
-        console.log(typeof callback);
-        if (typeof callback === 'function') {
-            callback();
         }
+
+        async function walk() {
+            // This loop needs to fully complete before it can repeat
+            for (var move in moves) {
+                console.log(moves[move]);
+                // There are 4 steps to move each direction.
+                for (let i = 0; i < 4; i++) {
+                    await update(i, moves[move]);
+                }
+            }
+        }
+        
+        walk();
+        /*const promises = [];
+
+        //for (var move in moves) {
+        //    console.log(moves[move]);
+        //}
+
+        for (var move in moves) {
+            console.log("Starting Move");
+
+            promises.push(
+                new Promise((resolve) => {
+                    var times_run = 0;
+                    let interval = setInterval(function () {
+                        console.log("animation frame: ", times_run);
+
+                        times_run++;
+                        if (times_run >= 4) {
+                            console.log("stoping walk");
+                            clearInterval(interval);
+                        }
+
+                        $(window).trigger('autoPress', moves[move]);
+
+                        // clear previous frame
+                        Game.ctx.clearRect(0, 0, 512, 512);
+
+                        delta = 1;
+
+                        Game.update(delta);
+                        Game.render();
+                    }, 250);
+                    times_run = 0;
+                })
+            );
+        };
+        await Promise.all(promises).then(() => {
+            console.log("Animation Done");
+        });*/
+            /*)
+            for (let num_ani = 0; num_ani < 4; num_ani++) {
+                $(window).trigger('autoPress', moves[move]);
+                Game.ctx.clearRect(0, 0, 512, 512);
+                delta = 1;
+                Game.update(delta);
+                Game.render();
+            }*/
+        //}
     });
 
     Game.tick = function (elapsed) {

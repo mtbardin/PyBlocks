@@ -17,6 +17,25 @@
     */
 })();
 
+/*
+(function () {
+    async function task(i) { // 3
+        await timer(250);
+        console.log(`Task ${i} done!`);
+    }
+
+    async function main() {       
+        for (let j = 0; j < 4; j++) { // 1
+            console.log("animation frame");
+            await task(j);
+        }
+    }
+
+    main();
+
+    function timer(ms) { return new Promise(res => setTimeout(res, ms)); }
+})();
+*/
 
 (function () {
     // listen for the output of the code execution.
@@ -31,6 +50,14 @@
 
     // make qS a shortcut for document.querySelector
     const qS = document.querySelector.bind(document);
+
+    // Test an Animation.
+    qS("#ani").addEventListener('click', function () {
+        let moves = { 0: 83, 1: 83, 2: 68, 3: 68 }; // D, D, R, R
+        console.log("moves to be animated");
+        console.log(moves);
+        $(window).trigger('animate', moves);
+    });
 
     // when the user clicks 'execute'
     qS("#exe").addEventListener('click', function () {
@@ -60,6 +87,10 @@
 
         let programOutput = "";
 
+        let moves = {};
+        let num_moves = 0;
+        let code = -1;
+
         // Split the returned program output into lines.
         let lines = data.output.split("\n");
 
@@ -82,32 +113,43 @@
             if (lineIsToken) {
                 // Do stuff according to the token type.
                 let token = testForToken[1].trim();
-                var code = -1;
+
+                code = -1;
+
                 // MOVE_UP
                 if (token == "e397b4fa67c25cc1c9eae980cfdd43eb") {
-                    code = 87;
+                    //code = 87;
+                    //moves.push(87);
+                    moves[num_moves] = 87;
+                    num_moves++;
                 }
                 // MOVE_DOWN
                 else if (token == "8b32429247158c80deab773f4e04e1c2") {
-                    code = 83;
+                    //moves.push(83);
+                    moves[num_moves] = 83;
+                    num_moves++;
                 }
                 // MOVE_LEFT
                 else if (token == "d7aa835d76fc894935ade13f4d0624f8") {
-                    code = 65;
+                    //moves.push(65);
+                    moves[num_moves] = 65;
+                    num_moves++;
                 }
                 // MOVE_RIGHT
                 else if (token == "3dc5ed1f827e8c9a6392edb90af992d5") {
-                    code = 68;
+                    //moves.push(68);
+                    moves[num_moves] = 68;
+                    num_moves++;
                 }
                 
-                $(window).trigger('autoPress', code);
+                //$(window).trigger('autoPress', code);
 
                 //
                 function callback () {
                     console.log("movement done");
                     return{test: 1}
                 };
-                $(window).trigger('animate', code, callback);
+                //$(window).trigger('animate', code);
             }
             else {
                 // Add the line to the output.
@@ -117,6 +159,12 @@
 
             // Reset if token variable.
             lineIsToken = false;
+        }
+
+        console.log("moves: ", moves);
+        if (Object.keys(moves).length >= 1) {
+            console.log("triggering animation queue.")
+            $(window).trigger('animate', moves);
         }
 
         // jQuery method of inputting data into an HTML element.
