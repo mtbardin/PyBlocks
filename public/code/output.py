@@ -1,9 +1,4 @@
-X = 10
+from PyBlockFunctions import *
 
-if X == 2:
-  print('Good Morning, World!')
-elif X > 5:
-  print('Good Night, World.')
-else:
-  print('Good Bye, World.')
-  
+move_down()
+pick_1_flower()

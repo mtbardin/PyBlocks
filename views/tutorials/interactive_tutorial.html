@@ -23,6 +23,7 @@
 
     <!-- Custom Blocks Scripts -->
     <script src="/scripts/custom_blocks.js"></script>
+    
 </head>
 
 <body>
@@ -31,7 +32,7 @@
         <div class="inline-block-child" style="width: 600px; height: 600px;">
             <h2 class="inline-block-child" style="margin-bottom: 0px;">Grid World</h2>
             
-
+            <canvas id="gridWorld" style="width: 512px; height: 512px;"></canvas>
         </div>
         
         <div class="inline-block-child" style="width: 600px; height: 400px;">
@@ -57,6 +58,9 @@
                         <block type="move_left"></block>
                         <block type="move_right"></block>
                     </category>
+                    <category name="Flower Blocks" colour="230">
+                        <block type="pick_1_flower"></block>
+                    </category>
                 </xml>
             </div>
         </div>
@@ -78,16 +82,20 @@
             <input type="text" id="exefileName" value="output.py" hidden />
             <!--<textarea id="printBlockData" hidden></textarea>--->
             <button id="exe">Execute</button>
+
+            <label for="ani"></label>
+            <button id="ani">Animate</button>
         </div>
 
         <div class="break" style="height: 100px;"></div>
-
+        <!--
         <div class="announcementContainer">
             <h2 id="announcement"></h2>
         </div>
-
+        -->
     </div>
 
     <script src="/scripts/interactive_demo.js"></script>
+    <script src="/scripts/grid_world.js"></script>
 </body>
 </html>

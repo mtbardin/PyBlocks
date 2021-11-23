@@ -20,6 +20,9 @@ app.use(express.urlencoded({
 // Manually create a route for the blockly library in node_modules.
 app.use('/scripts', express.static(__dirname + '/node_modules/blockly/'));
 
+// Manually create a route for the assets.
+app.use('/assets', express.static('assets'));
+
 // define the route for "/"
  app.get("/", function (request, response){
     //show this file when the "/" is requested
