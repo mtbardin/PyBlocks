@@ -17,26 +17,6 @@
     */
 })();
 
-/*
-(function () {
-    async function task(i) { // 3
-        await timer(250);
-        console.log(`Task ${i} done!`);
-    }
-
-    async function main() {       
-        for (let j = 0; j < 4; j++) { // 1
-            console.log("animation frame");
-            await task(j);
-        }
-    }
-
-    main();
-
-    function timer(ms) { return new Promise(res => setTimeout(res, ms)); }
-})();
-*/
-
 (function () {
     // listen for the output of the code execution.
     var socket = io();
@@ -45,7 +25,8 @@
         "e397b4fa67c25cc1c9eae980cfdd43eb", // MOVE_UP
         "8b32429247158c80deab773f4e04e1c2", // MOVE_DOWN
         "d7aa835d76fc894935ade13f4d0624f8", // MOVE_LEFT
-        "3dc5ed1f827e8c9a6392edb90af992d5"  // MOVE_RIGHT
+        "3dc5ed1f827e8c9a6392edb90af992d5", // MOVE_RIGHT
+        "2f5dd3953d07d78bcf39f1488f6982f9" // PICK_1_FLOWER
     ]);
 
     // make qS a shortcut for document.querySelector
@@ -53,7 +34,7 @@
 
     // Test an Animation.
     qS("#ani").addEventListener('click', function () {
-        let moves = { 0: 83, 1: 83, 2: 68, 3: 68 }; // D, D, R, R
+        let moves = { 0: 68, 1: 68, 2: 83, 3: 83 }; // D, D, R, R
         console.log("moves to be animated");
         console.log(moves);
         $(window).trigger('animate', moves);
@@ -65,7 +46,8 @@
         document.getElementById("output").innerHTML = "";
 
         // get program from workspace.
-        let code = Blockly.Python.workspaceToCode(Blockly.getMainWorkspace());
+        let code = "from PyBlockFunctions import *\n\n";
+        code += Blockly.Python.workspaceToCode(Blockly.getMainWorkspace());
 
         // set the filename.
         const fileName = "output.py";
@@ -89,7 +71,6 @@
 
         let moves = {};
         let num_moves = 0;
-        let code = -1;
 
         // Split the returned program output into lines.
         let lines = data.output.split("\n");
@@ -113,8 +94,6 @@
             if (lineIsToken) {
                 // Do stuff according to the token type.
                 let token = testForToken[1].trim();
-
-                code = -1;
 
                 // MOVE_UP
                 if (token == "e397b4fa67c25cc1c9eae980cfdd43eb") {
@@ -141,15 +120,13 @@
                     moves[num_moves] = 68;
                     num_moves++;
                 }
-                
-                //$(window).trigger('autoPress', code);
 
-                //
-                function callback () {
-                    console.log("movement done");
-                    return{test: 1}
-                };
-                //$(window).trigger('animate', code);
+                // PICK_1_FLOWER
+                else if (token == "2f5dd3953d07d78bcf39f1488f6982f9") {
+                    //$(window).trigger('pickOneFlower');
+                    moves[num_moves] = "pickOneFlower";
+                    num_moves++;
+                }
             }
             else {
                 // Add the line to the output.

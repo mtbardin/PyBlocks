@@ -9,6 +9,8 @@
  * TOKEN: 8b32429247158c80deab773f4e04e1c2    // MOVE_DOWN
  * TOKEN: d7aa835d76fc894935ade13f4d0624f8    // MOVE_LEFT
  * TOKEN: 3dc5ed1f827e8c9a6392edb90af992d5    // MOVE_RIGHT
+ * 
+ * TOKEN: 2f5dd3953d07d78bcf39f1488f6982f9    // PICK_1_FLOWER
  */
 
 (function () {
@@ -22,7 +24,6 @@
         "tooltip": "Move the Character Up",
         "helpUrl": ""
     };
-
     let moveDownJson = {
         "type": "move_down",
         "message0": "Move Down",
@@ -32,7 +33,6 @@
         "tooltip": "Move the Character Down",
         "helpUrl": ""
     };
-
     let moveLeftJson = {
         "type": "move_left",
         "message0": "Move Left",
@@ -42,7 +42,6 @@
         "tooltip": "Move the Character Left",
         "helpUrl": ""
     };
-
     let moveRightJson = {
         "type": "move_right",
         "message0": "Move Right",
@@ -52,6 +51,19 @@
         "tooltip": "Move the Character Right",
         "helpUrl": ""
     };
+
+    // Flower JSON.
+    let pickOneFlowerJson = {
+        "type": "pick_1_flower",
+        "message0": "Pick One Flower",
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": 230,
+        "tooltip": "Pick a single flower infront of the character.",
+        "helpUrl": ""
+    };
+
+
 
     // Create the block using the JSON.
     Blockly.Blocks['move_up'] = {
@@ -75,21 +87,36 @@
         }
     };
 
+    // Flower Blocks.
+    Blockly.Blocks['pick_1_flower'] = {
+        init: function () {
+            this.jsonInit(pickOneFlowerJson);
+        }
+    };
+
+
+
     // Build the python code the block creates.
     Blockly.Python['move_up'] = function (block) {
-        let code = 'print("TOKEN:e397b4fa67c25cc1c9eae980cfdd43eb");\n';
+        let code = 'move_up()\n';
         return code;
     };
     Blockly.Python['move_down'] = function (block) {
-        let code = 'print("TOKEN:8b32429247158c80deab773f4e04e1c2");\n';
+        let code = 'move_down()\n';
         return code;
     };
     Blockly.Python['move_left'] = function (block) {
-        let code = 'print("TOKEN:d7aa835d76fc894935ade13f4d0624f8");\n';
+        let code = 'move_left()\n';
         return code;
     };
     Blockly.Python['move_right'] = function (block) {
-        let code = 'print("TOKEN:3dc5ed1f827e8c9a6392edb90af992d5");\n';
+        let code = 'move_right()\n';
+        return code;
+    };
+
+    // Pick Flowers
+    Blockly.Python['pick_1_flower'] = function (block) {
+        let code = 'pick_1_flower()\n';
         return code;
     };
 })();

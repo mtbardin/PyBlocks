@@ -19,9 +19,6 @@
     
 
 (function () {
-    // listen for the output of the code execution.
-    var socket = io();
-
     // https://github.com/mozdevs/gamedev-js-tiles/blob/gh-pages/square/layers.js
 
     // Asset loader
@@ -83,8 +80,6 @@
         return this._keys[keyCode];
     };
 
-    // https://nodejs.org/api/events.html#handling-events-only-once
-
     // Game object
     var Game = {};
 
@@ -98,8 +93,6 @@
         Promise.all(p).then(function (loaded) {
             this.init();
             //window.requestAnimationFrame(this.tick);
-            //let tmp = [-1]
-            //$(window).trigger('animate', tmp);
             this.ctx.clearRect(0, 0, 512, 512);
             this.update(1);
             this.render();
@@ -127,65 +120,57 @@
             Game.render();
         }
 
+        async function pick() {
+            await pause(100);
+            
+            $(window).trigger('pickOneFlower');
+        }
+
         async function walk() {
             // This loop needs to fully complete before it can repeat
             for (var move in moves) {
                 console.log(moves[move]);
-                // There are 4 steps to move each direction.
-                for (let i = 0; i < 4; i++) {
-                    await update(i, moves[move]);
+                if (moves[move] == "pickOneFlower") {
+                    await pick();
+                }
+                else {
+                    // There are 4 steps to move each direction.
+                    for (let i = 0; i < 4; i++) {
+                        await update(i, moves[move]);
+                    }
                 }
             }
         }
         
         walk();
-        /*const promises = [];
+    });
 
-        //for (var move in moves) {
-        //    console.log(moves[move]);
-        //}
+    $(window).on('pickOneFlower', function (event) {
+        // Right now just pick the flower below the character.
+        // In the future base it off the direction the character is facing.
+        console.log(Game.hero.x, Game.hero.y);
+        let curr_col = ((Game.hero.x - 32) / 64);
+        let curr_row = ((Game.hero.y - 32) / 64);
+        console.log("x: ", curr_col, "y: ", curr_row);
 
-        for (var move in moves) {
-            console.log("Starting Move");
+        // Update the Map 
+        let check_col = curr_col;
+        let check_row = curr_row + 1;
 
-            promises.push(
-                new Promise((resolve) => {
-                    var times_run = 0;
-                    let interval = setInterval(function () {
-                        console.log("animation frame: ", times_run);
+        let tile_to_check = map.getTile(1, check_col, check_row);
+        let tile_pos = check_row * map.cols + check_col;
 
-                        times_run++;
-                        if (times_run >= 4) {
-                            console.log("stoping walk");
-                            clearInterval(interval);
-                        }
+        if (tile_to_check == 6) { // flower with three blooms.
+            console.log("Picking Flower");
+            map.layers[1][tile_pos] = 7;
 
-                        $(window).trigger('autoPress', moves[move]);
-
-                        // clear previous frame
-                        Game.ctx.clearRect(0, 0, 512, 512);
-
-                        delta = 1;
-
-                        Game.update(delta);
-                        Game.render();
-                    }, 250);
-                    times_run = 0;
-                })
-            );
-        };
-        await Promise.all(promises).then(() => {
-            console.log("Animation Done");
-        });*/
-            /*)
-            for (let num_ani = 0; num_ani < 4; num_ani++) {
-                $(window).trigger('autoPress', moves[move]);
-                Game.ctx.clearRect(0, 0, 512, 512);
-                delta = 1;
-                Game.update(delta);
-                Game.render();
-            }*/
-        //}
+            // Update the game.
+            Game.ctx.clearRect(0, 0, 512, 512);
+            delta = 1;
+            Game.update(delta);
+            Game.render();
+        }
+        //console.log(map.layers);
     });
 
     Game.tick = function (elapsed) {
@@ -213,9 +198,18 @@
     };
 
     var map = {
+        // Map Size
         cols: 8,
         rows: 8,
+
+        // Texture Map Atlas Size. 
+        atlasCol: 5,
+        atalsRow: 2,
+
+        // Tile Size.
         tsize: 64,
+
+        // Map Layers.
         layers: [[
             3, 3, 3, 3, 3, 3, 3, 3,
             3, 1, 1, 1, 1, 1, 1, 3,
@@ -226,18 +220,20 @@
             3, 1, 1, 1, 2, 1, 1, 3,
             3, 3, 3, 1, 2, 3, 3, 3
         ], [
-            4, 3, 3, 3, 3, 3, 3, 4,
-            4, 0, 0, 0, 0, 0, 0, 4,
-            4, 0, 0, 0, 0, 0, 0, 4,
-            4, 0, 0, 5, 0, 0, 0, 4,
-            4, 0, 0, 0, 0, 0, 0, 4,
-            4, 0, 0, 0, 0, 0, 0, 4,
-            4, 4, 4, 0, 5, 4, 4, 4,
-            0, 3, 3, 0, 0, 3, 3, 3
+            0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 5, 0, 0, 0, 0,
+            0, 0, 6, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0,
+            0, 4, 4, 0, 5, 4, 4, 0,
+            0, 0, 0, 0, 0, 0, 0, 0
         ]],
+
         getTile: function (layer, col, row) {
             return this.layers[layer][row * map.cols + col];
         },
+
         isSolidTileAtXY: function (x, y) {
             var col = Math.floor(x / this.tsize);
             var row = Math.floor(y / this.tsize);
@@ -246,19 +242,23 @@
             // loop through all layers and return TRUE if any tile is solid
             return this.layers.reduce(function (res, layer, index) {
                 var tile = this.getTile(index, col, row);
-                var isSolid = tile === 3 || tile === 5;
+                var isSolid = tile === 3 || tile === 5 || tile === 6;
                 return res || isSolid;
             }.bind(this), false);
         },
+
         getCol: function (x) {
             return Math.floor(x / this.tsize);
         },
+
         getRow: function (y) {
             return Math.floor(y / this.tsize);
         },
+
         getX: function (col) {
             return col * this.tsize;
         },
+
         getY: function (row) {
             return row * this.tsize;
         }
@@ -395,7 +395,6 @@
         // handle hero movement with arrow keys
         var dirx = 0;
         var diry = 0;
-        //console.log(Keyboard);
         
         if (Keyboard.isDown(Keyboard.LEFT)) {
             dirx = -1;
@@ -436,11 +435,13 @@
                 var tile = map.getTile(layer, c, r);
                 var x = (c - startCol) * map.tsize + offsetX;
                 var y = (r - startRow) * map.tsize + offsetY;
+
                 if (tile !== 0) { // 0 => empty tile
+                    tile -= 1;
                     this.ctx.drawImage(
                         this.tileAtlas, // image
-                        (tile - 1) * map.tsize, // source x
-                        0, // source y
+                        (tile % map.atlasCol) * map.tsize, // source x
+                        Math.floor(tile / map.atlasCol) * map.tsize, // source y
                         map.tsize, // source width
                         map.tsize, // source height
                         Math.round(x),  // target x
