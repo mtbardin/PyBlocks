@@ -1,4 +1,6 @@
 from PyBlockFunctions import *
 
-move_down()
-pick_1_flower()
+rotate_left()
+rotate_left()
+rotate_left()
+rotate_left()

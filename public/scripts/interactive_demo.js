@@ -26,7 +26,12 @@
         "8b32429247158c80deab773f4e04e1c2", // MOVE_DOWN
         "d7aa835d76fc894935ade13f4d0624f8", // MOVE_LEFT
         "3dc5ed1f827e8c9a6392edb90af992d5", // MOVE_RIGHT
-        "2f5dd3953d07d78bcf39f1488f6982f9" // PICK_1_FLOWER
+
+        "17ac59a0d27b38c77bd02f3bcefd5728", // ROTATE_RIGHT
+        "5d167d235f5a8880ec432fc13206106f", // ROTATE_LEFT
+
+        "850b147aa1a7c75f7b4aaacac2d73407", // PICK_ONE_FLOWER
+        "bcb6233cf8f73f40e0e02531e4c1312a" //CHECK_FLOWER_COLOR
     ]);
 
     // make qS a shortcut for document.querySelector
@@ -44,6 +49,7 @@
     qS("#exe").addEventListener('click', function () {
         // clear the output form first.
         document.getElementById("output").innerHTML = "";
+        document.getElementById("cmdOut").innerHTML = "Commands Being Run: ";
 
         // get program from workspace.
         let code = "from PyBlockFunctions import *\n\n";
@@ -63,7 +69,19 @@
             console.log(response.status);
         });
     });
-    
+
+    $(window).on('successfulPick', function (event) {
+        $("#cmdOut").append("\nSuccessfully Picked the Flower.");
+    });
+    $(window).on('unsuccessfulPick', function (event) {
+        $("#cmdOut").append("\nUnsuccessfully Picked the Flower.");
+    });
+
+    $(window).on('sendColor', function (event, color) {
+        console.log("COLOR: ", color);
+        $("#cmdOut").append(`\nThe Flower is ${color}.`);
+    });
+
     socket.on('progOut', function (data) {
         // document.getElementById("output").innerHTML = data.output;
 
@@ -97,35 +115,55 @@
 
                 // MOVE_UP
                 if (token == "e397b4fa67c25cc1c9eae980cfdd43eb") {
-                    //code = 87;
-                    //moves.push(87);
                     moves[num_moves] = 87;
                     num_moves++;
+                    $("#cmdOut").append("\nMoved Up.");
                 }
                 // MOVE_DOWN
                 else if (token == "8b32429247158c80deab773f4e04e1c2") {
-                    //moves.push(83);
                     moves[num_moves] = 83;
                     num_moves++;
+                    $("#cmdOut").append("\nMoved Down.");
                 }
                 // MOVE_LEFT
                 else if (token == "d7aa835d76fc894935ade13f4d0624f8") {
-                    //moves.push(65);
                     moves[num_moves] = 65;
                     num_moves++;
+                    $("#cmdOut").append("\nMoved Left.");
                 }
                 // MOVE_RIGHT
                 else if (token == "3dc5ed1f827e8c9a6392edb90af992d5") {
-                    //moves.push(68);
                     moves[num_moves] = 68;
                     num_moves++;
+                    $("#cmdOut").append("\nMoved Right.");
+                }
+
+                // ROTATE_RIGHT
+                else if (token == "17ac59a0d27b38c77bd02f3bcefd5728") {
+                    moves[num_moves] = "rotateRight";
+                    num_moves++;
+                    $("#cmdOut").append("\nRotated Right.");
+                }
+                // ROTATE_LEFT
+                else if (token == "5d167d235f5a8880ec432fc13206106f") {
+                    moves[num_moves] = "rotateLeft";
+                    num_moves++;
+                    $("#cmdOut").append("\nRotated Left.");
                 }
 
                 // PICK_1_FLOWER
-                else if (token == "2f5dd3953d07d78bcf39f1488f6982f9") {
+                else if (token == "850b147aa1a7c75f7b4aaacac2d73407") {
                     //$(window).trigger('pickOneFlower');
                     moves[num_moves] = "pickOneFlower";
                     num_moves++;
+                    $("#cmdOut").append("\nTrying to Pick a Flower.");
+                }
+                // CHECK_FLOWER_COLOR
+                else if (token == "bcb6233cf8f73f40e0e02531e4c1312a") {
+                    //$(window).trigger('pickOneFlower');
+                    moves[num_moves] = "checkFlowerColor";
+                    num_moves++;
+                    $("#cmdOut").append("\nLooking at a Flower's Color.");
                 }
             }
             else {

@@ -10,7 +10,11 @@
  * TOKEN: d7aa835d76fc894935ade13f4d0624f8    // MOVE_LEFT
  * TOKEN: 3dc5ed1f827e8c9a6392edb90af992d5    // MOVE_RIGHT
  * 
- * TOKEN: 2f5dd3953d07d78bcf39f1488f6982f9    // PICK_1_FLOWER
+ * TOKEN: 17ac59a0d27b38c77bd02f3bcefd5728    // ROTATE_RIGHT
+ * TOKEN: 5d167d235f5a8880ec432fc13206106f    // ROTATE_LEFT
+ * 
+ * TOKEN: 850b147aa1a7c75f7b4aaacac2d73407    // PICK_ONE_FLOWER
+ * TOKEN: bcb6233cf8f73f40e0e02531e4c1312a    // CHECK_FLOWER_COLOR
  */
 
 (function () {
@@ -52,14 +56,43 @@
         "helpUrl": ""
     };
 
+    // Rotation JSON.
+    let rotateRightJson = {
+        "type": "rotate_right",
+        "message0": "Rotate to the Right",
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": 260,
+        "tooltip": "Rotate the Character Right",
+        "helpUrl": ""
+    };
+    let rotateLeftJson = {
+        "type": "rotate_left",
+        "message0": "Rotate to the Left",
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": 260,
+        "tooltip": "Rotate the Character Left",
+        "helpUrl": ""
+    };
+
     // Flower JSON.
     let pickOneFlowerJson = {
-        "type": "pick_1_flower",
+        "type": "pick_one_flower",
         "message0": "Pick One Flower",
         "previousStatement": null,
         "nextStatement": null,
         "colour": 230,
         "tooltip": "Pick a single flower infront of the character.",
+        "helpUrl": ""
+    };
+    let checkFlowerColorJson = {
+        "type": "check_flower_color",
+        "message0": "Check the color of a flower.",
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": 230,
+        "tooltip": "Check the color of the flower infront of the character.",
         "helpUrl": ""
     };
 
@@ -87,10 +120,27 @@
         }
     };
 
+    // Rotation Blocks
+    Blockly.Blocks['rotate_right'] = {
+        init: function () {
+            this.jsonInit(rotateRightJson);
+        }
+    };
+    Blockly.Blocks['rotate_left'] = {
+        init: function () {
+            this.jsonInit(rotateLeftJson);
+        }
+    };
+
     // Flower Blocks.
-    Blockly.Blocks['pick_1_flower'] = {
+    Blockly.Blocks['pick_one_flower'] = {
         init: function () {
             this.jsonInit(pickOneFlowerJson);
+        }
+    };
+    Blockly.Blocks['check_flower_color'] = {
+        init: function () {
+            this.jsonInit(checkFlowerColorJson);
         }
     };
 
@@ -114,9 +164,23 @@
         return code;
     };
 
+    // Rotation.
+    Blockly.Python['rotate_right'] = function (block) {
+        let code = 'rotate_right()\n';
+        return code;
+    };
+    Blockly.Python['rotate_left'] = function (block) {
+        let code = 'rotate_left()\n';
+        return code;
+    };
+
     // Pick Flowers
-    Blockly.Python['pick_1_flower'] = function (block) {
-        let code = 'pick_1_flower()\n';
+    Blockly.Python['pick_one_flower'] = function (block) {
+        let code = 'pick_one_flower()\n';
+        return code;
+    };
+    Blockly.Python['check_flower_color'] = function (block) {
+        let code = 'check_flower_color()\n';
         return code;
     };
 })();

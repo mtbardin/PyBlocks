@@ -57,9 +57,12 @@
                         <block type="move_down"></block>
                         <block type="move_left"></block>
                         <block type="move_right"></block>
+                        <block type="rotate_right"></block>
+                        <block type="rotate_left"></block>
                     </category>
                     <category name="Flower Blocks" colour="230">
-                        <block type="pick_1_flower"></block>
+                        <block type="pick_one_flower"></block>
+                        <block type="check_flower_color"></block>
                     </category>
                 </xml>
             </div>
@@ -84,15 +87,12 @@
             <button id="exe">Execute</button>
 
             <label for="ani"></label>
-            <button id="ani">Animate</button>
+            <button id="ani">R, R, D, D Animation</button>
         </div>
 
-        <div class="break" style="height: 100px;"></div>
-        <!--
-        <div class="announcementContainer">
-            <h2 id="announcement"></h2>
+        <div class="cmdOutContainer">
+            <pre id="cmdOut">Commands Being Run: </pre>
         </div>
-        -->
     </div>
 
     <script src="/scripts/interactive_demo.js"></script>
