@@ -110,17 +110,14 @@
 
         const pause = ms => new Promise(res => setTimeout(res, ms))
 
-        async function update(step, move) { // 3
+        async function update(step, move) {
             await pause(100);
             console.log("step: ", step);
             $(window).trigger('autoPress', move);
-            Game.ctx.clearRect(0, 0, 512, 512);
-            delta = 1;
-            Game.update(delta);
-            Game.render();
+            Game.tick();
         }
 
-        async function pick() {
+        async function pickFlower() {
             await pause(100);
             
             $(window).trigger('pickOneFlower');
@@ -131,7 +128,7 @@
             for (var move in moves) {
                 console.log(moves[move]);
                 if (moves[move] == "pickOneFlower") {
-                    await pick();
+                    await pickFlower();
                 }
                 else {
                     // There are 4 steps to move each direction.
@@ -144,6 +141,12 @@
         
         walk();
     });
+
+
+    // Make this handle the case for going from 3 > 2 > 1 > 0
+    // also handle other colors of flowers.
+
+    // Add a Check Color Block?
 
     $(window).on('pickOneFlower', function (event) {
         // Right now just pick the flower below the character.
@@ -158,33 +161,64 @@
         let check_row = curr_row + 1;
 
         let tile_to_check = map.getTile(1, check_col, check_row);
-        let tile_pos = check_row * map.cols + check_col;
+        let tile_pos_in_map = check_row * map.cols + check_col;
 
-        if (tile_to_check == 6) { // flower with three blooms.
+        // Flowers are tile numbers: 6,7,8; 11,12,13; 16,17,18; and 21,22,23
+        // tile number % num_rows == 1 for a single flower, 2 for two flowers, and 3 for three flowers.
+        // This works because in the atlas the flower series are on their own row and go in order.
+
+        const flowers = new Set([
+            6, 7, 8,    // Blue Flowers
+            11, 12, 13, // Red Flowers
+            16, 17, 18, // Orange Flowers
+            21, 22, 23  // Yellow Flowers
+        ]);
+
+        num_flowers = tile_to_check % atlas.rows;
+
+        // 1 for blue, 2 for red, 3 for orange, 4 for yellow.
+        color_of_flower = Math.floor(tile_to_check / atlas.rows);
+
+        // If picking a single flower replace it with an empty space.
+        if (num_flowers == 1 && flowers.has(tile_to_check)) { // flower with one bloom.
             console.log("Picking Flower");
-            map.layers[1][tile_pos] = 7;
+            map.layers[1][tile_pos_in_map] = 0;
 
             // Update the game.
-            Game.ctx.clearRect(0, 0, 512, 512);
-            delta = 1;
-            Game.update(delta);
-            Game.render();
+            Game.tick();
+
+            $(window).trigger('successfulPick');
+        }
+        else if ((num_flowers == 2 || num_flowers == 3) && flowers.has(tile_to_check)) { // flower with two or three blooms.
+            console.log("Picking Flower");
+            map.layers[1][tile_pos_in_map] -= 1;
+
+            // Update the game.
+            Game.tick();
+
+            $(window).trigger('successfulPick');
+        }
+
+        // There wasn't a flower to be picked so return an unsuccessful pick.
+        else {
+            $(window).trigger('unsuccessfulPick');
         }
         //console.log(map.layers);
     });
 
     Game.tick = function (elapsed) {
-        window.requestAnimationFrame(this.tick);
+        //window.requestAnimationFrame(this.tick);
 
         // clear previous frame
         this.ctx.clearRect(0, 0, 512, 512);
 
         // compute delta time in seconds -- also cap it
-        var delta = (elapsed - this._previousElapsed) / 1000.0;
-        delta = Math.min(delta, 0.25); // maximum delta of 250 ms
-        this._previousElapsed = elapsed;
+        //var delta = (elapsed - this._previousElapsed) / 1000.0;
+        //delta = Math.min(delta, 0.25); // maximum delta of 250 ms
+        //this._previousElapsed = elapsed;
 
-        // I added this
+        // I added this because I don't need a delta time variable
+        // Only ever moving one square at a time and timing isn't user controlled.
         delta = 1;
 
         this.update(delta);
@@ -197,14 +231,20 @@
         Game.run(context);
     };
 
+    // Store info about the Texture Map Atlas.
+    var atlas = {
+        // Texture Map Atlas Size. 
+        cols: 5,
+        rows: 5,
+
+        // Tile Size.
+        tsize: 64
+    };
+
     var map = {
         // Map Size
         cols: 8,
         rows: 8,
-
-        // Texture Map Atlas Size. 
-        atlasCol: 5,
-        atalsRow: 2,
 
         // Tile Size.
         tsize: 64,
@@ -222,11 +262,11 @@
         ], [
             0, 0, 0, 0, 0, 0, 0, 0,
             0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 18, 0,
             0, 0, 0, 5, 0, 0, 0, 0,
-            0, 0, 6, 0, 0, 0, 0, 0,
+            0, 0, 8, 0, 0, 11, 0, 0,
             0, 0, 0, 0, 0, 0, 0, 0,
-            0, 4, 4, 0, 5, 4, 4, 0,
+            0, 22, 0, 0, 5, 0, 0, 0,
             0, 0, 0, 0, 0, 0, 0, 0
         ]],
 
@@ -242,7 +282,7 @@
             // loop through all layers and return TRUE if any tile is solid
             return this.layers.reduce(function (res, layer, index) {
                 var tile = this.getTile(index, col, row);
-                var isSolid = tile === 3 || tile === 5 || tile === 6;
+                var isSolid = (tile === 3 || tile === 5 || tile === 6);
                 return res || isSolid;
             }.bind(this), false);
         },
@@ -320,6 +360,23 @@
     // changed from 256
     Hero.SPEED = 16; // pixels per animation
 
+    //https://dev.to/martyhimmel/moving-a-sprite-sheet-character-with-javascript-3adg
+    const FACING_DOWN = 0;
+    const FACING_UP = 1;
+    const FACING_LEFT = 2;
+    const FACING_RIGHT = 3;
+    let currentDirection = FACING_DOWN;
+    const SCALE = 1;
+    const WIDTH = 64;
+    const HEIGHT = 64;
+    const SCALED_WIDTH = SCALE * WIDTH;
+    const SCALED_HEIGHT = SCALE * HEIGHT;
+    function drawFrame(frameX, frameY, canvasX, canvasY) {
+        Game.ctx.drawImage(Game.hero.image,
+            frameY * WIDTH, frameX * HEIGHT, WIDTH, HEIGHT,
+            canvasX, canvasY, SCALED_WIDTH, SCALED_HEIGHT);
+    }
+
     Hero.prototype.move = function (delta, dirx, diry) {
         // move hero
         this.x += dirx * Hero.SPEED * delta;
@@ -373,7 +430,7 @@
     Game.load = function () {
         return [
             Loader.loadImage('tiles', 'assets/test_tiles.png'),
-            Loader.loadImage('hero', 'assets/character.png')
+            Loader.loadImage('hero', 'assets/plate_armor.png')
         ];
     };
 
@@ -440,8 +497,8 @@
                     tile -= 1;
                     this.ctx.drawImage(
                         this.tileAtlas, // image
-                        (tile % map.atlasCol) * map.tsize, // source x
-                        Math.floor(tile / map.atlasCol) * map.tsize, // source y
+                        (tile % atlas.cols) * map.tsize, // source x
+                        Math.floor(tile / atlas.cols) * map.tsize, // source y
                         map.tsize, // source width
                         map.tsize, // source height
                         Math.round(x),  // target x
@@ -481,10 +538,17 @@
         this._drawLayer(0);
 
         // draw main character
+        /*
         this.ctx.drawImage(
             this.hero.image,
             this.hero.screenX - this.hero.width / 2,
-            this.hero.screenY - this.hero.height / 2);
+            this.hero.screenY - this.hero.height / 2
+        );*/
+
+        // Rewrite the function and constants at lines 364-378 to be more like the first implementation.
+        // maybe make a drawHero() function. that would be nice. 
+        currentDirection = 3;
+        drawFrame(0, currentDirection, 2*64, 2*64);
 
         // draw map top layer
         this._drawLayer(1);

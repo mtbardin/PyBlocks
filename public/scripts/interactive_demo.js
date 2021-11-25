@@ -44,6 +44,7 @@
     qS("#exe").addEventListener('click', function () {
         // clear the output form first.
         document.getElementById("output").innerHTML = "";
+        document.getElementById("cmdOut").innerHTML = "Commands Being Run: ";
 
         // get program from workspace.
         let code = "from PyBlockFunctions import *\n\n";
@@ -63,7 +64,14 @@
             console.log(response.status);
         });
     });
-    
+
+    $(window).on('successfulPick', function (event) {
+        $("#cmdOut").append("\nSuccessfully Picked the Flower.");
+    });
+    $(window).on('unsuccessfulPick', function (event) {
+        $("#cmdOut").append("\nUnsuccessfully Picked the Flower.");
+    });
+
     socket.on('progOut', function (data) {
         // document.getElementById("output").innerHTML = data.output;
 
@@ -101,24 +109,28 @@
                     //moves.push(87);
                     moves[num_moves] = 87;
                     num_moves++;
+                    $("#cmdOut").append("\nMoved Up.");
                 }
                 // MOVE_DOWN
                 else if (token == "8b32429247158c80deab773f4e04e1c2") {
                     //moves.push(83);
                     moves[num_moves] = 83;
                     num_moves++;
+                    $("#cmdOut").append("\nMoved Down.");
                 }
                 // MOVE_LEFT
                 else if (token == "d7aa835d76fc894935ade13f4d0624f8") {
                     //moves.push(65);
                     moves[num_moves] = 65;
                     num_moves++;
+                    $("#cmdOut").append("\nMoved Left.");
                 }
                 // MOVE_RIGHT
                 else if (token == "3dc5ed1f827e8c9a6392edb90af992d5") {
                     //moves.push(68);
                     moves[num_moves] = 68;
                     num_moves++;
+                    $("#cmdOut").append("\nMoved Right.");
                 }
 
                 // PICK_1_FLOWER
@@ -126,6 +138,7 @@
                     //$(window).trigger('pickOneFlower');
                     moves[num_moves] = "pickOneFlower";
                     num_moves++;
+                    $("#cmdOut").append("\nTrying to Pick a Flower.");
                 }
             }
             else {
