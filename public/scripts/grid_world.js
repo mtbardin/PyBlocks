@@ -110,7 +110,7 @@
 
         const pause = ms => new Promise(res => setTimeout(res, ms))
 
-        async function update(step, move) {
+        async function updatePosition(step, move) {
             await pause(100);
             console.log("step: ", step);
             $(window).trigger('autoPress', move);
@@ -123,44 +123,171 @@
             $(window).trigger('pickOneFlower');
         }
 
+        async function checkFlowerColor() {
+            await pause(100);
+
+            $(window).trigger('checkFlowerColor');
+        }
+
+        async function rotateRight() {
+            await pause(100);
+
+            if (Game.hero.currentDirection == FACING_DOWN) {
+                Game.hero.currentDirection = FACING_RIGHT;
+            }
+            else if (Game.hero.currentDirection == FACING_LEFT) {
+                Game.hero.currentDirection = FACING_DOWN;
+            }
+            else if (Game.hero.currentDirection == FACING_RIGHT) {
+                Game.hero.currentDirection = FACING_UP;
+            }
+            else if (Game.hero.currentDirection == FACING_UP) {
+                Game.hero.currentDirection = FACING_LEFT;
+            }
+            else {
+                alert("Rotate Right Error: Invalid Character Direction");
+            }
+
+            Game.tick();
+        }
+
+        async function rotateLeft() {
+            await pause(100);
+
+            if (Game.hero.currentDirection == FACING_DOWN) {
+                Game.hero.currentDirection = FACING_LEFT;
+            }
+            else if (Game.hero.currentDirection == FACING_LEFT) {
+                Game.hero.currentDirection = FACING_UP;
+            }
+            else if (Game.hero.currentDirection == FACING_RIGHT) {
+                Game.hero.currentDirection = FACING_DOWN;
+            }
+            else if (Game.hero.currentDirection == FACING_UP) {
+                Game.hero.currentDirection = FACING_RIGHT;
+            }
+            else {
+                alert("Rotate Left Error: Invalid Character Direction");
+            }
+
+            Game.tick();
+        }
+
         async function walk() {
             // This loop needs to fully complete before it can repeat
             for (var move in moves) {
                 console.log(moves[move]);
+
+                // Flowers.
                 if (moves[move] == "pickOneFlower") {
                     await pickFlower();
                 }
-                else {
+                else if (moves[move] == "checkFlowerColor") {
+                    await checkFlowerColor();
+                }
+
+                    // Rotation.
+                else if (moves[move] == "rotateRight") {
+                    await rotateRight();
+                }
+                else if (moves[move] == "rotateLeft") {
+                    await rotateLeft();
+                }
+
+                // Movement.
+                else if (moves[move] == 65 || moves[move] == 68 || moves[move] == 83 || moves[move] == 87) {
                     // There are 4 steps to move each direction.
                     for (let i = 0; i < 4; i++) {
-                        await update(i, moves[move]);
+                        await updatePosition(i, moves[move]);
                     }
+                }
+                else {
+                    await pause(100);
+                    alert(`Error in Walk Function: Invalid Event ${moves[move]}.`);
                 }
             }
         }
-        
+
+        // Walk through the queue of events in the grid world.
         walk();
     });
 
-
-    // Make this handle the case for going from 3 > 2 > 1 > 0
-    // also handle other colors of flowers.
-
-    // Add a Check Color Block?
-
-    $(window).on('pickOneFlower', function (event) {
-        // Right now just pick the flower below the character.
-        // In the future base it off the direction the character is facing.
-        console.log(Game.hero.x, Game.hero.y);
+    function findSpaceInFront() {
+        // Get the current grid space the character is in.
+        //console.log(Game.hero.x, Game.hero.y);
         let curr_col = ((Game.hero.x - 32) / 64);
         let curr_row = ((Game.hero.y - 32) / 64);
-        console.log("x: ", curr_col, "y: ", curr_row);
+        //console.log("x: ", curr_col, "y: ", curr_row);
 
-        // Update the Map 
-        let check_col = curr_col;
-        let check_row = curr_row + 1;
+        // Find the space in front of the character to check. 
+        let check_col = -1;
+        let check_row = -1;
+        if (Game.hero.currentDirection == FACING_DOWN) {
+            check_col = curr_col;
+            check_row = curr_row + 1;
+        }
+        else if (Game.hero.currentDirection == FACING_LEFT) {
+            check_col = curr_col - 1;
+            check_row = curr_row;
+        }
+        else if (Game.hero.currentDirection == FACING_RIGHT) {
+            check_col = curr_col + 1;
+            check_row = curr_row;
+        }
+        else if (Game.hero.currentDirection == FACING_UP) {
+            check_col = curr_col;
+            check_row = curr_row - 1;
+        }
+        else {
+            alert("Pick One Flower Error: Invalid Character Direction");
+        }
+        if (check_col <= -1 && check_row <= -1) {
+            alert("Pick One Flower Error: Invalid Space to Check");
+        }
 
-        let tile_to_check = map.getTile(1, check_col, check_row);
+        return [check_col, check_row];
+    }
+
+    // Add a Check Color Block?
+    $(window).on('checkFlowerColor', function (event) {
+        let coords = findSpaceInFront();
+        let check_col = coords[0];
+        let check_row = coords[1];
+
+        let tile_value_to_check = map.getTile(1, check_col, check_row);
+
+        // rows 1 for blue, 2 for red, 3 for orange, 4 for yellow.
+        // columns need to be between 1 and 3.
+        let row_of_flower = Math.floor(tile_value_to_check / atlas.rows);
+        let col_of_flower = tile_value_to_check % atlas.cols;
+
+        // Get name of color from position in the texture atlas.
+        let color = "Not A Flower";
+        if (row_of_flower == 1 && 1 <= col_of_flower && col_of_flower <= 3) {
+            color = "Blue";
+        }
+        else if (row_of_flower == 2 && 1 <= col_of_flower && col_of_flower <= 3) {
+            color = "Red";
+        }
+        else if (row_of_flower == 3 && 1 <= col_of_flower && col_of_flower <= 3) {
+            color = "Orange";
+        }
+        else if (row_of_flower == 4 && 1 <= col_of_flower && col_of_flower <= 3) {
+            color = "Yellow";
+        }
+
+        //return color;
+        $(window).trigger('sendColor', color);
+    });
+
+
+    $(window).on('pickOneFlower', function (event) {
+        // Pick the flower infront of the character..
+        let coords = findSpaceInFront();
+        let check_col = coords[0];
+        let check_row = coords[1];
+
+        let tile_value_to_check = map.getTile(1, check_col, check_row);
         let tile_pos_in_map = check_row * map.cols + check_col;
 
         // Flowers are tile numbers: 6,7,8; 11,12,13; 16,17,18; and 21,22,23
@@ -174,13 +301,13 @@
             21, 22, 23  // Yellow Flowers
         ]);
 
-        num_flowers = tile_to_check % atlas.rows;
+        num_flowers = tile_value_to_check % atlas.rows;
 
         // 1 for blue, 2 for red, 3 for orange, 4 for yellow.
-        color_of_flower = Math.floor(tile_to_check / atlas.rows);
+        // color_of_flower = Math.floor(tile_value_to_check / atlas.rows);
 
         // If picking a single flower replace it with an empty space.
-        if (num_flowers == 1 && flowers.has(tile_to_check)) { // flower with one bloom.
+        if (num_flowers == 1 && flowers.has(tile_value_to_check)) { // flower with one bloom.
             console.log("Picking Flower");
             map.layers[1][tile_pos_in_map] = 0;
 
@@ -189,7 +316,7 @@
 
             $(window).trigger('successfulPick');
         }
-        else if ((num_flowers == 2 || num_flowers == 3) && flowers.has(tile_to_check)) { // flower with two or three blooms.
+        else if ((num_flowers == 2 || num_flowers == 3) && flowers.has(tile_value_to_check)) { // flower with two or three blooms.
             console.log("Picking Flower");
             map.layers[1][tile_pos_in_map] -= 1;
 
@@ -282,8 +409,9 @@
             // loop through all layers and return TRUE if any tile is solid
             return this.layers.reduce(function (res, layer, index) {
                 var tile = this.getTile(index, col, row);
-                var isSolid = (tile === 3 || tile === 5 || tile === 6);
-                return res || isSolid;
+                //var isSolid = (tile === 3 || tile === 5 || tile === 6);
+                var isntSolid = !(tile === 0 || tile === 1 || tile === 2);
+                return res || isntSolid;
             }.bind(this), false);
         },
 
@@ -354,6 +482,8 @@
         this.width = map.tsize;
         this.height = map.tsize;
 
+        this.currentDirection = 0;
+
         this.image = Loader.getImage('hero');
     }
 
@@ -362,20 +492,23 @@
 
     //https://dev.to/martyhimmel/moving-a-sprite-sheet-character-with-javascript-3adg
     const FACING_DOWN = 0;
-    const FACING_UP = 1;
-    const FACING_LEFT = 2;
-    const FACING_RIGHT = 3;
-    let currentDirection = FACING_DOWN;
-    const SCALE = 1;
-    const WIDTH = 64;
-    const HEIGHT = 64;
-    const SCALED_WIDTH = SCALE * WIDTH;
-    const SCALED_HEIGHT = SCALE * HEIGHT;
-    function drawFrame(frameX, frameY, canvasX, canvasY) {
+    const FACING_LEFT = 1;
+    const FACING_RIGHT = 2;
+    const FACING_UP = 3;
+    //let currentDirection = FACING_DOWN;
+
+    Hero.prototype.draw = function (frameX, frameY, canvasX, canvasY) {
         Game.ctx.drawImage(Game.hero.image,
-            frameY * WIDTH, frameX * HEIGHT, WIDTH, HEIGHT,
-            canvasX, canvasY, SCALED_WIDTH, SCALED_HEIGHT);
-    }
+            frameY * map.tsize,
+            frameX * map.tsize,
+            map.tsize,
+            map.tsize,
+            canvasX,
+            canvasY,
+            map.tsize,
+            map.tsize
+        );
+    };
 
     Hero.prototype.move = function (delta, dirx, diry) {
         // move hero
@@ -455,18 +588,22 @@
         
         if (Keyboard.isDown(Keyboard.LEFT)) {
             dirx = -1;
+            this.hero.currentDirection = FACING_LEFT;
             Keyboard._keys[65] = false;
         }
         else if (Keyboard.isDown(Keyboard.RIGHT)) {
             dirx = 1;
+            this.hero.currentDirection = FACING_RIGHT;
             Keyboard._keys[68] = false;
         }
         else if (Keyboard.isDown(Keyboard.UP)) {
             diry = -1;
+            this.hero.currentDirection = FACING_UP;
             Keyboard._keys[87] = false;
         }
         else if (Keyboard.isDown(Keyboard.DOWN)) {
             diry = 1;
+            this.hero.currentDirection = FACING_DOWN;
             Keyboard._keys[83] = false;
         }
         else if (Keyboard.isDown(Keyboard.NULL)) {
@@ -547,8 +684,8 @@
 
         // Rewrite the function and constants at lines 364-378 to be more like the first implementation.
         // maybe make a drawHero() function. that would be nice. 
-        currentDirection = 3;
-        drawFrame(0, currentDirection, 2*64, 2*64);
+        //currentDirection = 0;
+        this.hero.draw(0, this.hero.currentDirection, this.hero.screenX - this.hero.width / 2, this.hero.screenY - this.hero.width / 2);
 
         // draw map top layer
         this._drawLayer(1);

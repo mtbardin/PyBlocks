@@ -1,3 +1,6 @@
 from PyBlockFunctions import *
 
-move_down()
+rotate_left()
+rotate_left()
+rotate_left()
+rotate_left()
