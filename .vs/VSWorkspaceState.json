@@ -1,6 +1,7 @@
 {
   "ExpandedNodes": [
     "",
+    "\\assets",
     "\\public",
     "\\public\\code",
     "\\public\\css",
@@ -8,6 +9,6 @@
     "\\views",
     "\\views\\tutorials"
   ],
-  "SelectedNode": "\\public\\scripts\\interactive_demo.js",
+  "SelectedNode": "\\public\\code\\PyBlockFunctions.py",
   "PreviewInSolutionExplorer": false
 }

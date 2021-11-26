@@ -1,13 +1,16 @@
 "use strict";
 const express = require("express");
+//use the application off of express.
+let app = express();
 
 const path = require('path');
 const fs = require('fs');
 
 const baseDir = 'public';
+app.use(express.static(baseDir));
 
-//use the application off of express.
-let app = express();
+const server = require('http').createServer(app);
+const io = require('socket.io')(server);
 
 app.use(express.json());
 app.use(express.urlencoded({
@@ -17,42 +20,42 @@ app.use(express.urlencoded({
 // Manually create a route for the blockly library in node_modules.
 app.use('/scripts', express.static(__dirname + '/node_modules/blockly/'));
 
-//define the route for "/"
+// Manually create a route for the assets.
+app.use('/assets', express.static('assets'));
+
+// define the route for "/"
  app.get("/", function (request, response){
     //show this file when the "/" is requested
     response.sendFile(__dirname+"/views/home_page.html");
  });
 
-//define the route for "/coding_page"
+// define the route for "/coding_page"
 app.get("/coding_page.html", function (request, response) {
-    //show this file when the "/" is requested
     response.sendFile(__dirname + "/views/coding_page.html");
 });
 
-//define the route for "/base_tutorial"
+// define the route for "/base_tutorial"
 app.get("/basics_tutorial", function (request, response) {
-    //show this file when the "/" is requested
     response.sendFile(__dirname + "/views/tutorials/basics_tutorial.html");
 });
 
 // Temporarily define the route for "/interactive_demo"
 // accessed by the TBD section.
 app.get("/interactive_tutorial", function (request, response) {
-    //show this file when the "/" is requested
     response.sendFile(__dirname + "/views/tutorials/interactive_tutorial.html");
 });
 
-//define the route for "/Branching"
+// define the route for "/Branching"
 app.get("/Branching", function (request, response) {
-    //show this file when the "/" is requested
     response.sendFile(__dirname + "/views/tutorials/tut_branching.html");
 });
 
-app.use(express.static(baseDir));
+// define the route for "/xml_craft"
+app.get("/xml_craft", function (request, response) {
+    response.sendFile(__dirname + "/views/xml_craft.html");
+});
 
-const server = require('http').createServer(app);
-const io = require('socket.io')(server);
-
+// Socket.IO code.
 io.on('connection', function (socket) {
     //console.log("connected");
 

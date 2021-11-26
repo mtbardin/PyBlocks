@@ -1,7 +1,6 @@
-X = None
+from PyBlockFunctions import *
 
-
-X = 15
-
-if X <= 14:
-  print('You did it! Congratulations!')
+rotate_left()
+rotate_left()
+rotate_left()
+rotate_left()
