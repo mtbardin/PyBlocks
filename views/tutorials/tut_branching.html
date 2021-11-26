@@ -33,23 +33,21 @@
 </head>
 
 <body style="background-color:paleGoldenRod">
-    <div class="topright">
-        <button type="button" id="back_home_button" onclick="document.location='/'">
-		Back Home</button>
-    </div>
 	<div class="tab">
 		<button class="tablinks" onclick="openTab(event, 'GenKnow')" id="defaultOpen">General Knowledge</button>
 		<button class="tablinks" onclick="openTab(event, 'SinBran')">1 Branch</button>
 		<button class="tablinks" onclick="openTab(event, 'TwoBran')">2 Branches</button>
 		<button class="tablinks" onclick="openTab(event, 'ThrBran')">3+ Branches</button>
 		<button class="tablinks" onclick="openTab(event, 'MultAct')">Multiple Actions</button>
+		<button class="tablinks" onclick="document.location='/'" id="back_home_button">Back Home</button>
 	</div>
 	
-	<h1 style="font-size:40px">
+	<h1 style="font-size:40px; margin:0 auto;">
 	Branching</h1>
 	
 	<!--General Knowledge-->
 	<div id="GenKnow" class="tabcontent">
+	
 		<h2 style="font-size:35px">
 		General Knowledge</h2>
 		<img src="/images/tutorials/IMG_BranchingUsage.png" alt="General Knowledge Example">
@@ -57,7 +55,7 @@
 		<h3 style="font-size:26px">
 		Why should you need to know this?</h3>
 
-		<p style="background-color:powderblue;font-size:19px;width:40%"class="tutTextBorder">
+		<p style="background-color:powderblue;font-size:19px;width:500px"class="tutTextBorder">
 		Normally, a computer will do everything you tell it to, one by one.<br><br>
 		Let's say you don't want this. For an example, if there are two branches of a path in front of you.<br><br>
 		One branch has a sign warning you of bears. The other branch has a sign saying "This is the way back."<br><br>
@@ -68,7 +66,7 @@
 		<h3 style="font-size:26px">
 		What actually is this?</h3>
 
-		<p style="background-color:powderblue;font-size:19px;width:40%"class="tutTextBorder">
+		<p style="background-color:powderblue;font-size:19px;width:500px"class="tutTextBorder">
 		Branching is the most basic way to begin more complicated programming. 
 		For this tutorial, we'll focus on if-else blocks. There are three options for you.<br><br>
 		"If" is followed by a equation, like the variable 'X' being greater than some number.<br><br>
@@ -79,7 +77,7 @@
 		<h3 style="font-size:26px">
 		How are you supposed to set this up and use it?</h3>
 
-		<p style="background-color:powderblue;font-size:19px;width:40%"class="tutTextBorder">
+		<p style="background-color:powderblue;font-size:19px;width:500px"class="tutTextBorder">
 		The block system has a if-else block set up and ready to go.<br><br>
 		Just drag is onto the working field, and start making your branches.<br><br>
 		The little cog symbol in the top left of the block opens a small menu, which lets you add more if you want to. Not sure why you would? Keep on reading!<br>
@@ -120,11 +118,7 @@
 			</div>
 
 		</div>
-		<div class="botright" >
-			<button class="tablinks" onclick="openTab(event, 'SinBran')">
-				Next Section
-			</button>
-		</div>
+		<button class="tabnextLink"onclick="openTab(event, 'SinBran')">Next Section</button>
 	</div>
 		
 	<!--Single Branch-->
@@ -135,7 +129,7 @@
 		
 		<h3 style="font-size:26px">
 		Why should you need to know this?</h3>
-		<p style="background-color:powderblue;font-size:19px;width:40%"class="tutTextBorder">
+		<p style="background-color:powderblue;font-size:19px;width:500px"class="tutTextBorder">
 		In case you every want to do something small, of course!<br><br>
 		Let's say you want to tell someone to pick up yellow flowers as they walk around.<br><br>
 		This is how you would do that. You'll learn how to make them walk around later, but once they are...<br>
@@ -144,7 +138,7 @@
 		
 		<h3 style="font-size:26px">
 		What actually is this?</h3>
-		<p style="background-color:powderblue;font-size:19px;width:40%"class="tutTextBorder">
+		<p style="background-color:powderblue;font-size:19px;width:500px"class="tutTextBorder">
 		The absolute most basic form of branching. A very simple "if" check. <br><br>
 		No "elses", no "else-if's", nothing to complicate it.<br><br>
 		Just a simple "if this thing is true, act like this, and then move on."<br>
@@ -152,7 +146,7 @@
 		
 		<h3 style="font-size:26px">
 		How are you supposed to set this up and use it?</h3>
-		<p style="background-color:powderblue;font-size:19px;width:40%"class="tutTextBorder">
+		<p style="background-color:powderblue;font-size:19px;width:500px"class="tutTextBorder">
 		Just use the block you already know, and add no other bits to it.<br><br>
 		It really is just that simple.<br>
 		</p>
@@ -192,11 +186,7 @@
 			</div>
 
 		</div>
-		<div class="botright" >
-			<button class="tablinks" onclick="openTab(event, 'TwoBran')">
-				Next Section
-			</button>
-		</div>
+		<button class="tabnextLink"onclick="openTab(event, 'TwoBran')">Next Section</button>
 	</div>
 		
 	<!--Two Branches-->
@@ -207,7 +197,7 @@
 		
 		<h3 style="font-size:26px">
 		Why should you need to know this?</h3>
-		<p style="background-color:powderblue;font-size:19px;width:40%"class="tutTextBorder">
+		<p style="background-color:powderblue;font-size:19px;width:500px"class="tutTextBorder">
 		This lets you begin moving into more complicated stuff.<br><br>
 		If you're walking around and like the look of some flowers, you might want to take some home.<br><br>
 		Well, the white flowers are a little boring looking, while the red flowers are great.<br><br>
@@ -216,7 +206,7 @@
 		
 		<h3 style="font-size:26px">
 		What actually is this?</h3>
-		<p style="background-color:powderblue;font-size:19px;width:40%"class="tutTextBorder">
+		<p style="background-color:powderblue;font-size:19px;width:500px"class="tutTextBorder">
 		This can actually take two different forms, and really depends on what you want to do.<br><br>
 		The first is still very basic, the "if-else".<br><br>
 		All this does is say "If this statement is true, do this thing. If it isn't true, do this other thing." Simple.<br><br>
@@ -228,17 +218,13 @@
 		
 		<h3 style="font-size:26px">
 		How are you supposed to set this up and use it?</h3>
-		<p style="background-color:powderblue;font-size:19px;width:40%"class="tutTextBorder">
+		<p style="background-color:powderblue;font-size:19px;width:500px"class="tutTextBorder">
 		First, choose which type you want. "If-else", or "If-elseif".<br><br>
 		Either way, you'll want to click on the little cogwheel in the top left of the "if" block.<br><br>
 		Then, drag either the "else" or "else-if" blocks onto the main "if" block, just like other blocks.<br><br>
 		Then, fill in the blocks with whatever things you want to run.
 		</p>
-		<div class="botright" >
-			<button class="tablinks" onclick="openTab(event, 'ThrBran')">
-				Next Section
-			</button>
-		</div>
+		<button class="tabnextLink"onclick="openTab(event, 'ThrBran')">Next Section</button>
 	</div>
 		
 	<!--Three+ branches-->
@@ -249,7 +235,7 @@
 		
 		<h3 style="font-size:26px">
 		Why should you need to know this?</h3>
-		<p style="background-color:powderblue;font-size:19px;width:40%"class="tutTextBorder">
+		<p style="background-color:powderblue;font-size:19px;width:500px"class="tutTextBorder">
 		This lets you set up the most complicated and interesting options.
 		Here's an example: What would a lemonade stand owner want to do each day.<br><br>
 		If they're out of lemonade, they should order more, right?<br><br>
@@ -259,7 +245,7 @@
 		
 		<h3 style="font-size:26px">
 		What actually is this?</h3>
-		<p style="background-color:powderblue;font-size:19px;width:40%"class="tutTextBorder">
+		<p style="background-color:powderblue;font-size:19px;width:500px"class="tutTextBorder">
 		The most complex form of branching, technically going as high as you care to set up.<br><br>
 		It combines all three possible options. "If", "Else-If", and "Else".<br><br>
 		This means you can check the first equation, then the second one, and if neither are true, do something else.<br><br>
@@ -270,15 +256,11 @@
 		
 		<h3 style="font-size:26px">
 		How are you supposed to set this up and use it?</h3>
-		<p style="background-color:powderblue;font-size:19px;width:40%"class="tutTextBorder">
+		<p style="background-color:powderblue;font-size:19px;width:500px"class="tutTextBorder">
 		Once again, we go to our trusty little corner cog.<br><br>
 		Add as many "else-if" blocks as you like, and add the "else" block if you want to.<br><br>
 		</p>
-		<div class="botright" >
-			<button class="tablinks" onclick="openTab(event, 'MultAct')">
-				Next Section
-			</button>
-		</div>
+		<button class="tabnextLink"onclick="openTab(event, 'MultAct')">Next Section</button>
 	</div>
 		
 	<!--Multiple Actions per Branch-->
@@ -289,7 +271,7 @@
 		
 		<h3 style="font-size:26px">
 		Why should you need to know this?</h3>
-		<p style="background-color:powderblue;font-size:19px;width:40%"class="tutTextBorder">
+		<p style="background-color:powderblue;font-size:19px;width:500px"class="tutTextBorder">
 		Well, in case you want to do multiple things in any branch of course!<br><br>
 		Going back to the bear example. If you for some reason want your robot to fight a bear, it would be better served by bringing out some anti-bear spray.<br><br>
 		So you'd have your robot go down the bear path, and bring out their anti-bear spray.<br><br>
@@ -298,7 +280,7 @@
 		
 		<h3 style="font-size:26px">
 		What actually is this?</h3>
-		<p style="background-color:powderblue;font-size:19px;width:40%"class="tutTextBorder">
+		<p style="background-color:powderblue;font-size:19px;width:500px"class="tutTextBorder">
 		Instead of having a single instruction for each branch, try fitting in more than one.<br><br>
 		This is how you get the most out of each branch.<br><br>
 		Doing multiple things might mean some branches get larger than others, but that just means they can hold heavier fruit!<br><br>
@@ -306,7 +288,7 @@
 		
 		<h3 style="font-size:26px">
 		How are you supposed to set this up and use it?</h3>
-		<p style="background-color:powderblue;font-size:19px;width:40%"class="tutTextBorder">
+		<p style="background-color:powderblue;font-size:19px;width:500px"class="tutTextBorder">
 		Luckily for you, the blocks handle this perfectly!<br><br>
 		If you just drag multiple blocks into the right area, they should all slot right in!<br><br>
 		</p>

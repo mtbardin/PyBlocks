@@ -63,18 +63,15 @@ body {
 }
 
 /*For button alignment*/
-.topright {
-  position: absolute;
-  top: 8px;
+.homebutton {
+  position: relative;
   right: 16px;
   font-size: 18px;
 }
 
-.botright {
-  position: absolute;
-  top: 30px;
-  right: 16px;
-  font-size: 18px;
+.nextbutton {
+  position: relative;
+  right: 48px;
 }
 
 /*For making the tabs work*/
@@ -103,4 +100,20 @@ body {
 
 .tabcontent {
   padding: 6px 12px;
+  position: absolute;
+  width: 1500px;
+  left:20%
+}
+
+.tabnextLink {
+	overflow: hidden;
+	background-color: #f1f1f1;
+	cursor: pointer;
+	border: 1px solid #ccc;
+	padding: 14px 16px;
+	transition: 0.3s;
+	font-size: 17px;
+	position: relative;
+	bottom: 50px;
+	left: 500px
 }
