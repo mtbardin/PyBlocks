@@ -31,11 +31,11 @@
         <!-- Grid World Container -->
         <div class="inline-block-child" style="width: 600px; height: 600px;">
             <h2 class="inline-block-child" style="margin-bottom: 0px;">Grid World</h2>
-            
+
             <canvas id="gridWorld" style="width: 512px; height: 512px;"></canvas>
         </div>
-        
-        <div class="inline-block-child" style="width: 600px; height: 400px;">
+
+        <div class="inline-block-child" style="width: 800px; height: 400px;">
             <!-- List for all blocks -->
             <h2 class="inline-block-child" style="margin-bottom: 0px;">Block Section:</h2>
             <p> Try and print the string "Hello World!" </p>
@@ -52,23 +52,52 @@
                             </value>
                         </block>
                     </category>
-					<category name="Misc" colour="240">
-						<block type="controls_if"></block>
+                    <category name="Misc" colour="240">
+                        <block type="controls_if"></block>
 
-						<block type="logic_compare"></block>
-						<block type="logic_operation"></block>
-						<block type="logic_negate"></block>
-						<block type="logic_boolean"></block>
+                        <block type="logic_compare"></block>
+                        <block type="logic_operation"></block>
+                        <block type="logic_negate"></block>
+                        <block type="logic_boolean"></block>
 
-						<block type="math_number"></block>
-						<block type="math_arithmetic"></block>
+                        <block type="math_number"></block>
+                        <block type="math_arithmetic"></block>
 
-						<block type="text"></block>
-						<block type="text_print"></block>
+                        <block type="text"></block>
+                        <block type="text_print"></block>
 
-						<block type="variables_get"></block>
-						<block type="variables_set"></block>
-					</category>
+                        <block type="variables_get"></block>
+                        <block type="variables_set"></block>
+                    </category>
+                    <category name="Looping" colour="180">
+                        <block type="controls_repeat_ext">
+                            <value name="TIMES">
+                                <shadow type="math_number">
+                                    <field name="NUM">10</field>
+                                </shadow>
+                            </value>
+                        </block>
+                        <block type="controls_whileUntil"></block>
+                        <block type="controls_for">
+                            <value name="FROM">
+                                <shadow type="math_number">
+                                    <field name="NUM">1</field>
+                                </shadow>
+                            </value>
+                            <value name="TO">
+                                <shadow type="math_number">
+                                    <field name="NUM">10</field>
+                                </shadow>
+                            </value>
+                            <value name="BY">
+                                <shadow type="math_number">
+                                    <field name="NUM">1</field>
+                                </shadow>
+                            </value>
+                        </block>
+                        <block type="controls_forEach"></block>
+                        <block type="controls_flow_statements"></block>
+                    </category>
                     <category name="Movement" colour="260">
                         <block type="move_up"></block>
                         <block type="move_down"></block>
@@ -86,8 +115,8 @@
             </div>
         </div>
 
-        <div class="inline-block-child" style="width: 600px; height: 400px;">
-            <h2 style="margin-bottom: 50px;">Printed Output:</h2>
+        <div class="inline-block-child" style="width: 400px; height: 400px;">
+            <h2 style="margin-bottom: 50px;">Program Output:</h2>
             <!-- area for executed output to be displayed -->
             <div class="outputContainer">
                 <pre id="output" style="margin-left: 5px; font-family: Consolas, 'Lucida Console'; font-size: 14px; white-space: pre-wrap;"></pre>
@@ -110,6 +139,21 @@
 
         <div class="cmdOutContainer">
             <pre id="cmdOut">Commands Being Run: </pre>
+        </div>
+
+        <!-- Save and Load Workspace-->
+        <div class="inline-block-child" style="margin-left: 100px;">
+            <h1>Save and Load Workspace</h1>
+            <label for="userid">User Id (will be set in the backend next milestone): </label>
+            <input type="text" id="userid"  value="UserID1"/>
+
+            <label for="saveWorkspaceName">Save As: </label>
+            <input type="text" id="saveWorkspaceName" value="1"/>
+            <button id="saveWorkspace">Save Workspace</button>
+
+            <label for="useloadWorkspaceNamerid">Load: </label>
+            <input type="text" id="loadWorkspaceName" value="1"/>
+            <button id="loadWorkspace">Load Workspace</button>
         </div>
     </div>
 
