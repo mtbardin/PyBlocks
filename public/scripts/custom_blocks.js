@@ -89,10 +89,17 @@
     let checkFlowerColorJson = {
         "type": "check_flower_color",
         "message0": "Check the color of a flower.",
-        "previousStatement": null,
-        "nextStatement": null,
+		"output":"String",
         "colour": 230,
         "tooltip": "Check the color of the flower infront of the character.",
+        "helpUrl": ""
+    };
+    let checkFacingFlowerJson = {
+        "type": "check_facing_flower",
+        "message0": "Check if you are facing a flower.",
+		"output": "Boolean",
+        "colour": 230,
+        "tooltip": "Check if there exists a flower in front of the character.",
         "helpUrl": ""
     };
 
@@ -143,6 +150,11 @@
             this.jsonInit(checkFlowerColorJson);
         }
     };
+    Blockly.Blocks['check_facing_flower'] = {
+        init: function () {
+            this.jsonInit(checkFacingFlowerJson);
+        }
+    };
 
 
 
@@ -181,6 +193,10 @@
     };
     Blockly.Python['check_flower_color'] = function (block) {
         let code = 'check_flower_color()\n';
+        return code;
+    };
+    Blockly.Python['check_facing_flower'] = function (block) {
+        let code = 'check_facing_flower()\n';
         return code;
     };
 })();
