@@ -4,6 +4,13 @@
         scrollbars: false,
     });
 
+    // Tried to make it so the toolblox wouldn't close after a drag but there is some 
+    // strange interactions with deletion of blocks when dragged into the toolbox even when its closed.
+    // maybe make it so can only delete via trashcan if we want to always keep toolbox open
+    // also will need a much bigger space b/c some categories are very big to leave open.
+
+    //Blockly.Flyout.prototype.autoClose = false;
+
     // Starts the Workspace with a Print Block inside it.
     // this block can't be deleted.
     /*
@@ -15,6 +22,54 @@
     dom = Blockly.Xml.textToDom(xmlContent);
     Blockly.Xml.domToWorkspace(dom, workspace);
     */
+})();
+
+(function () {
+    // listen for the output of the code execution.
+    var socket = io();
+
+    // make qS a shortcut for document.querySelector
+    const qS = document.querySelector.bind(document);
+
+    // Listen for save request.
+    qS("#saveWorkspace").addEventListener('click', function () {
+        // Do more sanitization on the file name but fine for now.
+        let fileName = document.getElementById("saveWorkspaceName").value;
+        
+        let checkFileName = fileName.split('.');
+        if (checkFileName.length > 2) {
+            return
+        }
+        else if (checkFileName[1] != "xml") {
+            fileName += ".xml";
+        }
+        
+        let userID = document.getElementById("userid").value;
+
+        let code = Blockly.Xml.workspaceToDom(Blockly.getMainWorkspace());
+        code = Blockly.Xml.domToText(code);
+
+        socket.emit('saveWorkspace', userID, fileName, code, (response) => {
+            console.log(response.status);
+        });
+    });
+
+    // Listen for load request.
+    qS("#loadWorkspace").addEventListener('click', function () {
+        let userID = document.getElementById("userid").value;
+        let filePath = "/user_workspaces/" + userID + "/" + document.getElementById("loadWorkspaceName").value + ".xml";
+
+        socket.emit('loadWorkspace', filePath, (response) => {
+            console.log(response.status);
+        });
+    });
+
+    socket.on('loadWorkspaceData', (data) => {
+        let workspace = Blockly.getMainWorkspace();
+        workspace.clear();
+        Blockly.Xml.domToWorkspace(Blockly.Xml.textToDom(data), workspace);
+    });
+    //$(window).on('', function (event) { });
 })();
 
 (function () {

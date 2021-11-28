@@ -105,6 +105,45 @@ io.on('connection', function (socket) {
             status: "File Executed."
         });
     });
+
+    // Save Workspace Server Side Code.
+    socket.on('saveWorkspace', (userID, fileName, code, callback) => {
+        var codePath = "/user_workspaces/" + userID;
+        //console.log(path.join(baseDir, codePath));
+
+        if (!fs.existsSync(path.join(baseDir, codePath))) {
+            fs.mkdir(path.join(baseDir, codePath), { recursive: true }, (err) => {
+                if (err) throw err;
+            });
+        }  
+
+        codePath += "/" + fileName + "/";
+        console.log("Saving:", codePath);
+
+        fs.writeFile(path.join(baseDir, codePath), code, function (err) {
+            if (err) throw err;
+        });
+
+        callback({
+            status: "Workspace Saved."
+        });
+    });
+
+    // Load Workspace Server Side Code.
+    socket.on('loadWorkspace', (filePath, callback) => {
+        console.log("Loading:", filePath);
+
+        fs.readFile(path.join(baseDir, filePath), function (err, data) {
+            if (err) throw err;
+
+            socket.emit('loadWorkspaceData', data.toString());
+        });
+
+        callback({
+            status: "Workspace Loaded."
+        });
+    });
+
 });
 
 // Start the server at localhost and port 8000.
