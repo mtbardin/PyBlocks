@@ -50,6 +50,11 @@ app.get("/Branching", function (request, response) {
     response.sendFile(__dirname + "/views/tutorials/tut_branching.html");
 });
 
+// define the route for "/Looping"
+app.get("/Looping", function (request, response) {
+    response.sendFile(__dirname + "/views/tutorials/tut_looping.html");
+});
+
 // define the route for "/xml_craft"
 app.get("/xml_craft", function (request, response) {
     response.sendFile(__dirname + "/views/xml_craft.html");
