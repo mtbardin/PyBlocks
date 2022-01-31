@@ -106,6 +106,12 @@
         document.getElementById("output").innerHTML = "";
         document.getElementById("cmdOut").innerHTML = "Commands Being Run: ";
 
+        // Update the python library file that holds the grid world data for the
+        // user's program.
+        let curr_hero_x = ((Game.hero.x - 32) / 64);
+        let curr_hero_y = ((Game.hero.y - 32) / 64);
+        console.log(curr_hero_x, curr_hero_y);
+
         // get program from workspace.
         let code = "from PyBlockFunctions import *\n\n";
         code += Blockly.Python.workspaceToCode(Blockly.getMainWorkspace());

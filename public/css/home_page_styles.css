@@ -15,8 +15,8 @@ html {
 body {
     height: 100%;
     width: 100%;
-    margin: 0px;
-    padding: 0px;
+    margin: 0;
+    padding: 0;
 }
 
 /* Normal Page CSS */
@@ -33,13 +33,13 @@ body {
     justify-content: center;
     align-items: center;
     height: 50px;
-    border: 0px solid black;
+    border: 0 solid black;
 }
 
 /* Navigation Bar CSS */
 #navbar ul {
     list-style-type: none;
-    margin: 0px;
+    margin: 0;
     padding: 10px;
     box-sizing: border-box; /* makes padding not account for width */
     background-color: lightgray;
@@ -70,7 +70,7 @@ body {
 /* Tutorial List CSS */
 #tutorialList ul {
     list-style-type: none;
-    margin: 0px;
+    margin: 0;
     padding: 10px;
     box-sizing: border-box;
     background-color: gray;
