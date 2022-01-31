@@ -50,9 +50,21 @@ app.get("/Branching", function (request, response) {
     response.sendFile(__dirname + "/views/tutorials/tut_branching.html");
 });
 
-// define the route for "/Looping"
-app.get("/Looping", function (request, response) {
-    response.sendFile(__dirname + "/views/tutorials/tut_looping.html");
+// define the routes for the looping tutorials.
+app.get("/looping_tutorial_page_1", function (request, response) {
+    response.sendFile(__dirname + "/views/tutorials/looping/looping_tutorial_page_1.html");
+});
+app.get("/looping_tutorial_page_2", function (request, response) {
+    response.sendFile(__dirname + "/views/tutorials/looping/looping_tutorial_page_2.html");
+});
+app.get("/looping_tutorial_page_3", function (request, response) {
+    response.sendFile(__dirname + "/views/tutorials/looping/looping_tutorial_page_3.html");
+});
+app.get("/looping_tutorial_page_4", function (request, response) {
+    response.sendFile(__dirname + "/views/tutorials/looping/looping_tutorial_page_4.html");
+});
+app.get("/looping_tutorial_page_5", function (request, response) {
+    response.sendFile(__dirname + "/views/tutorials/looping/looping_tutorial_page_5.html");
 });
 
 // define the route for "/xml_craft"

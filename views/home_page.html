@@ -1,64 +1,277 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta charset="utf-8">
-    <link href="css/home_page_styles.css" type="text/css" rel="stylesheet">
-
+    <meta charset="UTF-8">
+    <title>PyBlocks Home Page</title>
+    
+    <link href="/css/home_page_styles.css" type="text/css" rel="stylesheet">
+    
     <!-- Favicon Icon -->
-    <link rel="icon" href="images/PyBlocks Logo.png">
-
+    <link rel="icon" href="/images/PyBlocks Logo.png">
+    
     <!-- include for socket.io -->
     <script src="/socket.io/socket.io.js" type="text/javascript"></script>
-
-    <!-- jquery & jquey.ui includes -->
+    
+    <!-- jquery & jquery.ui includes -->
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>
+    
+    <style>
+        html {
+            font-family: "Roboto Light", sans-serif;
+        }
+        
+        header {
+            background-color: #acdcee;
+            width: 100%;
+            height: fit-content;
+        }
+        header nav {
+            padding: 1em;
+        }
+        header nav a {
+            color: #24527a;
+        }
+        
+        body {
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        
+        .wrapper {
+            display: flex;
+            flex: 1;
+        }
+        
+        .aside_left, .aside_right {
+            height: 100%;
+            width: 15%; /* A fixed width as the default */
+            background-color: #d9dad7;
+            
+        }
+        .main {
+            flex-grow: 1; /* Set the middle element to grow and stretch */
+            height: 100%;
+            background-image: url("/images/triangle-mosaic.png");
+            background-color: #fafafa;
+        }
+
+        footer {
+            background-color: #acdcee;
+            width: 100%;
+            height: fit-content;
+        }
+
+        footer p {
+            text-align: center;
+            padding: 0px;
+            margin: 0px;
+        }
+
+        /*Dropdown Menu CSS*/
+        /* Dropdown Button */
+        .dropbtn {
+            /*background-color: #3498DB;*/
+            background-color: #24527a;
+            color: white;
+            padding: 16px;
+            font-size: 16px;
+            border: 1px solid #fafafa; /* width, style, color */
+            border-left-width: 0px;
+            border-right-width: 0px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        /* Dropdown button on hover & focus */
+        .dropbtn:hover, .dropbtn:focus {
+            background-color: #2980B9;
+        }
+
+        /* The container <div> - needed to position the dropdown content */
+        .dropdown {
+            position: relative;
+            /* display: inline-block; */
+        }
+
+        /* Dropdown Content (Hidden by Default) */
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f1f1f1;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+            width: 100%;
+        }
+
+        /* Links inside the dropdown */
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        /* Change color of dropdown links on hover */
+        .dropdown-content a:hover {
+            background-color: #ddd
+        }
+
+        /* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
+        .show {
+            display: block;
+        }
+    </style>
+
+    <script>
+        // When the user clicks on the button,
+        // toggle between hiding and showing the dropdown content.
+        function triggerDropdown1() {
+            document.getElementById("myDropdown1").classList.toggle("show");
+        }
+        function triggerDropdown2() {
+            document.getElementById("myDropdown2").classList.toggle("show");
+        }
+        function triggerDropdown3() {
+            document.getElementById("myDropdown3").classList.toggle("show");
+        }
+        function triggerDropdown4() {
+            document.getElementById("myDropdown4").classList.toggle("show");
+        }
+        function triggerDropdown5() {
+            document.getElementById("myDropdown5").classList.toggle("show");
+        }
+        function triggerDropdown6() {
+            document.getElementById("myDropdown6").classList.toggle("show");
+        }
+        function triggerDropdown7() {
+            document.getElementById("myDropdown7").classList.toggle("show");
+        }
+
+        // Close the dropdown menu if the user clicks outside of it
+        window.onclick = function (event) {
+            if (!event.target.matches('.dropbtn')) {
+                var dropdowns = document.getElementsByClassName("dropdown-content");
+                var i;
+                for (i = 0; i < dropdowns.length; i++) {
+                    var openDropdown = dropdowns[i];
+                    if (openDropdown.classList.contains('show')) {
+                        openDropdown.classList.remove('show');
+                    }
+                }
+            }
+        }
+    </script>
 </head>
 
 <body>
-    <!-- Navigation Bar (to be filled in) -->
-    <div id="navbar">
-        <ul>
-            <li><a href="">Links to be added and made functional</a></li>
-            <li><a href="">Home</a></li>
-            <li><a href="">News</a></li>
-            <li><a href="">Contact</a></li>
-            <li><a href="">About</a></li>
-        </ul>
-    </div>
-    <!--<div class="break" style="height: 100px;"></div>-->
-    <div class="header">
-        <h2>PyBlocks</h2>
-    </div>
-    
-    <br>
+    <!--
+    Palette That Will be used:
+    #fafafa // whitish
+    #d9dad7 // light grey
+    #acdcee // light blue
+    #24527a // dark blue
+     -->
+    <!-- Placeholder images from https://dummyimage.com/ -->
+    <header>
+        <nav>
+            <a href="home_page.html">PyBlocks</a> |
+            <a href="home_page.html">Login</a>
+        </nav>
+    </header>
 
-    <div class="centered">
-        <button type="button" id="goto_code_button" onclick="document.location='coding_page.html'">Click Here to begin coding</button>
-    </div>
-    
-    <!-- Tutotal List-->
-    <div id="tutorialList">
-        <h2>Tutorials</h2>
-        <ul>
-            <li><a href="basics_tutorial">Basics</a></li>
-            <li><a href="Variables">Variables</a></li>
-            <li><a href="Branching">Branching</a></li>
-            <li><a href="Looping">Looping</a></li>
-            <li><a href="Functions">Functions</a></li>
-            <li><a href="tbd">TBD</a></li>
-            <li><a href="interactive_tutorial">Interactive Tutorial Possible Demo</a></li>
-        </ul>
+    <div class="wrapper">
+        <aside class="aside_left">
+        </aside>
+
+        <article class="main">
+            <h2>Tutorials</h2>
+            <!--<ul>
+                <li><a href="basics_tutorial">Basics</a></li>
+                <li><a href="Variables">Variables</a></li>
+                <li><a href="Branching">Branching</a></li>
+                <li><a href="Looping">Looping</a></li>
+                <li><a href="Functions">Functions</a></li>
+                <li><a href="tbd">TBD</a></li>
+                <li><a href="interactive_tutorial">Interactive Tutorial Possible Demo</a></li>
+            </ul>-->
+
+            <div class="dropdown">
+                <button onclick="triggerDropdown1()" class="dropbtn">Basics</button>
+                <div id="myDropdown1" class="dropdown-content">
+                    <a href="basics_tutorial">Lesson 1: Basics Start</a>
+                    <a href="#">Lesson 2: Name</a>
+                    <a href="#">Lesson 3: Name</a>
+                </div>
+            </div>
+
+            <div class="dropdown">
+                <button onclick="triggerDropdown2()" class="dropbtn">Variables</button>
+                <div id="myDropdown2" class="dropdown-content">
+                    <a href="Variables">Lesson 1: Variables Start</a>
+                    <a href="#">Lesson 2: Name</a>
+                    <a href="#">Lesson 3: Name</a>
+                </div>
+            </div>
+
+            <div class="dropdown">
+                <button onclick="triggerDropdown3()" class="dropbtn">Branching</button>
+                <div id="myDropdown3" class="dropdown-content">
+                    <a href="Branching">Lesson 1: General Knowledge</a>
+                    <a href="#">Lesson 2: Single Branch</a>
+                    <a href="#">Lesson 3: Two Branches</a>
+                    <a href="#">Lesson 4: Three Plus Branches</a>
+                    <a href="#">Lesson 5: Multiple Actions in a Branch</a>
+                </div>
+            </div>
+
+            <div class="dropdown">
+                <button onclick="triggerDropdown4()" class="dropbtn">Looping</button>
+                <div id="myDropdown4" class="dropdown-content">
+                    <a href="looping_tutorial_page_1">Lesson 1: General Knowledge</a>
+                    <a href="looping_tutorial_page_2">Lesson 2: For Loops</a>
+                    <a href="looping_tutorial_page_3">Lesson 3: While Loops</a>
+                    <a href="looping_tutorial_page_4">Lesson 4: Looping Through Lists</a>
+                    <a href="looping_tutorial_page_5">Lesson 5: Nested Loops</a>
+                </div>
+            </div>
+
+            <div class="dropdown">
+                <button onclick="triggerDropdown5()" class="dropbtn">Functions</button>
+                <div id="myDropdown5" class="dropdown-content">
+                    <a href="Functions">Lesson 1: Functions Start</a>
+                    <a href="#">Lesson 2: Name</a>
+                    <a href="#">Lesson 3: Name</a>
+                </div>
+            </div>
+
+            <div class="dropdown">
+                <button onclick="triggerDropdown6()" class="dropbtn">TBD</button>
+                <div id="myDropdown6" class="dropdown-content">
+                    <a href="tbd">tbd</a>
+                </div>
+            </div>
+
+            <div class="dropdown">
+                <button onclick="triggerDropdown7()" class="dropbtn">Interactive Tutorial Demo</button>
+                <div id="myDropdown7" class="dropdown-content">
+                    <a href="interactive_tutorial">Demo</a>
+                </div>
+            </div>
+        </article>
+
+        <aside class="aside_right">
+        </aside>
     </div>
 
-    <!-- Blockly Include -->
-    <!-- reroute the python_compressed into the node_modules folder? -->
-    <script src="https://unpkg.com/blockly/blockly.min.js"></script>
-    <!--<script src="/scripts/blockly_compressed.js"></script>-->
-    <script src="/scripts/python_compressed.js"></script>
-
-    <!-- PyBlock Scripts -->
-    <!--<script src="/scripts/main.js"></script>-->
+    <footer>
+        <p>Footer Information will be added here</p>
+        <p>Line 2</p>
+        <p>Line 3</p>
+    </footer>
 </body>
 </html>

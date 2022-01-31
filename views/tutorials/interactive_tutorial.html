@@ -111,6 +111,9 @@
                         <block type="check_flower_color"></block>
                         <block type="check_facing_flower"></block>
                     </category>
+                    <category name="Code in Text Blocks" colour="245">
+                        <block type="python_text_block"></block>
+                    </category>
                 </xml>
             </div>
         </div>
@@ -145,19 +148,20 @@
         <div class="inline-block-child" style="margin-left: 100px;">
             <h1>Save and Load Workspace</h1>
             <label for="userid">User Id (will be set in the backend next milestone): </label>
-            <input type="text" id="userid"  value="UserID1"/>
+            <input type="text" id="userid" value="UserID1" />
 
             <label for="saveWorkspaceName">Save As: </label>
-            <input type="text" id="saveWorkspaceName" value="1"/>
+            <input type="text" id="saveWorkspaceName" value="1" />
             <button id="saveWorkspace">Save Workspace</button>
 
             <label for="useloadWorkspaceNamerid">Load: </label>
-            <input type="text" id="loadWorkspaceName" value="1"/>
+            <input type="text" id="loadWorkspaceName" value="1" />
             <button id="loadWorkspace">Load Workspace</button>
         </div>
     </div>
 
-    <script src="/scripts/interactive_demo.js"></script>
+
     <script src="/scripts/grid_world.js"></script>
+    <!--script src="/scripts/interactive_demo.js"></script-->
 </body>
 </html>

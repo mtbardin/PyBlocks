@@ -1,14 +1,15 @@
 {
   "ExpandedNodes": [
     "",
-    "\\assets",
     "\\public",
     "\\public\\code",
     "\\public\\css",
+    "\\public\\images",
     "\\public\\scripts",
     "\\views",
-    "\\views\\tutorials"
+    "\\views\\tutorials",
+    "\\views\\tutorials\\looping"
   ],
-  "SelectedNode": "\\public\\code\\PyBlockFunctions.py",
+  "SelectedNode": "\\public\\scripts\\tutorials.js",
   "PreviewInSolutionExplorer": false
 }

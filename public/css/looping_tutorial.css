@@ -1,0 +1,187 @@
+html {
+    font-family: "Roboto Light", sans-serif;
+    height: 100%;
+}
+
+header {
+    background-color: #acdcee;
+    width: 100%;
+    height: fit-content;
+}
+
+    header nav {
+        padding: 1em;
+    }
+
+        header nav a {
+            color: #24527a;
+        }
+
+body {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    height: 100%;
+}
+
+.wrapper {
+    display: flex;
+    flex: 1;
+}
+
+.aside_left, .aside_right {
+    height: 100%;
+    width: 15%; /* A fixed width as the default */
+    background-color: #d9dad7;
+}
+
+.main {
+    flex-grow: 1; /* Set the middle element to grow and stretch */
+    height: 100%;
+    background-image: url("/images/triangle-mosaic.png");
+    background-color: #fafafa;
+}
+
+    .main h2 {
+        margin-left: 1.0em;
+        margin-right: 1.0em;
+    }
+
+    .main .textInfo, .helpfulPicture, .tryIt {
+        margin-left: 1.5em;
+        margin-right: 1.5em;
+    }
+
+    /* Nav Bar CSS */
+    .main nav {
+        width: 100%;
+    }
+
+        .main nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            display: flex;
+            flex: 1;
+            width: 100%;
+        }
+
+            .main nav ul li {
+                width: 100%;
+            }
+
+                .main nav ul li a {
+                    display: block;
+                    padding: 15px;
+                    border-right: 1px solid black; /* width, style, color */
+                    border-top: 1px solid black; /* width, style, color */
+                    border-bottom: 1px solid black; /* width, style, color */
+                    background-color: #24527a;
+                    text-align: center;
+                    color: white;
+                    text-decoration: none;
+                }
+
+                .main nav ul li:first-child {
+                    border-left: 1px solid black;
+                }
+
+                .main nav ul li a:hover {
+                    background-color: #2980B9;
+                }
+
+
+/* Footer CSS */
+footer {
+    background-color: #acdcee;
+    width: 100%;
+    height: fit-content;
+}
+
+    footer p {
+        text-align: center;
+        padding: 0px;
+        margin: 0px;
+    }
+
+
+/* CSS for the previous and next section buttons at the bottom of the page. */
+#buttonContainer {
+    background-color: #d9dad7;
+}
+
+#previousSection {
+    background-color: #24527a;
+    float: left;
+    margin-left: 15%;
+    padding: 10px;
+    border: 1px solid black;
+    color: white;
+    text-decoration: none;
+}
+    #previousSection:hover {
+        background-color: #2980B9;
+    }
+
+#nextSection {
+    background-color: #24527a;
+    float: right;
+    margin-right: 15%;
+    padding: 10px;
+    border: 1px solid black;
+    color: white;
+    text-decoration: none;
+}
+    #nextSection:hover {
+        background-color: #2980B9;
+    }
+
+
+/* CSS for the try it sections. */
+.tryIt {
+    border: 1px solid black;
+    display: inline-block;
+}
+
+.tryItInstructions {
+    display: block;
+    margin-left: 2em;
+}
+
+.tryItQuestion {
+    display: inline-block;
+    margin-left: 4em;
+    padding: 10px;
+    border: 1px solid black;
+}
+
+    .tryItQuestion p, input {
+        display: inline-block;
+    }
+
+    .tryItQuestion #inputOne {
+        width: 15px;
+    }
+
+    .tryItQuestion #inputTwo {
+        width: 10px;
+    }
+
+.tryItResults {
+    margin-left: 2em;
+    padding: 10px;
+    display: inline-block;
+}
+
+.tryItSubmitButton {
+    display: block;
+    margin-left: 2em;
+}
+
+
+/* CSS for the images */
+.helpfulPicture img {
+    border: 1px solid black;
+}

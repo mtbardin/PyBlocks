@@ -103,6 +103,24 @@
         "helpUrl": ""
     };
 
+    // Text Block
+    let textBlockJson = {
+        "type": "python_text_block",
+        "message0": "Python Code: %1",
+        "args0": [
+            {
+                "type": "field_multilinetext",
+                "name": "pythonCode",
+                "spellcheck": false
+            }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        //"output": "String",
+        "colour": 245,
+        "tooltip": "Try out coding in Python.",
+        "helpUrl": ""
+    };
 
 
     // Create the block using the JSON.
@@ -156,6 +174,12 @@
         }
     };
 
+    // Text Block
+    Blockly.Blocks['python_text_block'] = {
+        init: function () {
+            this.jsonInit(textBlockJson);
+        }
+    };
 
 
     // Build the python code the block creates.
@@ -192,11 +216,18 @@
         return code;
     };
     Blockly.Python['check_flower_color'] = function (block) {
-        let code = 'check_flower_color()\n';
-        return code;
+        let code = 'check_flower_color()';
+        return [code, Blockly.Python.ORDER_NONE];
     };
     Blockly.Python['check_facing_flower'] = function (block) {
-        let code = 'check_facing_flower()\n';
+        let code = 'check_facing_flower()';
+        return [code, Blockly.Python.ORDER_NONE];
+    };
+
+    // Text Block
+    Blockly.Python['python_text_block'] = function (block) { 
+        let code = block.getFieldValue('pythonCode');
+        //console.log(code);
         return code;
     };
 })();
