@@ -14,12 +14,16 @@
 	<!-- Favicon Icon -->
 	<link rel="icon" href="images/PyBlocks Logo.png">
 
-	<!-- Check Try It Answers -->
-	<script type="text/javascript" src="scripts/tutorials/looping/looping_tutorial_page_1_scripts.js"></script>
+	<!-- Blockly Include -->
+	<!-- reroute the python_compressed into the node_modules folder? -->
+	<script src="https://unpkg.com/blockly/blockly.min.js"></script>
+	<!--<script src="/scripts/blockly_compressed.js"></script>-->
+	<script src="/scripts/python_compressed.js"></script>
 
-	<style>
-        #tab1 { background-color: #2980B9; }
-	</style>
+	<!-- Custom Blocks Scripts -->
+	<script src="/scripts/custom_blocks.js"></script>
+
+	<script type="text/javascript" src="scripts/tutorials/looping/looping_tutorial_page_1_scripts.js"></script>
 </head>
 
 <body>
@@ -36,12 +40,12 @@
 		<article class="main">
 			<nav>
 				<ul>
-					<li><a id="tab1" href="looping_tutorial_page_1">General Knowledge</a></li>
-					<li><a id="tab2" href="looping_tutorial_page_2">For Loops</a></li>
-					<li><a id="tab3" href="looping_tutorial_page_3">While Loops</a></li>
-					<li><a id="tab4" href="looping_tutorial_page_4">Looping Through Lists</a></li>
-					<li><a id="tab5" href="looping_tutorial_page_5">Nested Lists</a></li>
-					<li><a id="tab6" href="/">Back Home</a></li>
+					<li><a class="active" href="looping_tutorial_page_1">General Knowledge</a></li>
+					<li><a href="looping_tutorial_page_2">For Loops</a></li>
+					<li><a href="looping_tutorial_page_3">While Loops</a></li>
+					<li><a href="looping_tutorial_page_4">Looping Through Lists</a></li>
+					<li><a href="looping_tutorial_page_5">Nested Lists</a></li>
+					<li><a href="/">Back Home</a></li>
 				</ul>
 			</nav>
 
@@ -138,17 +142,118 @@
 				<p class="tryItInstructions">
 					This will be an example where the user will interact with blocks.
 				</p>
-				<!--<div class="tryItQuestion">
-					<p></p>
-					<input id="inputTwo" />
-					<p></p>
-				</div>-->
+				<!--
+					<div class="tryItQuestion">
+						<p></p>
+						<input id="inputTwo" />
+						<p></p>
+					</div>
+					-->
 				<br />
 				<button id="submitButtonTwo" class="tryItSubmitButton"> Submit Answer</button>
 				<br />
 			</article>
 			<br />
 			<p id="resultTwo" class="tryItResults"></p>
+
+			<!-- Grid World Test Embed -->
+			<!-- Grid World Container -->
+			<div style="width: 600px; height: 600px; display: inline;">
+				<h2 style="margin-bottom: 0px;">Grid World</h2>
+				<canvas id="gridWorld" style="width: 512px; height: 512px;"></canvas>
+			</div>
+
+			<div class="inline-block-child" style="width: 800px; height: 512px; display: inline-block;">
+				<!-- List for all blocks -->
+				<div class="blockly-editor" style="height: 100%; width: 100%;">
+					<div id="blocklyDiv" style="height: 100%; width: 100%;"></div>
+					<xml xmlns="https://developers.google.com/blockly/xml" id="toolbox" style="display: none">
+						<category name="Text" colour="120">
+							<block type="text"></block>
+							<block type="text_print">
+								<value name="TEXT">
+									<shadow type="text">
+										<field name="TEXT">print what goes here...</field>
+									</shadow>
+								</value>
+							</block>
+						</category>
+						<category name="Misc" colour="240">
+							<block type="controls_if"></block>
+
+							<block type="logic_compare"></block>
+							<block type="logic_operation"></block>
+							<block type="logic_negate"></block>
+							<block type="logic_boolean"></block>
+
+							<block type="math_number"></block>
+							<block type="math_arithmetic"></block>
+
+							<block type="text"></block>
+							<block type="text_print"></block>
+
+							<block type="variables_get"></block>
+							<block type="variables_set"></block>
+						</category>
+						<category name="Looping" colour="180">
+							<block type="controls_repeat_ext">
+								<value name="TIMES">
+									<shadow type="math_number">
+										<field name="NUM">10</field>
+									</shadow>
+								</value>
+							</block>
+							<block type="controls_whileUntil"></block>
+							<block type="controls_for">
+								<value name="FROM">
+									<shadow type="math_number">
+										<field name="NUM">1</field>
+									</shadow>
+								</value>
+								<value name="TO">
+									<shadow type="math_number">
+										<field name="NUM">10</field>
+									</shadow>
+								</value>
+								<value name="BY">
+									<shadow type="math_number">
+										<field name="NUM">1</field>
+									</shadow>
+								</value>
+							</block>
+							<block type="controls_forEach"></block>
+							<block type="controls_flow_statements"></block>
+						</category>
+						<category name="Movement" colour="260">
+							<block type="move_up"></block>
+							<block type="move_down"></block>
+							<block type="move_left"></block>
+							<block type="move_right"></block>
+							<block type="rotate_right"></block>
+							<block type="rotate_left"></block>
+						</category>
+						<category name="Flower Blocks" colour="230">
+							<block type="pick_one_flower"></block>
+							<block type="check_flower_color"></block>
+							<block type="check_facing_flower"></block>
+						</category>
+						<category name="Code in Text Blocks" colour="245">
+							<block type="python_text_block"></block>
+						</category>
+					</xml>
+				</div>
+			</div>
+
+			<!-- execute code in block button -->
+			<div class="inline-block-child">
+				<h1>Run Code</h1>
+				<label for="exe"></label>
+				<input type="text" id="exefileName" value="output.py" style="display: none"/>
+				<button id="exe">Execute</button>
+			</div>
+
+			<p>Try moving down once.</p>
+			<p id="resultZero" class="tryItResults"></p>
 
 			<!-- Spacer for the bottom buttons -->
 			<br />
@@ -161,17 +266,15 @@
 		<a href="/" id="previousSection">Back to the Home Page</a>
 		<a href="looping_tutorial_page_2" id="nextSection">Next Section</a>
 	</div>
-	
+
 	<footer>
 		<p>Footer Information will be added here</p>
 		<p>Line 2</p>
 		<p>Line 3</p>
 	</footer>
 
-	<!-- Blockly Include -->
-	<script src="https://unpkg.com/blockly/blockly.min.js"></script>
-	<script src="/scripts/python_compressed.js"></script>
-	<!-- PyBlock Scripts -->
 	<!--<script src="/scripts/tutorials.js"></script>-->
+	<!-- Catch All Scripts for this page. -->
+	<script src="/scripts/tutorials/looping/looping_grid_world.js"></script>
 </body>
 </html>

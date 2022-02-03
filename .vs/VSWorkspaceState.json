@@ -2,14 +2,14 @@
   "ExpandedNodes": [
     "",
     "\\public",
-    "\\public\\code",
     "\\public\\css",
-    "\\public\\images",
     "\\public\\scripts",
+    "\\public\\scripts\\tutorials",
+    "\\public\\scripts\\tutorials\\looping",
     "\\views",
     "\\views\\tutorials",
     "\\views\\tutorials\\looping"
   ],
-  "SelectedNode": "\\public\\scripts\\tutorials.js",
+  "SelectedNode": "\\public\\code",
   "PreviewInSolutionExplorer": false
 }

@@ -1,4 +1,4 @@
 from PyBlockFunctions import *
-from interactive_gwd import *
+from tutorials.looping.looping_tutorial_page_1_gwd import *
 
-for i in range(0,3):move_left()
+move_down()
