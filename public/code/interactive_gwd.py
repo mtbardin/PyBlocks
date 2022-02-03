@@ -1,4 +1,4 @@
-hero_x = 5
+hero_x = 2
 hero_y = 2
 
 hero_direction = 0

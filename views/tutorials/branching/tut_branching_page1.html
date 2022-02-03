@@ -15,7 +15,7 @@
 	<link rel="icon" href="images/PyBlocks Logo.png">
 
 	<!-- Check Try It Answers -->
-	<script type="text/javascript" src="scripts/tutorials/branch/branch_tutorial_page1_script.js"></script>
+	<script type="text/javascript" src="scripts/tutorials/branch/branch_tutorial_page1_scripts.js"></script>
 
 	<style>
         #tab1 { background-color: #2980B9; }
@@ -80,26 +80,6 @@
 
 			<br />
 
-			<!-- Try It Question 1. -->
-			<article class="tryIt">
-				<h3 class="tryItInstructions">Try It Section</h3>
-				<p class="tryItInstructions">
-					This is an example of a description of a try it section.
-					Fill in the blanks so the statement is true. <br />
-				</p>
-				<div class="tryItQuestion">
-					<p>length of range(0, </p>
-					<input id="inputOne" />
-					<p>) = 7</p>
-				</div>
-				<br />
-				<br />
-				<button id="submitButtonOne" class="tryItSubmitButton"> Submit Answer</button>
-				<br />
-			</article>
-			<br />
-			<p id="resultOne" class="tryItResults"></p>
-
 			<!-- How -->
 			<h2 style="margin-top: 2.0em;">How</h2>
 			<article class="textInfo">
@@ -108,23 +88,35 @@
 				The little cog symbol in the top left of the block opens a small menu, which lets you add more if you want to. Not sure why you would? Keep on reading!<br>
 			</article>
 
-			<!-- Try It Question 2. -->
+			<!-- Try It Question. -->
 			<article class="tryIt">
 				<h3 class="tryItInstructions">Try It Section</h3>
 				<p class="tryItInstructions">
-					This will be an example where the user will interact with blocks.
-				</p>
-				<!--<div class="tryItQuestion">
-					<p></p>
-					<input id="inputTwo" />
-					<p></p>
-				</div>-->
+					Change up the if block so that it prints out "Good Morning, World!"
+				</p><div class="appContainer">
+					<div class="inline-block-child" style="width: 600px; height: 300px;">
+						<div class="blockly-editor">
+							<div id="blocklyDivBranchGenKnow" style="height: 100%; width: 100%;"></div>
+						</div>
+					</div>
+
+					<!-- execute code in block button -->
+					<div class="inline-block-child">
+						<h1>Execute Demo</h1>
+						<label for="exe"></label>
+						<input type="text" id="exefileName" value="output.py" hidden />
+						<!--<textarea id="printBlockData" hidden></textarea>--->
+						<button id="exe">Execute</button>
+					</div>
+					
+					<br />
+				</div>
 				<br />
-				<button id="submitButtonTwo" class="tryItSubmitButton"> Submit Answer</button>
+				<button id="submitButtonOne" class="tryItSubmitButton"> Submit Answer</button>
 				<br />
 			</article>
 			<br />
-			<p id="resultTwo" class="tryItResults"></p>
+			<p id="resultOne" class="tryItResults"></p>
 
 			<!-- Spacer for the bottom buttons -->
 			<br />
