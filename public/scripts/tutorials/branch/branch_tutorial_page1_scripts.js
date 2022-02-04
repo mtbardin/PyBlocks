@@ -23,22 +23,24 @@ $(document).ready(function () {
 
 		// now we can run program.
 		socket.emit('run', fileName, (response) => {
-			console.log(response.status);});
+			console.log(response.status);
+		});
 		
 		socket.on('progOut', function (data) {
 			// jQuery method of inputting data into an HTML element.
-			let ans = $("#output").text(data.output);
+			let ans = data.output;
 			// Check to see if the answer is right.
-			if (ans == "Good Morning, World!") {
+			if (ans == "Good Morning, World!\r\n") {
 				$("#resultOne").text("Nice job!");
 				$("#resultOne").css("background-color", "LimeGreen");
+				$("#userOut").text("");
 
 				// Replace the submit button with a golden star?
 			}
 			else {
 				$("#resultOne").text("Incorrect, try again.");
-				$("#resultOne").text(ans);
 				$("#resultOne").css("background-color", "Crimson");
+				$("#userOut").text(ans);
 			}
 			
 			

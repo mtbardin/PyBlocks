@@ -3,7 +3,7 @@ X = None
 
 X = 10
 
-if X == 2:
+if X == 10:
   print('Good Morning, World!')
 elif X > 5:
   print('Good Night, World.')
