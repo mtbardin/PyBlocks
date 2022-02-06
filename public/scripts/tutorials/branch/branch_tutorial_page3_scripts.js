@@ -48,7 +48,7 @@ $(document).ready(function () {
 
     });
 	
-	//Tutorial: Branching. Section: General Knowledge
+	//Tutorial: Branching. Section: Two Branches
     var workspaceTutBranchTwo = Blockly.inject('blocklyDivBranchTwo', {
         toolbox: document.getElementById('toolbox'),
         scrollbars: false,
