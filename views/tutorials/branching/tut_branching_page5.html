@@ -14,7 +14,14 @@
 	<!-- Favicon Icon -->
 	<link rel="icon" href="images/PyBlocks Logo.png">
 
-	<!-- Check Try It Answers -->
+	<!-- Blockly Include -->
+	<!-- reroute the python_compressed into the node_modules folder? -->
+	<script src="https://unpkg.com/blockly/blockly.min.js"></script>
+	<!--<script src="/scripts/blockly_compressed.js"></script>-->
+	<script src="/scripts/python_compressed.js"></script>
+	
+	<!-- Javascript Imports -->
+	<script src="/scripts/custom_blocks.js"></script>
 	<script type="text/javascript" src="scripts/tutorials/branch/branch_tutorial_page5_scripts.js"></script>
 
 	<style>
@@ -86,23 +93,61 @@
 				</p>
 			</article>
 
-			<!-- Try It Question. -->
-			<article class="tryIt">
-				<h3 class="tryItInstructions">Try It Section</h3>
+			<!-- Grid World Test Embed -->
+			<!-- Grid World Container -->
+			
+			
+			<div style="width: 600px; height: 600px; display: inline;">
+				<h2 style="margin-bottom: 0px;">Grid World</h2>
 				<p class="tryItInstructions">
-					This will be an example where the user will interact with blocks.
+					Now for a bit of a challenge. <br>
+					The wizard needs your help.<br>
+					He's color-blind, and needs you to help him pick out some flowers.<br><br>
+					Pick up 2 blue flowers, 1 yellow flower, and 3 orange flowers.<br><br>
+					The wizard will move around the field, and when he looks at a flower you need to make sure it's the right color.<br>
+					If it is, have him pick up the right amount.<br>
 				</p>
-				<!--<div class="tryItQuestion">
-					<p></p>
-					<input id="inputTwo" />
-					<p></p>
-				</div>-->
-				<br />
-				<button id="submitButtonTwo" class="tryItSubmitButton"> Submit Answer</button>
-				<br />
-			</article>
-			<br />
-			<p id="resultTwo" class="tryItResults"></p>
+				<canvas id="gridWorld" style="width: 512px; height: 512px;"></canvas>
+			</div>
+			
+			<div class="inline-block-child" style="width: 800px; height: 512px; display: inline-block;">
+				<!-- List for all blocks -->
+				<div class="blockly-editor" style="height: 100%; width: 100%;">
+					<div id="blocklyDiv" style="height: 100%; width: 100%;"></div>
+					<xml xmlns="https://developers.google.com/blockly/xml" id="toolbox" style="display: none">
+						<category name="Misc" colour="240">
+							<block type="controls_if"></block>
+
+							<block type="logic_compare"></block>
+							<block type="logic_operation"></block>
+							<block type="logic_negate"></block>
+							<block type="logic_boolean"></block>
+
+							<block type="math_number"></block>
+							<block type="math_arithmetic"></block>
+
+							<block type="text"></block>
+							<block type="text_print"></block>
+
+							<block type="variables_get"></block>
+							<block type="variables_set"></block>
+						</category>
+						<category name="Flower Blocks" colour="230">
+							<block type="pick_one_flower"></block>
+							<block type="check_flower_color"></block>
+						</category>
+					</xml>
+				</div>
+			</div>
+
+			<!-- execute code in block button -->
+			<div class="inline-block-child">
+				<h1>Run Code</h1>
+				<label for="exe"></label>
+				<input type="text" id="exefileName" value="output.py" style="display: none"/>
+				<button id="exe">Execute</button>
+			</div>
+			<p id="resultZero" class="tryItResults"></p>
 
 			<!-- Spacer for the bottom buttons -->
 			<br />
@@ -122,10 +167,7 @@
 		<p>Line 3</p>
 	</footer>
 
-	<!-- Blockly Include -->
-	<script src="https://unpkg.com/blockly/blockly.min.js"></script>
-	<script src="/scripts/python_compressed.js"></script>
-	<!-- PyBlock Scripts -->
-	<!--<script src="/scripts/tutorials.js"></script>-->
+	<!-- Catch All Scripts for this page. -->
+	<script src="/scripts/tutorials/branch/branch_grid_world.js"></script>
 </body>
 </html>
