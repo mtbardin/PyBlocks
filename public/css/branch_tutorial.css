@@ -162,11 +162,11 @@ footer {
     }
 
     .tryItQuestion #inputOne {
-        width: 15px;
+        width: 25px;
     }
 
     .tryItQuestion #inputTwo {
-        width: 10px;
+        width: 40px;
     }
 
 .tryItResults {
