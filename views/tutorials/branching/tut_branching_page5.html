@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<link href="css/branch_tutorial.css" type="text/css" rel="stylesheet">
+
+	<!-- include for socket.io -->
+	<script src="/socket.io/socket.io.js" type="text/javascript"></script>
+	<!-- jquery & jquey.ui includes -->
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+	<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
+
+	<!-- Favicon Icon -->
+	<link rel="icon" href="images/PyBlocks Logo.png">
+
+	<!-- Blockly Include -->
+	<!-- reroute the python_compressed into the node_modules folder? -->
+	<script src="https://unpkg.com/blockly/blockly.min.js"></script>
+	<!--<script src="/scripts/blockly_compressed.js"></script>-->
+	<script src="/scripts/python_compressed.js"></script>
+	
+	<!-- Javascript Imports -->
+	<script src="/scripts/custom_blocks.js"></script>
+	<script type="text/javascript" src="scripts/tutorials/branch/branch_tutorial_page5_scripts.js"></script>
+
+	<style>
+        #tab5 { background-color: #2980B9; }
+	</style>
+</head>
+
+<body>
+	<header>
+		<nav>
+			<a href="/">PyBlocks</a> |
+			<a href="/">Login</a>
+		</nav>
+	</header>
+
+	<div class="wrapper">
+		<aside class="aside_left"></aside>
+
+		<article class="main">
+			<nav>
+				<ul>
+					<li><a id="tab1" href="tut_branching_page1">General Knowledge</a></li>
+					<li><a id="tab2" href="tut_branching_page2">Single Branch</a></li>
+					<li><a id="tab3" href="tut_branching_page3">Two Branches</a></li>
+					<li><a id="tab4" href="tut_branching_page4">Three or More</a></li>
+					<li><a id="tab5" href="tut_branching_page5">Multiple Actions</a></li>
+					<li><a id="tab6" href="/">Back Home</a></li>
+				</ul>
+			</nav>
+
+			<!-- Why -->
+			<h2>Why</h2>
+			<article class="textInfo">
+				<p>
+					Well, in case you want to do multiple things in any branch of course!<br><br>
+					Now, up to this point, you've been relying on setting up specific move orders to get you to the flowers you want.<br><br>
+					You won't always be able to do that, so keep this in mind.<br><br>
+					Your program won't actually know what kind of flower you're trying to pick up, until you tell it to check.<br><br>
+					So when you're walking around and find a flower, you want to have a block to check what color it is before picking it up.<br><br>
+				</p>
+			</article>
+
+			<!-- What -->
+			<h2 style="margin-top: 3.0em;">What</h2>
+			<article class="textInfo">
+				<p>
+					Instead of having a single instruction for each branch, try fitting in more than one.<br><br>
+					This is how you get the most out of each branch.<br><br>
+					Doing multiple things might mean some branches get larger than others, but that just means they can hold heavier fruit!<br><br>
+				</p>
+			</article>
+
+			<aside class="helpfulPicture">
+				<img src="/images/tutorials/branching/IMG_MultActEx.png">
+			</aside>
+
+			<br />
+
+			<!-- How -->
+			<h2 style="margin-top: 2.0em;">How</h2>
+			<article class="textInfo">
+				<p>
+					Luckily for you, the blocks handle this perfectly!<br><br>
+					If you just drag multiple blocks into the right area, they should all slot right in!<br><br>
+				</p>
+			</article>
+
+			<!-- Grid World Test Embed -->
+			<!-- Grid World Container -->
+			
+			
+			<div style="width: 600px; height: 600px; display: inline;">
+				<h2 style="margin-bottom: 0px;">Grid World</h2>
+				<p class="tryItInstructions">
+					Now for a bit of a challenge. <br>
+					The wizard needs your help.<br>
+					He's color-blind, and needs you to help him pick out some flowers.<br><br>
+					Pick up 2 blue flowers, 1 yellow flower, and 3 orange flowers.<br><br>
+					The wizard will move around the field, and when he looks at a flower you need to make sure it's the right color.<br>
+					If it is, have him pick up the right amount.<br>
+				</p>
+				<canvas id="gridWorld" style="width: 512px; height: 512px;"></canvas>
+			</div>
+			
+			<div class="inline-block-child" style="width: 800px; height: 512px; display: inline-block;">
+				<!-- List for all blocks -->
+				<div class="blockly-editor" style="height: 100%; width: 100%;">
+					<div id="blocklyDiv" style="height: 100%; width: 100%;"></div>
+					<xml xmlns="https://developers.google.com/blockly/xml" id="toolbox" style="display: none">
+						<category name="Misc" colour="240">
+							<block type="controls_if"></block>
+
+							<block type="logic_compare"></block>
+							<block type="logic_operation"></block>
+							<block type="logic_negate"></block>
+							<block type="logic_boolean"></block>
+
+							<block type="math_number"></block>
+							<block type="math_arithmetic"></block>
+
+							<block type="text"></block>
+							<block type="text_print"></block>
+
+							<block type="variables_get"></block>
+							<block type="variables_set"></block>
+						</category>
+						<category name="Flower Blocks" colour="230">
+							<block type="pick_one_flower"></block>
+							<block type="check_flower_color"></block>
+						</category>
+					</xml>
+				</div>
+			</div>
+
+			<!-- execute code in block button -->
+			<div class="inline-block-child">
+				<h1>Run Code</h1>
+				<label for="exe"></label>
+				<input type="text" id="exefileName" value="output.py" style="display: none"/>
+				<button id="exe">Execute</button>
+			</div>
+			<p id="resultZero" class="tryItResults"></p>
+
+			<!-- Spacer for the bottom buttons -->
+			<br />
+		</article>
+
+		<aside class="aside_right"></aside>
+	</div>
+
+	<div id="buttonContainer">
+		<a href="tut_branching_page4" id="previousSection">Previous Section</a>
+		<a href="/" id="nextSection">Back Home</a>
+	</div>
+	
+	<footer>
+		<p>Footer Information will be added here</p>
+		<p>Line 2</p>
+		<p>Line 3</p>
+	</footer>
+
+	<!-- Catch All Scripts for this page. -->
+	<script src="/scripts/tutorials/branch/branch_grid_world.js"></script>
+</body>
+</html>

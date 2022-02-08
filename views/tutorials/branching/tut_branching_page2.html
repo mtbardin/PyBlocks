@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<link href="css/branch_tutorial.css" type="text/css" rel="stylesheet">
+
+	<!-- include for socket.io -->
+	<script src="/socket.io/socket.io.js" type="text/javascript"></script>
+	<!-- jquery & jquey.ui includes -->
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+	<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
+
+	<!-- Favicon Icon -->
+	<link rel="icon" href="images/PyBlocks Logo.png">
+
+	<!-- Check Try It Answers -->
+	<script type="text/javascript" src="scripts/tutorials/branch/branch_tutorial_page2_scripts.js"></script>
+
+	<style>
+        #tab2 { background-color: #2980B9; }
+	</style>
+</head>
+
+<body>
+	<header>
+		<nav>
+			<a href="/">PyBlocks</a> |
+			<a href="/">Login</a>
+		</nav>
+	</header>
+
+	<div class="wrapper">
+		<aside class="aside_left"></aside>
+
+		<article class="main">
+			<nav>
+				<ul>
+					<li><a id="tab1" href="tut_branching_page1">General Knowledge</a></li>
+					<li><a id="tab2" href="tut_branching_page2">Single Branch</a></li>
+					<li><a id="tab3" href="tut_branching_page3">Two Branches</a></li>
+					<li><a id="tab4" href="tut_branching_page4">Three or More</a></li>
+					<li><a id="tab5" href="tut_branching_page5">Multiple Actions</a></li>
+					<li><a id="tab6" href="/">Back Home</a></li>
+				</ul>
+			</nav>
+
+			<!-- Why -->
+			<h2>Why</h2>
+			<article class="textInfo">
+				<p>
+					In case you every want to do something small, of course!<br><br>
+					As you're walking around looking for flowers, you just need to pick it up.<br><br>
+					This is how you would do that.<br>
+				</p>
+			</article>
+
+			<!-- What -->
+			<h2 style="margin-top: 3.0em;">What</h2>
+			<article class="textInfo">
+				<p>
+					The absolute most basic form of branching. A very simple "if" check. <br><br>
+					No "elses", no "else-if's", nothing to complicate it.<br><br>
+					Just a simple "if this thing is true, act like this, and then move on."<br>
+				</p>
+			</article>
+
+			<aside class="helpfulPicture">
+				<img src="/images/tutorials/branching/IMG_SingBranEx.png">
+			</aside>
+
+			<br />
+
+			<!-- How -->
+			<h2 style="margin-top: 2.0em;">How</h2>
+			<article class="textInfo">
+				<p>
+					Just use the block you already know, and add no other bits to it.<br><br>
+					It really is just that simple.<br>
+				</p>
+			</article>
+
+			<!-- Try It Question 2. -->
+			<article class="tryIt">
+				<h3 class="tryItInstructions">Try It Section</h3>
+				<p class="tryItInstructions">
+					Now you try. Your sister wants some red flowers for her room.
+				</p>
+				<div class="tryItQuestion">
+					<p>if flower = </p>
+					<input id="inputOne" />
+					<br>
+					<p>do: Pick Up Flower</p>
+				</div>
+				<br />
+				<button id="submitButtonOne" class="tryItSubmitButton"> Submit Answer</button>
+				<br />
+			</article>
+			<br />
+			<p id="resultOne" class="tryItResults"></p>
+
+			<!-- Spacer for the bottom buttons -->
+			<br />
+		</article>
+
+		<aside class="aside_right"></aside>
+	</div>
+
+	<div id="buttonContainer">
+		<a href="/" id="previousSection">Back to the Home Page</a>
+		<a href="tut_branching_page3" id="nextSection">Next Section</a>
+	</div>
+	
+	<footer>
+		<p>Footer Information will be added here</p>
+		<p>Line 2</p>
+		<p>Line 3</p>
+	</footer>
+
+	<!-- Blockly Include -->
+	<script src="https://unpkg.com/blockly/blockly.min.js"></script>
+	<script src="/scripts/python_compressed.js"></script>
+	<!-- PyBlock Scripts -->
+	<!--<script src="/scripts/tutorials.js"></script>-->
+</body>
+</html>
