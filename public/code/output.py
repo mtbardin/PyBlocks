@@ -1,4 +1,4 @@
 from PyBlockFunctions import *
-from tutorials.looping.looping_tutorial_page_1_gwd import *
+from interactive_gwd import *
 
-move_down()
+rotate_right()
