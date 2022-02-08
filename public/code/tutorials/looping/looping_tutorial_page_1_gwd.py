@@ -1,5 +1,5 @@
-hero_x = 2
-hero_y = 2
+hero_x = 6
+hero_y = 3
 
 hero_direction = 3
 

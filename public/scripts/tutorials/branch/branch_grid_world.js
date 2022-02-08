@@ -18,82 +18,6 @@
  */
 
 (function () {
-    var workspace = Blockly.inject('blocklyDiv', {
-        toolbox: document.getElementById('toolbox'),
-        scrollbars: false,
-    });
-
-    // Tried to make it so the toolblox wouldn't close after a drag but there is some 
-    // strange interactions with deletion of blocks when dragged into the toolbox even when its closed.
-    // maybe make it so can only delete via trashcan if we want to always keep toolbox open
-    // also will need a much bigger space b/c some categories are very big to leave open.
-
-    //Blockly.Flyout.prototype.autoClose = false;
-
-    // Starts the Workspace with a Print Block inside it.
-    // this block can't be deleted.
-    /*
-    var xmlContent = '<xml id="initiated" style="display: none">' +
-        '  <block type="text_print" deletable="false">' +
-        '  </block>' +
-        '</xml>';;
-
-    dom = Blockly.Xml.textToDom(xmlContent);
-    Blockly.Xml.domToWorkspace(dom, workspace);
-    */
-})();
-
-(function () {
-    // listen for the output of the code execution.
-    var socket = io();
-
-    // make qS a shortcut for document.querySelector
-    const qS = document.querySelector.bind(document);
-
-    // Listen for save request.
-    qS("#saveWorkspace").addEventListener('click', function () {
-        // Do more sanitization on the file name but fine for now.
-        let fileName = document.getElementById("saveWorkspaceName").value;
-
-        let checkFileName = fileName.split('.');
-        if (checkFileName.length > 2) {
-            return
-        }
-        else if (checkFileName[1] != "xml") {
-            fileName += ".xml";
-        }
-
-        let userID = document.getElementById("userid").value;
-
-        let code = Blockly.Xml.workspaceToDom(Blockly.getMainWorkspace());
-        code = Blockly.Xml.domToText(code);
-
-        socket.emit('saveWorkspace', userID, fileName, code, (response) => {
-            console.log(response.status);
-        });
-    });
-
-    // Listen for load request.
-    qS("#loadWorkspace").addEventListener('click', function () {
-        let userID = document.getElementById("userid").value;
-        let filePath = "/user_workspaces/" + userID + "/" + document.getElementById("loadWorkspaceName").value + ".xml";
-
-        socket.emit('loadWorkspace', filePath, (response) => {
-            console.log(response.status);
-        });
-    });
-
-    socket.on('loadWorkspaceData', (data) => {
-        let workspace = Blockly.getMainWorkspace();
-        workspace.clear();
-        Blockly.Xml.domToWorkspace(Blockly.Xml.textToDom(data), workspace);
-    });
-    //$(window).on('', function (event) { });
-})();
-
-
-
-(function () {
     // https://github.com/mozdevs/gamedev-js-tiles/blob/gh-pages/square/layers.js
 
     // Asset loader
@@ -456,20 +380,20 @@
         layers: [[
             3, 3, 3, 3, 3, 3, 3, 3,
             3, 1, 1, 1, 1, 1, 1, 3,
+            3, 1, 1, 1, 1, 2, 1, 3,
             3, 1, 1, 1, 1, 1, 1, 3,
-            3, 1, 2, 1, 1, 1, 1, 3,
-            3, 1, 2, 2, 2, 2, 2, 2,
-            2, 2, 2, 1, 2, 1, 1, 3,
+            3, 1, 1, 2, 1, 1, 1, 3,
             3, 1, 1, 1, 2, 1, 1, 3,
-            3, 3, 3, 3, 2, 3, 3, 3
+            3, 1, 1, 1, 2, 1, 1, 3,
+            3, 3, 3, 1, 2, 3, 3, 3
         ], [
             0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 5, 0, 0, 0, 5, 0,
             0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 18, 0,
+            0, 0, 0, 5, 0, 0, 0, 0,
+            0, 0, 8, 0, 0, 11, 0, 0,
             0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 5, 0, 0, 5, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 5, 0,
+            0, 22, 0, 0, 5, 0, 0, 0,
             0, 0, 0, 0, 0, 0, 0, 0
         ]],
 
@@ -789,19 +713,11 @@
     // make qS a shortcut for document.querySelector
     const qS = document.querySelector.bind(document);
 
-    // Test an Animation.
-    qS("#ani").addEventListener('click', function () {
-        let moves = { 0: 68, 1: 68, 2: 83, 3: 83 }; // D, D, R, R
-        console.log("moves to be animated");
-        console.log(moves);
-        $(window).trigger('animate', moves);
-    });
-
     // when the user clicks 'execute'
     qS("#exe").addEventListener('click', function () {
         // clear the output form first.
-        document.getElementById("output").innerHTML = "";
-        document.getElementById("cmdOut").innerHTML = "Commands Being Run: ";
+        //document.getElementById("output").innerHTML = "";
+        //document.getElementById("cmdOut").innerHTML = "Commands Being Run: ";
 
         // Update the python library file that holds the grid world data for the
         // user's program.
@@ -827,14 +743,14 @@
         console.log(new_grid_world_data);
 
         // set the filename.
-        const gwdFileName = "interactive_gwd.py";
+        const gwdFileName = "/tutorials/looping/looping_tutorial_page_1_gwd.py";
         socket.emit('save', gwdFileName, new_grid_world_data, (response) => {
             console.log(response.status);
         });
 
         // get program from workspace.
         let code = "from PyBlockFunctions import *\n";
-        code += "from interactive_gwd import *\n\n";
+        code += "from tutorials.looping.looping_tutorial_page_1_gwd import *\n\n";
         code += Blockly.Python.workspaceToCode(Blockly.getMainWorkspace());
 
         // set the filename.
@@ -845,6 +761,8 @@
         socket.emit('save', fileName, code, (response) => {
             console.log(response.status);
         });
+
+        $(window).trigger('sendFullCode', code);
 
         // now we can run program.
         socket.emit('run', fileName, (response) => {
@@ -973,19 +891,42 @@
 
         // jQuery method of inputting data into an HTML element.
         $("#output").text(programOutput);
+    });
 
-        // String for comparison needs to have "\r\n" added to the end,
-        // otherwise the whole thing won't work.
-        /*
-        if (programOutput == "Hello World!\r\n") {
-            $("#announcement").text("You Did it Right, Great Job!");
-        }
-        else if (programOutput == "Hello World\r\n") {
-            $("#announcement").text("Try being a little more excited!");
+    // Check the user's try-it section that uses the gridworld.
+    $(window).on('sendFullCode', function (event, code) {
+        code = code.split("\n");
+
+        // Remove the imports from the code and any extra empty spaces from extra '\n's that were split weird.
+        code = code.splice(2).filter(String);
+
+        // Sequence of commands the user needs to run.
+        // could be have multiple orders and would need to account for that.
+        let answer = ["move_down()"];
+
+        // Tell the user if they got it right or wrong.
+        let flag = arrayCompare(code, answer);
+        if (flag) {
+            $("#resultZero").text("You Did it Right, Great Job!");
         }
         else {
-            $("#announcement").text("You made a Mistake, Try Again.");
+            $("#resultZero").text("You made a Mistake, Try Again.");
         }
-        */
     });
 })();
+
+// Helper array compare function.
+// only works on unnested arrarys.
+// could try and implement https://stackoverflow.com/questions/7837456/how-to-compare-arrays-in-javascript
+// if the helper is insufficient.
+function arrayCompare(arr1, arr2) {
+    if (arr1.length !== arr2.length) {
+        return false;
+    }
+    for (let i = 0; i < arr1.length; i++) {
+        if (arr1[i] !== arr2[i]) {
+            return false;
+        }
+    }
+    return true;
+}
