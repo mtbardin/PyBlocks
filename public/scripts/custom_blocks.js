@@ -226,7 +226,7 @@
 
     // Text Block
     Blockly.Python['python_text_block'] = function (block) { 
-        let code = block.getFieldValue('pythonCode');
+        let code = block.getFieldValue('pythonCode') + '\n';
         //console.log(code);
         return code;
     };

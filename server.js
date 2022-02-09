@@ -173,6 +173,49 @@ io.on('connection', function (socket) {
         });
     });
 
+    // Delete a certain file off the server.
+    // *dangerous*
+    socket.on('deleteFile', (filePath, callback) => {
+        console.log(`Deleting ${path.join(baseDir, filePath)}`);
+
+        fs.unlink(path.join(baseDir, filePath), (err) => {
+            if (err) {
+                console.error(err)
+                return
+            }
+            // File successfuly removed.
+        });
+
+        callback({
+            status: "File Deleted"
+        });
+    });
+
+    // Send items in a directory.
+    socket.on('getSaveDir', (filePath, userID, callback) => {
+        console.log(`Sending ${userID}'s Directory: `);
+        
+        let fileNames = fs.readdirSync(path.join(baseDir, filePath));
+
+        socket.emit('deliverSaveDir', fileNames);
+
+        callback({
+            status: "Directory Sent."
+        });
+    });
+
+    // Send items in a directory.
+    socket.on('getLoadDir', (filePath, userID, callback) => {
+        console.log(`Sending ${userID}'s Directory: `);
+
+        let fileNames = fs.readdirSync(path.join(baseDir, filePath));
+
+        socket.emit('deliverLoadDir', fileNames);
+
+        callback({
+            status: "Directory Sent."
+        });
+    });
 });
 
 // Start the server at localhost and port 8000.

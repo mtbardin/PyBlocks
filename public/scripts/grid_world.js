@@ -76,9 +76,19 @@
     // Listen for load request.
     qS("#loadWorkspace").addEventListener('click', function () {
         let userID = document.getElementById("userid").value;
-        let filePath = "/user_workspaces/" + userID + "/" + document.getElementById("loadWorkspaceName").value + ".xml";
+        let filePath = "/user_workspaces/" + userID + "/" + document.getElementById("loadWorkspaceName").value;
 
         socket.emit('loadWorkspace', filePath, (response) => {
+            console.log(response.status);
+        });
+    });
+
+    // Listen for delete file request.
+    qS("#deleteFileButton").addEventListener('click', function () {
+        let userID = document.getElementById("userid").value;
+        let filePath = "/user_workspaces/" + userID + "/" + document.getElementById("loadWorkspaceName").value;
+
+        socket.emit('deleteFile', filePath, (response) => {
             console.log(response.status);
         });
     });
@@ -89,8 +99,71 @@
         Blockly.Xml.domToWorkspace(Blockly.Xml.textToDom(data), workspace);
     });
     //$(window).on('', function (event) { });
+
+    // Listen for get directory request.
+    qS("#saveCode").addEventListener('click', function () {
+        let userID = document.getElementById("userid").value;
+        let filePath = "/user_workspaces/" + userID + "/";
+
+        socket.emit('getSaveDir', filePath, userID, (response) => {
+            console.log(response.status);
+        });
+    });
+
+    // Listen for get directory request.
+    qS("#loadCode").addEventListener('click', function () {
+        let userID = document.getElementById("userid").value;
+        let filePath = "/user_workspaces/" + userID + "/";
+
+        socket.emit('getLoadDir', filePath, userID, (response) => {
+            console.log(response.status);
+        });
+    });
+
+    socket.on('deliverLoadDir', (data) => {
+        /*
+        for (let i = 0; i < data.length; i++) {
+            //console.log(data[i].split(".").slice(0, -1));
+            console.log(data[i]);
+        }
+        */
+        // Show a menu with all of the files the user has saved.
+        // https://www.w3schools.com/howto/howto_js_popup.asp
+        let fileDisplay = document.getElementById("fileDisplay").style.display = 'block';
+        document.getElementById("loadWorkspaceName").value = "";
+        let fileList = document.getElementById("loadFileList");
+        removeAllChildNodes(fileList);
+        for (let i = 0; i < data.length; i++) {
+            let li = document.createElement('li');
+            li.addEventListener('click', function () {
+                let inputfield = document.getElementById("loadWorkspaceName");
+                inputfield.value = data[i];
+            });
+            $(li).text(data[i]);
+            fileList.appendChild(li);
+        }
+    });
+
+    socket.on('deliverSaveDir', (data) => {
+        // Show a menu with all of the files the user has saved.
+        // https://www.w3schools.com/howto/howto_js_popup.asp
+        let fileDisplay = document.getElementById("fileSaveDisplay").style.display = 'block';
+        document.getElementById("saveWorkspaceName").value = "";
+        let fileList = document.getElementById("saveFileList");
+        removeAllChildNodes(fileList);
+        for (let i = 0; i < data.length; i++) {
+            let li = document.createElement('li');
+            $(li).text(data[i]);
+            fileList.appendChild(li);
+        }
+    });
 })();
 
+function removeAllChildNodes(parent) {
+    while (parent.firstChild) {
+        parent.removeChild(parent.firstChild);
+    }
+}
 
 
 (function () {
@@ -453,25 +526,26 @@
         tsize: 64,
 
         // Map Layers.
-        layers: [[
+         layers: [[
             3, 3, 3, 3, 3, 3, 3, 3,
             3, 1, 1, 1, 1, 1, 1, 3,
+            3, 1, 1, 1, 1, 2, 1, 3,
             3, 1, 1, 1, 1, 1, 1, 3,
-            3, 1, 2, 1, 1, 1, 1, 3,
-            3, 1, 2, 2, 2, 2, 2, 2,
-            2, 2, 2, 1, 2, 1, 1, 3,
+            3, 1, 1, 2, 1, 1, 1, 3,
             3, 1, 1, 1, 2, 1, 1, 3,
-            3, 3, 3, 3, 2, 3, 3, 3
+            3, 1, 1, 1, 2, 1, 1, 3,
+            3, 3, 3, 1, 2, 3, 3, 3
         ], [
             0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 5, 0, 0, 0, 5, 0,
             0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 18, 0,
+            0, 0, 0, 5, 0, 0, 0, 0,
+            0, 0, 8, 0, 0, 11, 0, 0,
             0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 5, 0, 0, 5, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 5, 0,
+            0, 22, 0, 0, 5, 0, 0, 0,
             0, 0, 0, 0, 0, 0, 0, 0
         ]],
+
 
         getTile: function (layer, col, row) {
             return this.layers[layer][row * map.cols + col];
@@ -788,14 +862,6 @@
 
     // make qS a shortcut for document.querySelector
     const qS = document.querySelector.bind(document);
-
-    // Test an Animation.
-    qS("#ani").addEventListener('click', function () {
-        let moves = { 0: 68, 1: 68, 2: 83, 3: 83 }; // D, D, R, R
-        console.log("moves to be animated");
-        console.log(moves);
-        $(window).trigger('animate', moves);
-    });
 
     // when the user clicks 'execute'
     qS("#exe").addEventListener('click', function () {
