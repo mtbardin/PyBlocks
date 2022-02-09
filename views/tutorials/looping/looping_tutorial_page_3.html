@@ -14,7 +14,6 @@
 	<!-- Favicon Icon -->
 	<link rel="icon" href="images/PyBlocks Logo.png">
 
-	<script type="text/javascript" src="scripts/tutorials/looping/looping_tutorial_page_3_scripts.js"></script>
 </head>
 
 <body>
@@ -88,22 +87,76 @@
 				Finally, just fill in the body of the loop and you are good to go!
 			</article>
 
+			<!-- Try It Question. -->
 			<article class="tryIt">
 				<h3 class="tryItInstructions">Try It Section</h3>
 				<p class="tryItInstructions">
-					This is an example of a description of a try it section.
-					Fill in the blanks so the statement is true. <br />
-				</p>
-				<div class="tryItQuestion">
-					<p>length of: range(0, </p>
-					<input id="inputTwo"/>
-					<p>) = 7</p>
+					Set up a while loop to set the variable to 6.<br>
+					Make sure you avoid an infinite loop!<br>
+				</p><div class="appContainer">
+					<div class="inline-block-child" style="width: 600px; height: 300px;">
+						<div class="blockly-editor">
+							<div id="blocklyDiv" style="height: 100%; width: 100%;"></div>
+							<xml xmlns="https://developers.google.com/blockly/xml" id="toolbox" style="display: none">
+								<category name="Text" colour="120">
+									<block type="text"></block>
+									<block type="text_print">
+										<value name="TEXT">
+											<shadow type="text">
+												<field name="TEXT">print what goes here...</field>
+											</shadow>
+										</value>
+									</block>
+								</category>
+								<category name="Misc" colour="240">
+									<block type="controls_if"></block>
+
+									<block type="logic_compare"></block>
+									<block type="logic_operation"></block>
+									<block type="logic_negate"></block>
+									<block type="logic_boolean"></block>
+
+									<block type="math_number"></block>
+									<block type="math_arithmetic"></block>
+
+									<block type="text"></block>
+									<block type="text_print"></block>
+
+									<block type="variables_get"></block>
+									<block type="variables_set"></block>
+								</category>
+								<category name="Looping" colour="180">
+									<block type="controls_whileUntil"></block>
+									<block type="controls_flow_statements"></block>
+								</category>
+								<category name="Movement" colour="260">
+									<block type="move_up"></block>
+									<block type="move_down"></block>
+									<block type="move_left"></block>
+									<block type="move_right"></block>
+									<block type="rotate_right"></block>
+									<block type="rotate_left"></block>
+								</category>
+								<category name="Flower Blocks" colour="230">
+									<block type="pick_one_flower"></block>
+									<block type="check_flower_color"></block>
+									<block type="check_facing_flower"></block>
+								</category>
+								<category name="Code in Text Blocks" colour="245">
+									<block type="python_text_block"></block>
+								</category>
+							</xml>
+						</div>
+					</div>
+					<br />
 				</div>
-				<p></p>
-				<button id="submitButtonTwo" class="tryItSubmitButton"> Submit Answer</button>
-				<p></p>
+				<br />
+				<button id="submitButtonOne" class="tryItSubmitButton"> Submit Answer</button>
+				<br />
 			</article>
-			<p id="resultTwo" class="tryItResults"></p>
+			<br />
+			<p id="userOut" class="tryItResults"></p>
+			<p id="resultOne" class="tryItResults"></p>
 
 			<!-- Spacer for the bottom buttons -->
 			<br />
@@ -128,5 +181,7 @@
 	<script src="/scripts/python_compressed.js"></script>
 	<!-- PyBlock Scripts -->
 	<!--<script src="/scripts/tutorials.js"></script>-->
+	<script src="/scripts/custom_blocks.js"></script>
+	<script type="text/javascript" src="scripts/tutorials/looping/looping_tutorial_page_3_scripts.js"></script>
 </body>
 </html>

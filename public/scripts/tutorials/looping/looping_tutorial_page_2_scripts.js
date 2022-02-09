@@ -5,7 +5,7 @@ $(document).ready(function () {
         let ans = $("#inputOne").val();
 
         // Check to see if the answer is right.
-        if (ans == "6") {
+        if (ans == "9") {
             $("#resultOne").text("Correct!");
             $("#resultOne").css("background-color", "LimeGreen");
 
@@ -14,22 +14,6 @@ $(document).ready(function () {
         else {
             $("#resultOne").text("Incorrect, try again.");
             $("#resultOne").css("background-color", "Crimson");
-        }
-    });
-
-    // Listen for when the submit button for Try It two is clicked.
-    $("#submitButtonTwo").click(function () {
-        // Get the info the user has submitted.
-        let ans = $("#inputTwo").val();
-
-        // Check to see if the answer is right.
-        if (ans == "6") {
-            $("#resultTwo").text("Correct!");
-            $("#resultTwo").css("background-color", "LimeGreen");
-        }
-        else {
-            $("#resultTwo").text("Incorrect, try again.");
-            $("#resultTwo").css("background-color", "Crimson");
         }
     });
 });
