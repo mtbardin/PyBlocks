@@ -14,24 +14,7 @@
 	<!-- Favicon Icon -->
 	<link rel="icon" href="images/PyBlocks Logo.png">
 
-	<!-- Check Try It Answers -->
-	<script>
-		$(document).ready(function () {
-			// Listen for when the submit button for Try It two is clicked.
-            $("#submitButtonTwo").click(function () {
-                // Get the info the user has submitted.
-				let ans = $("#inputTwo").val();
-
-				// Check to see if the answer is right.
-				if (ans == "6") {
-                    $("#resultTwo").text("Correct!");
-				}
-				else {
-                    $("#resultTwo").text("Incorrect, try again.");
-                }
-            });
-        });
-	</script>
+	<script type="text/javascript" src="scripts/tutorials/looping/looping_tutorial_page_3_scripts.js"></script>
 </head>
 
 <body>
@@ -61,12 +44,9 @@
 
 			<article class="textInfo">
 				<p>
-					There are times when you will need to repeat
+					Sometimes, you will want to repeat a loop based on something other than just counting.<br>
+					A "while" loop handles these sorts of things.
 				</p>
-			</article>
-
-			<article class="textInfo">
-				Words will go here
 			</article>
 
 			<aside class="helpfulPicture">
@@ -74,21 +54,38 @@
 			</aside>
 
 			<h2>What</h2>
-			<article class="tryIt">
-				Try It Section
-			</article>
-
 			<article class="textInfo">
-				Words will go here
+				Again, two different types of while loops, though they can be used the same ways.<br>				
+				<ul>
+					<li>
+						The first is the standard 'while' loop.<br>
+						It needs a comparison, but will run the loop over and over until the comparison is 'false'.<br>
+						Make sure you put a way for it to be false, or you'll run into an infinite loop quite easily!<br>
+					</li>
+					<br>
+					<li>
+						The second is a bit weird. It's an 'until' loop.<br>
+						It's kind of an inverse of the 'while' loop.<br>
+						It works the same way though, repeating a loop based on a comparison it checks.<br>
+						The difference being that it goes until the comparison is true!<br>
+						The keen-eyed among you may realize that you could set up a while loop to do the same thing.<br>
+						That is very true, but using the 'until' loop makes things a bit easier by seperating it.
+					</li>
+				</ul>
+				
 			</article>
 
+			
 			<aside class="helpfulPicture">
-				<img src="https://dummyimage.com/600x400/e6e3e6/000000.png&text=PlaceHolder" />
+				<img src="/images/tutorials/looping/WhileLoopKinds.png">
 			</aside>
 
 			<h2>How</h2>
 			<article class="textInfo">
-				Words will go here
+				Drag out the block to the workspace.<br>
+				Decide and pick which kind of loop you want, 'while' or 'until'.<br>
+				Drag on and slot in the comparison you want, and put in the variables you want to compare.<br>
+				Finally, just fill in the body of the loop and you are good to go!
 			</article>
 
 			<article class="tryIt">
