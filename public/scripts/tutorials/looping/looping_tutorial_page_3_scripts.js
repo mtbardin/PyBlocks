@@ -31,7 +31,7 @@ $(document).ready(function () {
 			let ans = data.output;
 			$("#resultOne").text(ans);
 			// Check to see if the answer is right.
-			if (ans == "Good Morning, World!\r\n") {
+			if (ans == "6\r\n") {
 				$("#resultOne").text("Nice job!");
 				$("#resultOne").css("background-color", "LimeGreen");
 				$("#userOut").text("");

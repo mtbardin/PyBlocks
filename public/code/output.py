@@ -1,4 +1,9 @@
-for count2 in range(5):
-  for count in range(10):
-    print('X', end="")
-  print()
+X = None
+
+
+X = 0
+
+while X != 6:
+  X = X + 1
+
+print(X)
