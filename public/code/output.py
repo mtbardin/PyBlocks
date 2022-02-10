@@ -1,7 +1,4 @@
-numFlowers = None
-
-
-numFlowers = 0
-while not numFlowers == 6:
-  numFlowers = numFlowers + 1
-print(numFlowers)
+for count2 in range(5):
+  for count in range(10):
+    print('X', end="")
+  print()

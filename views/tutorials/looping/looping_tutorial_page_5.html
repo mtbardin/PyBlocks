@@ -13,8 +13,6 @@
 
 	<!-- Favicon Icon -->
 	<link rel="icon" href="images/PyBlocks Logo.png">
-
-	<script src="/scripts/custom_blocks.js"></script>
 	<script type="text/javascript" src="scripts/tutorials/looping/looping_tutorial_page_5_scripts.js"></script>
 </head>
 
@@ -46,7 +44,9 @@
 			<article class="textInfo">
 				<p>
 					There will be times when you want to repeat an action within a loop.<br>
-					This is called "nesting" a loop, since it's like a bird in a nest.
+					This is called "nesting" a loop, since it's like a bird in a nest.<br>
+					This is primarily used when you want to do something to each value in a list<br>
+					(Or if you want to work with 2-Dimensional arrays, which we will teach you about later.)<br>
 				</p>
 			</article>
 			
@@ -58,11 +58,9 @@
 			<article class="textInfo">
 				<p>
 					There are two parts to a nested loop.<br>
-					The 'outer' loop is the nest in the analogy, holding the 'inner' loop inside of it.
+					The 'outer' loop is the nest in the analogy, holding the 'inner' loop inside of it.<br>
 				</p>
 			</article>
-			
-			<br />
 
 			<h2>How</h2>
 			<article class="textInfo">
@@ -71,104 +69,83 @@
 				Finally, connect the inner block to the 'do' part of the outer loop and you are ready to go!<br>
 			</article>
 
-			<!-- Grid World Test Embed -->
-			<!-- Grid World Container -->
-			<div style="width: 600px; height: 600px; display: inline;">
-				<h2 style="margin-bottom: 0px;">Grid World</h2>
-				<canvas id="gridWorld" style="width: 512px; height: 512px;"></canvas>
-			</div>
+			<!-- Try It Question. -->
+			<article class="tryIt">
+				<h3 class="tryItInstructions">Try It Section</h3>
+				<p class="tryItInstructions">
+					Print 'X' 10 times in a row, for 5 rows, please.
+				</p><div class="appContainer">
+					<div class="inline-block-child" style="width: 600px; height: 300px;">
+						<div class="blockly-editor">
+							<div id="blocklyDiv" style="height: 100%; width: 100%;"></div>
+							<xml xmlns="https://developers.google.com/blockly/xml" id="toolbox" style="display: none">
+								<category name="Text" colour="120">
+									<block type="text"></block>
+									<block type="text_print">
+										<value name="TEXT">
+											<shadow type="text">
+												<field name="TEXT">print what goes here...</field>
+											</shadow>
+										</value>
+									</block>
+									<block type="text_put"></block>
+									<block type="text_newline"></block>
+								</category>
+								<category name="Misc" colour="240">
 
-			<div class="inline-block-child" style="width: 800px; height: 512px; display: inline-block;">
-				<!-- List for all blocks -->
-				<div class="blockly-editor" style="height: 100%; width: 100%;">
-					<div id="blocklyDiv" style="height: 100%; width: 100%;"></div>
-					<xml xmlns="https://developers.google.com/blockly/xml" id="toolbox" style="display: none">
-						<category name="Text" colour="120">
-							<block type="text"></block>
-							<block type="text_print">
-								<value name="TEXT">
-									<shadow type="text">
-										<field name="TEXT">print what goes here...</field>
-									</shadow>
-								</value>
-							</block>
-						</category>
-						<category name="Misc" colour="240">
-							<block type="controls_if"></block>
+									<block type="math_number"></block>
+									<block type="math_arithmetic"></block>
 
-							<block type="logic_compare"></block>
-							<block type="logic_operation"></block>
-							<block type="logic_negate"></block>
-							<block type="logic_boolean"></block>
-
-							<block type="math_number"></block>
-							<block type="math_arithmetic"></block>
-
-							<block type="text"></block>
-							<block type="text_print"></block>
-
-							<block type="variables_get"></block>
-							<block type="variables_set"></block>
-						</category>
-						<category name="Looping" colour="180">
-							<block type="controls_repeat_ext">
-								<value name="TIMES">
-									<shadow type="math_number">
-										<field name="NUM">10</field>
-									</shadow>
-								</value>
-							</block>
-							<block type="controls_whileUntil"></block>
-							<block type="controls_for">
-								<value name="FROM">
-									<shadow type="math_number">
-										<field name="NUM">1</field>
-									</shadow>
-								</value>
-								<value name="TO">
-									<shadow type="math_number">
-										<field name="NUM">10</field>
-									</shadow>
-								</value>
-								<value name="BY">
-									<shadow type="math_number">
-										<field name="NUM">1</field>
-									</shadow>
-								</value>
-							</block>
-							<block type="controls_forEach"></block>
-							<block type="controls_flow_statements"></block>
-						</category>
-						<category name="Movement" colour="260">
-							<block type="move_up"></block>
-							<block type="move_down"></block>
-							<block type="move_left"></block>
-							<block type="move_right"></block>
-							<block type="rotate_right"></block>
-							<block type="rotate_left"></block>
-						</category>
-						<category name="Flower Blocks" colour="230">
-							<block type="pick_one_flower"></block>
-							<block type="check_flower_color"></block>
-							<block type="check_facing_flower"></block>
-						</category>
-						<category name="Code in Text Blocks" colour="245">
-							<block type="python_text_block"></block>
-						</category>
-					</xml>
+									<block type="variables_get"></block>
+									<block type="variables_set"></block>
+								</category>
+								<category name="Looping" colour="180">
+									<block type="controls_whileUntil"></block>
+									<block type="controls_repeat_ext">
+										<value name="TIMES">
+											<shadow type="math_number">
+												<field name="NUM">10</field>
+											</shadow>
+										</value>
+									</block>
+									<block type="controls_for">
+										<value name="FROM">
+											<shadow type="math_number">
+												<field name="NUM">1</field>
+											</shadow>
+										</value>
+										<value name="TO">
+											<shadow type="math_number">
+												<field name="NUM">10</field>
+											</shadow>
+										</value>
+										<value name="BY">
+											<shadow type="math_number">
+												<field name="NUM">1</field>
+											</shadow>
+										</value>
+									</block>
+								</category>
+								<category name="Movement" colour="260">
+									<block type="move_up"></block>
+									<block type="move_down"></block>
+									<block type="move_left"></block>
+									<block type="move_right"></block>
+									<block type="rotate_right"></block>
+									<block type="rotate_left"></block>
+								</category>
+							</xml>
+						</div>
+					</div>
+					<br />
 				</div>
-			</div>
-
-			<!-- execute code in block button -->
-			<div class="inline-block-child">
-				<h1>Run Code</h1>
-				<label for="exe"></label>
-				<input type="text" id="exefileName" value="output.py" style="display: none"/>
-				<button id="exe">Execute</button>
-			</div>
-
-			<p>Try moving down once.</p>
-			<p id="resultZero" class="tryItResults"></p>
+				<br />
+				<button id="submitButtonOne" class="tryItSubmitButton"> Submit Answer</button>
+				<br />
+			</article>
+			<br />
+			<p id="userOut" class="tryItResults"></p>
+			<p id="resultOne" class="tryItResults"></p>
 
 			<!-- Spacer for the bottom buttons -->
 			<br />
@@ -193,6 +170,7 @@
 	<script src="/scripts/python_compressed.js"></script>
 	<!-- PyBlock Scripts -->
 	<!--<script src="/scripts/tutorials.js"></script>-->
-	<script src="/scripts/tutorials/looping/looping_grid_world.js"></script>
+
+	<script src="/scripts/custom_blocks.js"></script>
 </body>
 </html>

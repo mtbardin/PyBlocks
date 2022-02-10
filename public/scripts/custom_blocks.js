@@ -121,6 +121,33 @@
         "tooltip": "Try out coding in Python.",
         "helpUrl": ""
     };
+	
+	// Put Block
+	let putBlockJson = {
+	  "type": "text_put",
+	  "message0": "put %1",
+	  "args0": [
+		{
+		  "type": "input_value",
+		  "name": 'TEXT'
+		}
+	  ],
+	  "previousStatement": null,
+	  "nextStatement": null,
+	  "colour": 105,
+	  "tooltip": "Print a string without creating a new line.",
+	  "helpUrl": ""
+	};
+	
+	let newlineBlockJson = {
+	  "type": "text_newline",
+	  "message0": "newline",
+	  "previousStatement": null,
+	  "nextStatement": null,
+	  "colour": 105,
+	  "tooltip": "Go to a newline without printing anything.",
+	  "helpUrl": ""
+	};
 
 
     // Create the block using the JSON.
@@ -174,10 +201,22 @@
         }
     };
 
-    // Text Block
+    // Text Blocks
     Blockly.Blocks['python_text_block'] = {
         init: function () {
             this.jsonInit(textBlockJson);
+        }
+    };
+	
+    Blockly.Blocks['text_put'] = {
+        init: function () {
+            this.jsonInit(putBlockJson);
+        }
+    };
+	
+    Blockly.Blocks['text_newline'] = {
+        init: function () {
+            this.jsonInit(newlineBlockJson);
         }
     };
 
@@ -229,5 +268,14 @@
         let code = block.getFieldValue('pythonCode');
         //console.log(code);
         return code;
+    };
+	
+    Blockly.Python['text_put'] = function (block) { 
+        const msg = Blockly.Python.valueToCode(block, 'TEXT', Blockly.Python.ORDER_NONE) || '\'\'';
+		return 'print(' + msg + ', end="")\n';
+    };
+	
+    Blockly.Python['text_newline'] = function (block) { 
+		return 'print()\n';
     };
 })();
