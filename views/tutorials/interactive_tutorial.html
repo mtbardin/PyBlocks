@@ -24,74 +24,7 @@
     <!-- Custom Blocks Scripts -->
     <script src="/scripts/custom_blocks.js"></script>
 
-    <style>
-        /* The Modal (background) */
-        .modal {
-            display: none; /* Hidden by default */
-            position: fixed; /* Stay in place */
-            z-index: 1000; /* Sit on top */
-            left: 0;
-            top: 0;
-            width: 100%; /* Full width */
-            height: 100%; /* Full height */
-            overflow: auto; /* Enable scroll if needed */
-            background-color: rgb(0,0,0); /* Fallback color */
-            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-            padding-top: 60px;
-        }
-
-        /* Modal Content/Box */
-        .modal-content {
-            background-color: #fefefe;
-            margin: 5px auto; /* 15% from the top and centered */
-            border: 1px solid #888;
-            width: 80%; /* Could be more or less, depending on screen size */
-        }
-
-        /* The Close Button */
-        .close {
-            /* Position it in the top right corner outside of the modal */
-            position: absolute;
-            right: 25px;
-            top: 0;
-            color: #000;
-            font-size: 35px;
-            font-weight: bold;
-        }
-
-            /* Close button on hover */
-            .close:hover,
-            .close:focus {
-                color: red;
-                cursor: pointer;
-            }
-
-        /* Add Zoom Animation */
-        .animate {
-            -webkit-animation: animatezoom 0.6s;
-            animation: animatezoom 0.6s
-        }
-
-        @-webkit-keyframes animatezoom {
-            from {
-                -webkit-transform: scale(0)
-            }
-
-            to {
-                -webkit-transform: scale(1)
-            }
-        }
-
-        @keyframes animatezoom {
-            from {
-                transform: scale(0)
-            }
-
-            to {
-                transform: scale(1)
-            }
-        }
-    </style>
+    <link href="/css/save_n_load.css" type="text/css" rel="stylesheet">
 </head>
 
 <body>
@@ -232,6 +165,12 @@
                     <category name="Code in Text Blocks" colour="245">
                         <block type="python_text_block"></block>
                     </category>
+                    <category name="Grid World Library" colour="80">
+                        <block type="cast_magic"></block>
+                        <block type="pick_up_treasure"></block>
+                        <block type="check_facing_treasure"></block>
+                        <block type="check_facing_snake"></block>
+                    </category>
                 </xml>
             </div>
         </div>
@@ -273,7 +212,7 @@
             <button id="loadWorkspace">Load Workspace</button>-->
 
             <button id="saveCode">Save Code</button>
-            <button id="loadCode">Load Code</button>
+            <button id="loadCode">Load Code or Delete a Saved Code</button>
 
             <p>
                 to get tabs to work in the python text block we probably need to create a new field type that allows for \t characters. <br />
@@ -308,6 +247,7 @@
 
         <!-- Modal Content -->
         <div class="modal-content animate">
+            <p>Load or Delete a File.</p>
             <ul id="loadFileList"></ul>
             <button id="loadWorkspace" onclick="document.getElementById('fileDisplay').style.display = 'none'">Load Program: </button>
             <input id="loadWorkspaceName" />
