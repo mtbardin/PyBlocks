@@ -70,6 +70,21 @@
         Blockly.Xml.domToWorkspace(Blockly.Xml.textToDom(data), workspace);
     });
     //$(window).on('', function (event) { });
+
+    // Listen for get directory request.
+    qS("#getSavedCodes").addEventListener('click', function () {
+        alert("getting");
+        let userID = document.getElementById("userid").value;
+        let filePath = "/user_workspaces/" + userID + "/";
+
+        socket.emit('getDir', filePath, userID, (response) => {
+            console.log(response.status);
+        });
+    });
+
+    socket.on('sendDir', (data) => {
+        alert(data);
+    });
 })();
 
 (function () {

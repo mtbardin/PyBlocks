@@ -93,7 +93,7 @@ def move_up():
     x, y = findSpaceInFront()
     if(isntSolidTileAtXY(x, y)):
         gwd.hero_y -= 1
-        print("TOKEN:e397b4fa67c25cc1c9eae980cfdd43eb")
+    print("TOKEN:e397b4fa67c25cc1c9eae980cfdd43eb")
 
 
 def move_down():
@@ -101,7 +101,7 @@ def move_down():
     x, y = findSpaceInFront()
     if(isntSolidTileAtXY(x, y)):
         gwd.hero_y += 1 
-        print("TOKEN:8b32429247158c80deab773f4e04e1c2")
+    print("TOKEN:8b32429247158c80deab773f4e04e1c2")
 
 
 def move_left():
@@ -109,17 +109,16 @@ def move_left():
     x, y = findSpaceInFront()
     if(isntSolidTileAtXY(x, y)):
         gwd.hero_x -= 1
-        print("TOKEN:d7aa835d76fc894935ade13f4d0624f8")
+    print("TOKEN:d7aa835d76fc894935ade13f4d0624f8")
 
 
 def move_right():
-    
     gwd.hero_direction = FACING_RIGHT
     x, y = findSpaceInFront()
     if(isntSolidTileAtXY(x, y)):
         print("MOVING RIGHT")
         gwd.hero_x += 1
-        print("TOKEN:3dc5ed1f827e8c9a6392edb90af992d5")
+    print("TOKEN:3dc5ed1f827e8c9a6392edb90af992d5")
 
 
 # Rotation Tokens.
@@ -197,7 +196,8 @@ def pick_one_flower():
     # There wasn't a flower to be picked so return an unsuccessful pick.
     else:
         #$(window).trigger('unsuccessfulPick')
-        print("TOKEN:ERROR")
+        #print("TOKEN:ERROR")
+        None
 
 
 def check_flower_color():
@@ -244,3 +244,142 @@ def check_facing_flower():
         return True
     else:
         return False
+
+
+# Treasure Functions.
+def pick_up_treasure():
+    # Pick the flower infront of the character.
+    check_col, check_row = findSpaceInFront()
+    
+    tile_value_to_check = getTile(1, check_col, check_row)
+    tile_pos_in_map = (check_row * map_cols) + check_col
+
+    # Treasure has tile number 9
+    treasure =  9
+
+    # If facing treasure pick it up and replace it with an empty space.
+    if (tile_value_to_check == treasure):
+        print("Picking Up Treasure")
+        gwd.layers[1][tile_pos_in_map] = 0
+        print("TOKEN:ce495d13cc94ae8787006012f6aab0de")
+
+    # There wasn't treasure to be picked up so return an unsuccessful action.
+    else:
+        #print("TOKEN:ERROR")
+        None
+
+
+def check_facing_treasure():
+    # Find the space in front of the character and its value.
+    check_col, check_row = findSpaceInFront()
+    tile_value_to_check = getTile(1, check_col, check_row)
+
+    # Treasure has tile number 9
+    treasure =  9
+
+    if(tile_value_to_check == treasure):
+        return True
+    else:
+        return False
+
+
+# Snake Functions.
+def can_see_snake():
+    # Find the space in front of the character.
+    check_col, check_row = findSpaceInFront()
+
+    # Get the max number of possible tiles to check.
+    num_tiles_to_check = 0
+    if (gwd.hero_direction == FACING_DOWN):
+        num_tiles_to_check = gwd.map_rows - check_row
+    elif (gwd.hero_direction == FACING_LEFT):
+        num_tiles_to_check = check_col + 1
+    elif (gwd.hero_direction == FACING_RIGHT):
+        num_tiles_to_check = gwd.map_cols - check_col
+    elif (gwd.hero_direction == FACING_UP):
+        num_tiles_to_check = check_row + 1
+
+    # go through the number of possible tiles until a solid one is reached.
+    first_solid_square = 1
+    check_x = gwd.hero_x
+    check_y = gwd.hero_y
+    for i in range(0, num_tiles_to_check):
+        if (gwd.hero_direction == FACING_DOWN):
+            check_y += 1
+            is_solid = isntSolidTileAtXY(check_x, check_y)
+        elif (gwd.hero_direction == FACING_LEFT):
+            check_x -= 1
+            is_solid = isntSolidTileAtXY(check_x, check_y)
+        elif (gwd.hero_direction == FACING_RIGHT):
+            check_x += 1
+            is_solid = isntSolidTileAtXY(check_x, check_y)
+        elif (gwd.hero_direction == FACING_UP):
+            check_y -= 1
+            is_solid = isntSolidTileAtXY(check_x, check_y)
+
+        if not is_solid:
+            break
+        else:
+            first_solid_square += 1
+
+    # Snake has tile number 4
+    snake =  4
+
+    # Get the value of the first solid block the character is looking at.
+    tile_value_to_check = getTile(1, check_x, check_y)
+    if(tile_value_to_check == snake):
+        return True
+    else:
+        return False
+
+
+# Magic Functions
+def cast_magic():
+    # Find the space in front of the character.
+    check_col, check_row = findSpaceInFront()
+
+    # Get the max number of possible tiles to check.
+    num_tiles_to_check = 0
+    if (gwd.hero_direction == FACING_DOWN):
+        num_tiles_to_check = gwd.map_rows - check_row
+    elif (gwd.hero_direction == FACING_LEFT):
+        num_tiles_to_check = check_col + 1
+    elif (gwd.hero_direction == FACING_RIGHT):
+        num_tiles_to_check = gwd.map_cols - check_col
+    elif (gwd.hero_direction == FACING_UP):
+        num_tiles_to_check = check_row + 1
+
+    # go through the number of possible tiles until a solid one is reached.
+    first_solid_square = 1
+    check_x = gwd.hero_x
+    check_y = gwd.hero_y
+    for i in range(0, num_tiles_to_check):
+        if (gwd.hero_direction == FACING_DOWN):
+            check_y += 1
+            is_solid = isntSolidTileAtXY(check_x, check_y)
+        elif (gwd.hero_direction == FACING_LEFT):
+            check_x -= 1
+            is_solid = isntSolidTileAtXY(check_x, check_y)
+        elif (gwd.hero_direction == FACING_RIGHT):
+            check_x += 1
+            is_solid = isntSolidTileAtXY(check_x, check_y)
+        elif (gwd.hero_direction == FACING_UP):
+            check_y -= 1
+            is_solid = isntSolidTileAtXY(check_x, check_y)
+
+        if not is_solid:
+            break
+        else:
+            first_solid_square += 1
+
+    # Snake has tile number 4
+    snake =  4
+
+    # Get the value of the first solid block the character is looking at.
+    tile_value_to_check = getTile(1, check_x, check_y)
+    if(tile_value_to_check == snake):
+        tile_pos_in_map = (check_y * map_cols) + check_x
+        gwd.layers[1][tile_pos_in_map] = 0
+        print(f"TOKEN:0e56db162647eb767eff3dbb1c774c24:{first_solid_square}:HIT_SNAKE")
+    else:
+        print(f"TOKEN:0e56db162647eb767eff3dbb1c774c24:{first_solid_square}:MISS_SNAKE")

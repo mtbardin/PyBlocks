@@ -23,7 +23,8 @@
 
     <!-- Custom Blocks Scripts -->
     <script src="/scripts/custom_blocks.js"></script>
-    
+
+    <link href="/css/save_n_load.css" type="text/css" rel="stylesheet">
 </head>
 
 <body>
@@ -37,8 +38,7 @@
 
         <div class="inline-block-child" style="width: 800px; height: 400px;">
             <!-- List for all blocks -->
-            <h2 class="inline-block-child" style="margin-bottom: 0px;">Block Section:</h2>
-            <p> Try and print the string "Hello World!" </p>
+            <h2 class="inline-block-child">Block Section:</h2>
             <div class="blockly-editor">
                 <div id="blocklyDiv" style="height: 100%; width: 100%;"></div>
                 <xml xmlns="https://developers.google.com/blockly/xml" id="toolbox" style="display: none">
@@ -98,6 +98,57 @@
                         <block type="controls_forEach"></block>
                         <block type="controls_flow_statements"></block>
                     </category>
+                    <category name="Lists" colour="200">
+                        <block type="lists_create_with">
+                            <mutation items="0"></mutation>
+                        </block>
+                        <block type="lists_create_with"></block>
+                        <block type="lists_repeat">
+                            <value name="NUM">
+                                <shadow type="math_number">
+                                    <field name="NUM">5</field>
+                                </shadow>
+                            </value>
+                        </block>
+                        <block type="lists_length"></block>
+                        <block type="lists_isEmpty"></block>
+                        <block type="lists_indexOf">
+                            <value name="VALUE">
+                                <block type="variables_get">
+                                    <field name="VAR">listVariable</field>
+                                </block>
+                            </value>
+                        </block>
+                        <block type="lists_getIndex">
+                            <value name="VALUE">
+                                <block type="variables_get">
+                                    <field name="VAR">listVariable</field>
+                                </block>
+                            </value>
+                        </block>
+                        <block type="lists_setIndex">
+                            <value name="LIST">
+                                <block type="variables_get">
+                                    <field name="VAR">listVariable</field>
+                                </block>
+                            </value>
+                        </block>
+                        <block type="lists_getSublist">
+                            <value name="LIST">
+                                <block type="variables_get">
+                                    <field name="VAR">listVariable</field>
+                                </block>
+                            </value>
+                        </block>
+                        <block type="lists_split">
+                            <value name="DELIM">
+                                <shadow type="text">
+                                    <field name="TEXT">,</field>
+                                </shadow>
+                            </value>
+                        </block>
+                        <block type="lists_sort"></block>
+                    </category>
                     <category name="Movement" colour="260">
                         <block type="move_up"></block>
                         <block type="move_down"></block>
@@ -114,12 +165,18 @@
                     <category name="Code in Text Blocks" colour="245">
                         <block type="python_text_block"></block>
                     </category>
+                    <category name="Grid World Library" colour="80">
+                        <block type="cast_magic"></block>
+                        <block type="pick_up_treasure"></block>
+                        <block type="check_facing_treasure"></block>
+                        <block type="can_see_snake"></block>
+                    </category>
                 </xml>
             </div>
         </div>
 
         <div class="inline-block-child" style="width: 400px; height: 400px;">
-            <h2 style="margin-bottom: 50px;">Program Output:</h2>
+            <h2>Program Output:</h2>
             <!-- area for executed output to be displayed -->
             <div class="outputContainer">
                 <pre id="output" style="margin-left: 5px; font-family: Consolas, 'Lucida Console'; font-size: 14px; white-space: pre-wrap;"></pre>
@@ -133,11 +190,7 @@
             <h1>Execute Demo</h1>
             <label for="exe"></label>
             <input type="text" id="exefileName" value="output.py" hidden />
-            <!--<textarea id="printBlockData" hidden></textarea>--->
             <button id="exe">Execute</button>
-
-            <label for="ani"></label>
-            <button id="ani">R, R, D, D Animation</button>
         </div>
 
         <div class="cmdOutContainer">
@@ -147,21 +200,78 @@
         <!-- Save and Load Workspace-->
         <div class="inline-block-child" style="margin-left: 100px;">
             <h1>Save and Load Workspace</h1>
-            <label for="userid">User Id (will be set in the backend next milestone): </label>
+            <label for="userid">User Id (will be set in the backend): </label>
             <input type="text" id="userid" value="UserID1" />
 
-            <label for="saveWorkspaceName">Save As: </label>
+            <!--<label for="saveWorkspaceName">Save As: </label>
             <input type="text" id="saveWorkspaceName" value="1" />
             <button id="saveWorkspace">Save Workspace</button>
 
-            <label for="useloadWorkspaceNamerid">Load: </label>
+            <label for="loadWorkspaceName">Load: </label>
             <input type="text" id="loadWorkspaceName" value="1" />
-            <button id="loadWorkspace">Load Workspace</button>
+            <button id="loadWorkspace">Load Workspace</button>-->
+
+            <button id="saveCode">Save Code</button>
+            <button id="loadCode">Load Code or Delete a Saved Code</button>
+
+            <p>
+                to get tabs to work in the python text block we probably need to create a new field type that allows for \t characters. <br />
+                that seems to be the biggest problem from getting its full implementation.
+            </p>
         </div>
     </div>
 
+    <!-- Button to open the modal login form -->
+    <!--<button id="getSavedCodes" onclick="document.getElementById('id01').style.display='block'">Login</button>-->
+
+    <!-- The Modal for saving. -->
+    <div id="fileSaveDisplay" class="modal">
+        <span onclick="document.getElementById('fileSave').style.display='none'"
+              class="close" title="Close Modal">&times;</span>
+
+        <!-- Modal Content -->
+        <div class="modal-content animate">
+            <p>Currently Saved Files:</p>
+            <ul id="saveFileList"></ul>
+            <p><strong>WARNING!</strong> saving a file with the same name will rewrite the file.</p>
+            <button id="saveWorkspace" onclick="document.getElementById('fileSaveDisplay').style.display = 'none'">Save Program As: </button>
+            <input id="saveWorkspaceName" />
+        </div>
+
+    </div>
+
+    <!-- The Modal for loading -->
+    <div id="fileDisplay" class="modal">
+        <span onclick="document.getElementById('fileDisplay').style.display='none'"
+              class="close" title="Close Modal">&times;</span>
+
+        <!-- Modal Content -->
+        <div class="modal-content animate">
+            <p>Load or Delete a File.</p>
+            <ul id="loadFileList"></ul>
+            <button id="loadWorkspace" onclick="document.getElementById('fileDisplay').style.display = 'none'">Load Program: </button>
+            <input id="loadWorkspaceName" />
+            <button id="deleteFileButton" onclick="document.getElementById('fileDisplay').style.display = 'none'">Delete Program</button>
+        </div>
+
+    </div>
 
     <script src="/scripts/grid_world.js"></script>
     <!--script src="/scripts/interactive_demo.js"></script-->
+    <script>
+        // Get the modal
+        var modal1 = document.getElementById('fileDisplay');
+        var modal2 = document.getElementById('fileSaveDisplay');
+
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function (event) {
+            if (event.target == modal1) {
+                modal1.style.display = "none";
+            }
+            if (event.target == modal2) {
+                modal2.style.display = "none";
+            }
+        } 
+    </script>
 </body>
 </html>
