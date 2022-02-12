@@ -63,8 +63,9 @@
 				</p>
 			</article>
 
+			
 			<aside class="helpfulPicture">
-				<img src="https://dummyimage.com/600x400/e6e3e6/000000.png&text=Picture%20of%20Something" />
+				<img src="/images/tutorials/looping/LoopDrawing.png">
 			</aside>
 
 			<!-- What -->
@@ -84,31 +85,7 @@
 				</ul>
 			</article>
 
-			<aside class="helpfulPicture">
-				<img src="https://dummyimage.com/600x400/e6e3e6/000000.png&text=Diagram%20of%20a%20loop" />
-			</aside>
-
 			<br />
-
-			<!-- Try It Question 1. -->
-			<article class="tryIt">
-				<h3 class="tryItInstructions">Try It Section</h3>
-				<p class="tryItInstructions">
-					This is an example of a description of a try it section.
-					Fill in the blanks so the statement is true. <br />
-				</p>
-				<div class="tryItQuestion">
-					<p>length of range(0, </p>
-					<input id="inputOne" />
-					<p>) = 7</p>
-				</div>
-				<br />
-				<br />
-				<button id="submitButtonOne" class="tryItSubmitButton"> Submit Answer</button>
-				<br />
-			</article>
-			<br />
-			<p id="resultOne" class="tryItResults"></p>
 
 			<!-- How -->
 			<h2 style="margin-top: 2.0em;">How</h2>
@@ -137,124 +114,25 @@
 				</p>
 			</article>
 
-			<!-- Try It Question 2. -->
+			<!-- Try It Question. -->
 			<article class="tryIt">
 				<h3 class="tryItInstructions">Try It Section</h3>
 				<p class="tryItInstructions">
-					This will be an example where the user will interact with blocks.
+					What are the two parts to a loop?<br>
+					Order is top to bottom and the word should look like this: Example<br>
+					(Start with capital letter and all others lowercase)
 				</p>
-				<!--
-					<div class="tryItQuestion">
-						<p></p>
-						<input id="inputTwo" />
-						<p></p>
-					</div>
-					-->
+				<div class="tryItQuestion">
+					<input id="inputOne" /> <br>
+					<input id="inputTwo" />
+				</div>
 				<br />
-				<button id="submitButtonTwo" class="tryItSubmitButton"> Submit Answer</button>
+				<br />
+				<button id="submitButtonOne" class="tryItSubmitButton"> Submit Answer</button>
 				<br />
 			</article>
 			<br />
-			<p id="resultTwo" class="tryItResults"></p>
-
-			<!-- Grid World Test Embed -->
-			<!-- Grid World Container -->
-			<div style="width: 600px; height: 600px; display: inline;">
-				<h2 style="margin-bottom: 0px;">Grid World</h2>
-				<canvas id="gridWorld" style="width: 512px; height: 512px;"></canvas>
-			</div>
-
-			<div class="inline-block-child" style="width: 800px; height: 512px; display: inline-block;">
-				<!-- List for all blocks -->
-				<div class="blockly-editor" style="height: 100%; width: 100%;">
-					<div id="blocklyDiv" style="height: 100%; width: 100%;"></div>
-					<xml xmlns="https://developers.google.com/blockly/xml" id="toolbox" style="display: none">
-						<category name="Text" colour="120">
-							<block type="text"></block>
-							<block type="text_print">
-								<value name="TEXT">
-									<shadow type="text">
-										<field name="TEXT">print what goes here...</field>
-									</shadow>
-								</value>
-							</block>
-						</category>
-						<category name="Misc" colour="240">
-							<block type="controls_if"></block>
-
-							<block type="logic_compare"></block>
-							<block type="logic_operation"></block>
-							<block type="logic_negate"></block>
-							<block type="logic_boolean"></block>
-
-							<block type="math_number"></block>
-							<block type="math_arithmetic"></block>
-
-							<block type="text"></block>
-							<block type="text_print"></block>
-
-							<block type="variables_get"></block>
-							<block type="variables_set"></block>
-						</category>
-						<category name="Looping" colour="180">
-							<block type="controls_repeat_ext">
-								<value name="TIMES">
-									<shadow type="math_number">
-										<field name="NUM">10</field>
-									</shadow>
-								</value>
-							</block>
-							<block type="controls_whileUntil"></block>
-							<block type="controls_for">
-								<value name="FROM">
-									<shadow type="math_number">
-										<field name="NUM">1</field>
-									</shadow>
-								</value>
-								<value name="TO">
-									<shadow type="math_number">
-										<field name="NUM">10</field>
-									</shadow>
-								</value>
-								<value name="BY">
-									<shadow type="math_number">
-										<field name="NUM">1</field>
-									</shadow>
-								</value>
-							</block>
-							<block type="controls_forEach"></block>
-							<block type="controls_flow_statements"></block>
-						</category>
-						<category name="Movement" colour="260">
-							<block type="move_up"></block>
-							<block type="move_down"></block>
-							<block type="move_left"></block>
-							<block type="move_right"></block>
-							<block type="rotate_right"></block>
-							<block type="rotate_left"></block>
-						</category>
-						<category name="Flower Blocks" colour="230">
-							<block type="pick_one_flower"></block>
-							<block type="check_flower_color"></block>
-							<block type="check_facing_flower"></block>
-						</category>
-						<category name="Code in Text Blocks" colour="245">
-							<block type="python_text_block"></block>
-						</category>
-					</xml>
-				</div>
-			</div>
-
-			<!-- execute code in block button -->
-			<div class="inline-block-child">
-				<h1>Run Code</h1>
-				<label for="exe"></label>
-				<input type="text" id="exefileName" value="output.py" style="display: none"/>
-				<button id="exe">Execute</button>
-			</div>
-
-			<p>Try moving down once.</p>
-			<p id="resultZero" class="tryItResults"></p>
+			<p id="resultOne" class="tryItResults"></p>
 
 			<!-- Spacer for the bottom buttons -->
 			<br />
@@ -276,6 +154,5 @@
 
 	<!--<script src="/scripts/tutorials.js"></script>-->
 	<!-- Catch All Scripts for this page. -->
-	<script src="/scripts/tutorials/looping/looping_grid_world.js"></script>
 </body>
 </html>

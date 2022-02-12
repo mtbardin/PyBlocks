@@ -2,20 +2,14 @@ $(document).ready(function () {
     // Listen for when the submit button for Try It one is clicked.
     $("#submitButtonOne").click(function () {
         // Get the info the user has submitted.
-        let ans1 = $("#inputOne").val();
-        let ans2 = $("#inputTwo").val();
+        let ans = $("#inputOne").val();
 
         // Check to see if the answer is right.
-        if (ans1 == "Head" || ans1 == "head") {
-			if (ans2 == "Body" || ans2 == "body"){
-				$("#resultOne").text("Correct!");
-				$("#resultOne").css("background-color", "LimeGreen");
-				
-			}
-			else {
-				$("#resultOne").text("Incorrect, try again.");
-				$("#resultOne").css("background-color", "Crimson");
-			}
+        if (ans == "9") {
+            $("#resultOne").text("Correct!");
+            $("#resultOne").css("background-color", "LimeGreen");
+
+            // Replace the submit button with a golden star?
         }
         else {
             $("#resultOne").text("Incorrect, try again.");

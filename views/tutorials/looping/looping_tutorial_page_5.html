@@ -13,25 +13,7 @@
 
 	<!-- Favicon Icon -->
 	<link rel="icon" href="images/PyBlocks Logo.png">
-
-	<!-- Check Try It Answers -->
-	<script>
-		$(document).ready(function () {
-			// Listen for when the submit button for Try It two is clicked.
-            $("#submitButtonTwo").click(function () {
-                // Get the info the user has submitted.
-				let ans = $("#inputTwo").val();
-
-				// Check to see if the answer is right.
-				if (ans == "6") {
-                    $("#resultTwo").text("Correct!");
-				}
-				else {
-                    $("#resultTwo").text("Incorrect, try again.");
-                }
-            });
-        });
-	</script>
+	<script type="text/javascript" src="scripts/tutorials/looping/looping_tutorial_page_5_scripts.js"></script>
 </head>
 
 <body>
@@ -61,52 +43,109 @@
 
 			<article class="textInfo">
 				<p>
-					There are times when you will need to repeat
+					There will be times when you want to repeat an action within a loop.<br>
+					This is called "nesting" a loop, since it's like a bird in a nest.<br>
+					This is primarily used when you want to do something to each value in a list<br>
+					(Or if you want to work with 2-Dimensional arrays, which we will teach you about later.)<br>
 				</p>
 			</article>
-
-			<article class="textInfo">
-				Words will go here
-			</article>
-
+			
 			<aside class="helpfulPicture">
-				<img src="https://dummyimage.com/600x400/e6e3e6/000000.png&text=PlaceHolder" />
+				<img src="/images/tutorials/looping/NestedLoopEx.png">
 			</aside>
 
 			<h2>What</h2>
-			<article class="tryIt">
-				Try It Section
-			</article>
-
 			<article class="textInfo">
-				Words will go here
+				<p>
+					There are two parts to a nested loop.<br>
+					The 'outer' loop is the nest in the analogy, holding the 'inner' loop inside of it.<br>
+				</p>
 			</article>
-
-			<aside class="helpfulPicture">
-				<img src="https://dummyimage.com/600x400/e6e3e6/000000.png&text=PlaceHolder" />
-			</aside>
 
 			<h2>How</h2>
 			<article class="textInfo">
-				Words will go here
+				Drag the loop block you want to be the outer loop to the workspace.<br>
+				Then, drag the loop block you want to be the inner loop to the workspace.<br>
+				Finally, connect the inner block to the 'do' part of the outer loop and you are ready to go!<br>
 			</article>
 
+			<!-- Try It Question. -->
 			<article class="tryIt">
 				<h3 class="tryItInstructions">Try It Section</h3>
 				<p class="tryItInstructions">
-					This is an example of a description of a try it section.
-					Fill in the blanks so the statement is true. <br />
-				</p>
-				<div class="tryItQuestion">
-					<p>length of: range(0, </p>
-					<input id="inputTwo"/>
-					<p>) = 7</p>
+					Print 'X' 10 times in a row, for 5 rows, please.
+				</p><div class="appContainer">
+					<div class="inline-block-child" style="width: 600px; height: 300px;">
+						<div class="blockly-editor">
+							<div id="blocklyDiv" style="height: 100%; width: 100%;"></div>
+							<xml xmlns="https://developers.google.com/blockly/xml" id="toolbox" style="display: none">
+								<category name="Text" colour="120">
+									<block type="text"></block>
+									<block type="text_print">
+										<value name="TEXT">
+											<shadow type="text">
+												<field name="TEXT">print what goes here...</field>
+											</shadow>
+										</value>
+									</block>
+									<block type="text_put"></block>
+									<block type="text_newline"></block>
+								</category>
+								<category name="Misc" colour="240">
+
+									<block type="math_number"></block>
+									<block type="math_arithmetic"></block>
+
+									<block type="variables_get"></block>
+									<block type="variables_set"></block>
+								</category>
+								<category name="Looping" colour="180">
+									<block type="controls_whileUntil"></block>
+									<block type="controls_repeat_ext">
+										<value name="TIMES">
+											<shadow type="math_number">
+												<field name="NUM">10</field>
+											</shadow>
+										</value>
+									</block>
+									<block type="controls_for">
+										<value name="FROM">
+											<shadow type="math_number">
+												<field name="NUM">1</field>
+											</shadow>
+										</value>
+										<value name="TO">
+											<shadow type="math_number">
+												<field name="NUM">10</field>
+											</shadow>
+										</value>
+										<value name="BY">
+											<shadow type="math_number">
+												<field name="NUM">1</field>
+											</shadow>
+										</value>
+									</block>
+								</category>
+								<category name="Movement" colour="260">
+									<block type="move_up"></block>
+									<block type="move_down"></block>
+									<block type="move_left"></block>
+									<block type="move_right"></block>
+									<block type="rotate_right"></block>
+									<block type="rotate_left"></block>
+								</category>
+							</xml>
+						</div>
+					</div>
+					<br />
 				</div>
-				<p></p>
-				<button id="submitButtonTwo" class="tryItSubmitButton"> Submit Answer</button>
-				<p></p>
+				<br />
+				<button id="submitButtonOne" class="tryItSubmitButton"> Submit Answer</button>
+				<br />
 			</article>
-			<p id="resultTwo" class="tryItResults"></p>
+			<br />
+			<p id="userOut" class="tryItResults"></p>
+			<p id="resultOne" class="tryItResults"></p>
 
 			<!-- Spacer for the bottom buttons -->
 			<br />
@@ -131,5 +170,7 @@
 	<script src="/scripts/python_compressed.js"></script>
 	<!-- PyBlock Scripts -->
 	<!--<script src="/scripts/tutorials.js"></script>-->
+
+	<script src="/scripts/custom_blocks.js"></script>
 </body>
 </html>

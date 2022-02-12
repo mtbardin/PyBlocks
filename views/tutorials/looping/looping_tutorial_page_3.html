@@ -14,24 +14,6 @@
 	<!-- Favicon Icon -->
 	<link rel="icon" href="images/PyBlocks Logo.png">
 
-	<!-- Check Try It Answers -->
-	<script>
-		$(document).ready(function () {
-			// Listen for when the submit button for Try It two is clicked.
-            $("#submitButtonTwo").click(function () {
-                // Get the info the user has submitted.
-				let ans = $("#inputTwo").val();
-
-				// Check to see if the answer is right.
-				if (ans == "6") {
-                    $("#resultTwo").text("Correct!");
-				}
-				else {
-                    $("#resultTwo").text("Incorrect, try again.");
-                }
-            });
-        });
-	</script>
 </head>
 
 <body>
@@ -61,52 +43,116 @@
 
 			<article class="textInfo">
 				<p>
-					There are times when you will need to repeat
+					Sometimes, you will want to repeat a loop based on something other than just counting.<br>
+					A "while" loop handles these sorts of things.
 				</p>
 			</article>
 
-			<article class="textInfo">
-				Words will go here
-			</article>
-
-			<aside class="helpfulPicture">
-				<img src="https://dummyimage.com/600x400/e6e3e6/000000.png&text=PlaceHolder" />
-			</aside>
-
 			<h2>What</h2>
-			<article class="tryIt">
-				Try It Section
-			</article>
-
 			<article class="textInfo">
-				Words will go here
+				Again, two different types of while loops, though they can be used the same ways.<br>				
+				<ul>
+					<li>
+						The first is the standard 'while' loop.<br>
+						It needs a comparison, but will run the loop over and over until the comparison is 'false'.<br>
+						Make sure you put a way for it to be false, or you'll run into an infinite loop quite easily!<br>
+					</li>
+					<br>
+					<li>
+						The second is a bit weird. It's an 'until' loop.<br>
+						It's kind of an inverse of the 'while' loop.<br>
+						It works the same way though, repeating a loop based on a comparison it checks.<br>
+						The difference being that it goes until the comparison is true!<br>
+						The keen-eyed among you may realize that you could set up a while loop to do the same thing.<br>
+						That is very true, but using the 'until' loop makes things a bit easier by seperating it.
+					</li>
+				</ul>
+				
 			</article>
 
+			
 			<aside class="helpfulPicture">
-				<img src="https://dummyimage.com/600x400/e6e3e6/000000.png&text=PlaceHolder" />
+				<img src="/images/tutorials/looping/WhileLoopKinds.png">
 			</aside>
 
 			<h2>How</h2>
 			<article class="textInfo">
-				Words will go here
+				Drag out the block to the workspace.<br>
+				Decide and pick which kind of loop you want, 'while' or 'until'.<br>
+				Drag on and slot in the comparison you want, and put in the variables you want to compare.<br>
+				Finally, just fill in the body of the loop and you are good to go!
 			</article>
 
+			<!-- Try It Question. -->
 			<article class="tryIt">
 				<h3 class="tryItInstructions">Try It Section</h3>
 				<p class="tryItInstructions">
-					This is an example of a description of a try it section.
-					Fill in the blanks so the statement is true. <br />
-				</p>
-				<div class="tryItQuestion">
-					<p>length of: range(0, </p>
-					<input id="inputTwo"/>
-					<p>) = 7</p>
+					Set up a while loop to set the variable to 6.<br>
+					Make sure you avoid an infinite loop!<br>
+				</p><div class="appContainer">
+					<div class="inline-block-child" style="width: 600px; height: 300px;">
+						<div class="blockly-editor">
+							<div id="blocklyDiv" style="height: 100%; width: 100%;"></div>
+							<xml xmlns="https://developers.google.com/blockly/xml" id="toolbox" style="display: none">
+								<category name="Text" colour="120">
+									<block type="text"></block>
+									<block type="text_print">
+										<value name="TEXT">
+											<shadow type="text">
+												<field name="TEXT">print what goes here...</field>
+											</shadow>
+										</value>
+									</block>
+								</category>
+								<category name="Misc" colour="240">
+									<block type="controls_if"></block>
+
+									<block type="logic_compare"></block>
+									<block type="logic_operation"></block>
+									<block type="logic_negate"></block>
+									<block type="logic_boolean"></block>
+
+									<block type="math_number"></block>
+									<block type="math_arithmetic"></block>
+
+									<block type="text"></block>
+									<block type="text_print"></block>
+
+									<block type="variables_get"></block>
+									<block type="variables_set"></block>
+								</category>
+								<category name="Looping" colour="180">
+									<block type="controls_whileUntil"></block>
+									<block type="controls_flow_statements"></block>
+								</category>
+								<category name="Movement" colour="260">
+									<block type="move_up"></block>
+									<block type="move_down"></block>
+									<block type="move_left"></block>
+									<block type="move_right"></block>
+									<block type="rotate_right"></block>
+									<block type="rotate_left"></block>
+								</category>
+								<category name="Flower Blocks" colour="230">
+									<block type="pick_one_flower"></block>
+									<block type="check_flower_color"></block>
+									<block type="check_facing_flower"></block>
+								</category>
+								<category name="Code in Text Blocks" colour="245">
+									<block type="python_text_block"></block>
+								</category>
+							</xml>
+						</div>
+					</div>
+					<br />
 				</div>
-				<p></p>
-				<button id="submitButtonTwo" class="tryItSubmitButton"> Submit Answer</button>
-				<p></p>
+				<br />
+				<button id="submitButtonOne" class="tryItSubmitButton"> Submit Answer</button>
+				<br />
 			</article>
-			<p id="resultTwo" class="tryItResults"></p>
+			<br />
+			<p id="userOut" class="tryItResults"></p>
+			<p id="resultOne" class="tryItResults"></p>
 
 			<!-- Spacer for the bottom buttons -->
 			<br />
@@ -131,5 +177,7 @@
 	<script src="/scripts/python_compressed.js"></script>
 	<!-- PyBlock Scripts -->
 	<!--<script src="/scripts/tutorials.js"></script>-->
+	<script src="/scripts/custom_blocks.js"></script>
+	<script type="text/javascript" src="scripts/tutorials/looping/looping_tutorial_page_3_scripts.js"></script>
 </body>
 </html>
