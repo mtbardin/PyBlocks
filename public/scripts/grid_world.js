@@ -235,6 +235,45 @@ function removeAllChildNodes(parent) {
             Game.tick();
         }
 
+        async function animateSpell(x, y) {
+            await pause(200);
+
+            console.log("xy", x, y);
+
+            let new_pos = y * map.cols + x;
+            let old_pos = -1;
+
+            if (Game.hero.currentDirection == FACING_DOWN) {
+                old_pos = (y - 1) * map.cols + x;
+            }
+            else if (Game.hero.currentDirection == FACING_LEFT) {
+                old_pos = y * map.cols + (x + 1);
+            }
+            else if (Game.hero.currentDirection == FACING_RIGHT) {
+                old_pos = y * map.cols + (x - 1);
+            }
+            else if (Game.hero.currentDirection == FACING_UP) {
+                old_pos = (y + 1) * map.cols + x;
+            }
+            else {
+                alert("Error in Spell Animation.");
+                return
+            }
+
+            console.log("spell path: ", old_pos, new_pos);
+
+            // Update the spell's location.
+            map.layers[1][new_pos] = 14;
+
+            // Clear the previous location.
+            map.layers[1][old_pos] = 0;
+
+            await pause(200);
+
+            // Update the game.
+            Game.tick();
+        }
+
         async function pickFlower() {
             await pause(100);
             
@@ -297,6 +336,149 @@ function removeAllChildNodes(parent) {
             $(window).trigger('pickUpSomeTreasure');
         }
 
+        async function castMagic() {
+            await pause(100);
+
+            // Get the tiles infront of the character.
+            let coords = findSpaceInFront();
+            let check_col = coords[0];
+            let check_row = coords[1];
+
+            // Get the max number of possible tiles to check.
+            let numTilesToCheck = 0
+            if (Game.hero.currentDirection === FACING_DOWN) {
+                numTilesToCheck = map.rows - check_row
+            }
+            else if (Game.hero.currentDirection === FACING_LEFT) {
+                numTilesToCheck = check_col + 1
+            }
+            else if (Game.hero.currentDirection === FACING_RIGHT) {
+                numTilesToCheck = map.cols - check_col
+            }
+            else if (Game.hero.currentDirection === FACING_UP) {
+                numTilesToCheck = check_row + 1
+            }
+
+            // go through the number of possible tiles until a solid one is reached.
+            let first_solid_square = 0;
+            let check_x = Game.hero.x;
+            let check_y = Game.hero.y;
+            for (let i = 0; i < numTilesToCheck; i++) {
+                console.log(map.isSolidTileAtXY(check_x, check_y));
+                if (Game.hero.currentDirection == FACING_DOWN) {
+                    check_y += 64;
+                    is_solid = map.isSolidTileAtXY(check_x, check_y);
+                }
+                else if (Game.hero.currentDirection == FACING_LEFT) {
+                    check_x -= 64;
+                    is_solid = map.isSolidTileAtXY(check_x, check_y);
+                }
+                else if (Game.hero.currentDirection == FACING_RIGHT) {
+                    check_x += 64;
+                    is_solid = map.isSolidTileAtXY(check_x, check_y);
+                }
+                else if (Game.hero.currentDirection == FACING_UP) {
+                    check_y -= 64;
+                    is_solid = map.isSolidTileAtXY(check_x, check_y);
+                }
+                if (is_solid) {
+                    break
+                }
+                else {
+                    first_solid_square += 1
+                }
+            }
+
+            check_x = ((check_x - 32) / 64);
+            check_y = ((check_y - 32) / 64);
+
+            // Snake has tile number 4
+            const snake = 4;
+
+            // Get the value of the first solid block the character is looking at.
+            let tile_value_to_check = map.getTile(1, check_x, check_y)
+
+            // if there is a snake, animate the spell and remove the snake at the end of the animation.
+            if (tile_value_to_check === snake) {
+                let tile_pos_in_map = (check_y * map.cols) + check_x;
+
+                let x = ((Game.hero.x - 32) / 64);
+                let y = ((Game.hero.y - 32) / 64);
+                for (let i = 0; i < first_solid_square; i++) {
+                    if (Game.hero.currentDirection == FACING_DOWN) {
+                        y += 1;
+                        await animateSpell(x, y);
+                        
+                    }
+                    else if (Game.hero.currentDirection == FACING_LEFT) {
+                        x -= 1;
+                        await animateSpell(x, y);
+                        
+                    }
+                    else if (Game.hero.currentDirection == FACING_RIGHT) {
+                        x += 1;
+                        await animateSpell(x, y);
+                        
+                    }
+                    else if (Game.hero.currentDirection == FACING_UP) {
+                        y -= 1;
+                        await animateSpell(x, y);
+                        
+                    }
+                }
+
+                // Remove Snake
+                console.log("Hit Snake");
+                map.layers[1][tile_pos_in_map] = 0;
+
+                await pause(100);
+
+                // Remove Magic
+                let final_pos = (y * map.cols) + x;
+                map.layers[1][final_pos] = 0;
+
+                // Update the game.
+                Game.tick();
+            }
+
+            // if there isnt a snake, just animate the spell.
+            else {
+
+                let x = ((Game.hero.x - 32) / 64);
+                let y = ((Game.hero.y - 32) / 64);
+                for (let i = 0; i < first_solid_square; i++) {
+                    if (Game.hero.currentDirection == FACING_DOWN) {
+                        y += 1;
+                        await animateSpell(x, y);
+                    }
+                    else if (Game.hero.currentDirection == FACING_LEFT) {
+                        x -= 1;
+                        await animateSpell(x, y);
+                    }
+                    else if (Game.hero.currentDirection == FACING_RIGHT) {
+                        x += 1;
+                        await animateSpell(x, y);
+                    }
+                    else if (Game.hero.currentDirection == FACING_UP) {
+                        y -= 1;
+                        await animateSpell(x, y);
+                    }
+                }
+
+                let final_pos = (y * map.cols) + x;
+
+                await pause(100);
+
+                // Remove Magic
+                map.layers[1][final_pos] = 0;
+
+                // Update the game.
+                Game.tick();
+
+                console.log("Missed Snake");
+            }
+        }
+
         async function walk() {
             // This loop needs to fully complete before it can repeat
             for (var move in moves) {
@@ -328,6 +510,10 @@ function removeAllChildNodes(parent) {
 
                 else if (moves[move] == "pickUpTreasure") {
                     await pickUpTreasure();
+                }
+
+                else if (moves[move] == "castMagicSpell") {
+                    await castMagic();
                 }
 
                 else {
@@ -412,7 +598,7 @@ function removeAllChildNodes(parent) {
     */
     
     $(window).on('pickOneFlower', function (event) {
-        // Pick the flower infront of the character..
+        // Pick the flower infront of the character.
         let coords = findSpaceInFront();
         let check_col = coords[0];
         let check_row = coords[1];
@@ -485,10 +671,14 @@ function removeAllChildNodes(parent) {
 
             $(window).trigger('successfullyGrabbedTreasure');
         }
-        // There wasn't treasure to be brabbed so return an unsuccessful trigger.
+        // There wasn't treasure to be grabbed so return an unsuccessful trigger.
         else {
             $(window).trigger('unsuccessfullyGrabbedTreasure');
         }
+    });
+
+    $(window).on('castMagic', function (event) {
+        
     });
 
     Game.tick = function (elapsed) {
@@ -971,7 +1161,7 @@ function removeAllChildNodes(parent) {
             let testForToken = lines[line].split(":");
             let lineIsToken = false;
 
-            if (testForToken.length == 2 || testForToken.length == 3) {
+            if (testForToken.length >= 2) {
                 if (testForToken[0] == "TOKEN") {
                     if (tokens.has(testForToken[1].trim())) {
                         lineIsToken = true;
@@ -1049,6 +1239,13 @@ function removeAllChildNodes(parent) {
                     moves[num_moves] = "pickUpTreasure";
                     num_moves++;
                     $("#cmdOut").append("\nTrying to Pick Up Treasure.");
+                }
+
+                // CAST_MAGIC
+                else if (token == "0e56db162647eb767eff3dbb1c774c24") {
+                    moves[num_moves] = "castMagicSpell";
+                    num_moves++;
+                    $("#cmdOut").append("\nCasting a Magic Spell.");
                 }
             }
             else {

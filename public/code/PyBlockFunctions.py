@@ -196,7 +196,8 @@ def pick_one_flower():
     # There wasn't a flower to be picked so return an unsuccessful pick.
     else:
         #$(window).trigger('unsuccessfulPick')
-        print("TOKEN:ERROR")
+        #print("TOKEN:ERROR")
+        None
 
 
 def check_flower_color():
@@ -264,7 +265,8 @@ def pick_up_treasure():
 
     # There wasn't treasure to be picked up so return an unsuccessful action.
     else:
-        print("TOKEN:ERROR")
+        #print("TOKEN:ERROR")
+        None
 
 
 def check_facing_treasure():
@@ -376,6 +378,8 @@ def cast_magic():
     # Get the value of the first solid block the character is looking at.
     tile_value_to_check = getTile(1, check_x, check_y)
     if(tile_value_to_check == snake):
-        return True
+        tile_pos_in_map = (check_y * map_cols) + check_x
+        gwd.layers[1][tile_pos_in_map] = 0
+        print(f"TOKEN:0e56db162647eb767eff3dbb1c774c24:{first_solid_square}:HIT_SNAKE")
     else:
-        return False
+        print(f"TOKEN:0e56db162647eb767eff3dbb1c774c24:{first_solid_square}:MISS_SNAKE")
