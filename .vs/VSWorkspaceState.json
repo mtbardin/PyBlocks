@@ -2,6 +2,7 @@
   "ExpandedNodes": [
     "",
     "\\public",
+    "\\public\\code",
     "\\public\\css",
     "\\public\\scripts",
     "\\public\\scripts\\tutorials",
@@ -10,6 +11,6 @@
     "\\views\\tutorials",
     "\\views\\tutorials\\looping"
   ],
-  "SelectedNode": "\\public\\code",
+  "SelectedNode": "\\public\\css\\save_n_load.css",
   "PreviewInSolutionExplorer": false
 }

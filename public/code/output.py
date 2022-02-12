@@ -1,9 +1,4 @@
-X = None
+from PyBlockFunctions import *
+from interactive_gwd import *
 
-
-X = 0
-
-while X != 6:
-  X = X + 1
-
-print(X)
+cast_magic()

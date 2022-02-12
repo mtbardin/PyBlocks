@@ -1,15 +1,4 @@
 /*
- * Phaser.js library seems really helpful for grid world "games".
- * https://phaser.io/tutorials/making-your-first-phaser-3-game/part1
- * https://photonstorm.github.io/phaser3-docs/index.html
- * https://medium.com/@michaelwesthadley/modular-game-worlds-in-phaser-3-tilemaps-1-958fc7e6bbd6
- * https://developer.mozilla.org/en-US/docs/Learn/CSS/CSS_layout/Grids
- * 
- * https://labs.phaser.io/assets/
- * https://github.com/photonstorm/phaser3-examples
- */
-
-/*
  * https://developer.mozilla.org/en-US/docs/Games/Techniques/Tilemaps
  * https://developer.mozilla.org/en-US/docs/Games/Techniques/Tilemaps/Square_tilemaps_implementation:_Static_maps
  * https://medium.com/geekculture/make-your-own-tile-map-with-vanilla-javascript-a627de67b7d9
@@ -22,25 +11,6 @@
         toolbox: document.getElementById('toolbox'),
         scrollbars: false,
     });
-
-    // Tried to make it so the toolblox wouldn't close after a drag but there is some 
-    // strange interactions with deletion of blocks when dragged into the toolbox even when its closed.
-    // maybe make it so can only delete via trashcan if we want to always keep toolbox open
-    // also will need a much bigger space b/c some categories are very big to leave open.
-
-    //Blockly.Flyout.prototype.autoClose = false;
-
-    // Starts the Workspace with a Print Block inside it.
-    // this block can't be deleted.
-    /*
-    var xmlContent = '<xml id="initiated" style="display: none">' +
-        '  <block type="text_print" deletable="false">' +
-        '  </block>' +
-        '</xml>';;
-
-    dom = Blockly.Xml.textToDom(xmlContent);
-    Blockly.Xml.domToWorkspace(dom, workspace);
-    */
 })();
 
 (function () {
@@ -76,9 +46,19 @@
     // Listen for load request.
     qS("#loadWorkspace").addEventListener('click', function () {
         let userID = document.getElementById("userid").value;
-        let filePath = "/user_workspaces/" + userID + "/" + document.getElementById("loadWorkspaceName").value + ".xml";
+        let filePath = "/user_workspaces/" + userID + "/" + document.getElementById("loadWorkspaceName").value;
 
         socket.emit('loadWorkspace', filePath, (response) => {
+            console.log(response.status);
+        });
+    });
+
+    // Listen for delete file request.
+    qS("#deleteFileButton").addEventListener('click', function () {
+        let userID = document.getElementById("userid").value;
+        let filePath = "/user_workspaces/" + userID + "/" + document.getElementById("loadWorkspaceName").value;
+
+        socket.emit('deleteFile', filePath, (response) => {
             console.log(response.status);
         });
     });
@@ -89,8 +69,71 @@
         Blockly.Xml.domToWorkspace(Blockly.Xml.textToDom(data), workspace);
     });
     //$(window).on('', function (event) { });
+
+    // Listen for get directory request.
+    qS("#saveCode").addEventListener('click', function () {
+        let userID = document.getElementById("userid").value;
+        let filePath = "/user_workspaces/" + userID + "/";
+
+        socket.emit('getSaveDir', filePath, userID, (response) => {
+            console.log(response.status);
+        });
+    });
+
+    // Listen for get directory request.
+    qS("#loadCode").addEventListener('click', function () {
+        let userID = document.getElementById("userid").value;
+        let filePath = "/user_workspaces/" + userID + "/";
+
+        socket.emit('getLoadDir', filePath, userID, (response) => {
+            console.log(response.status);
+        });
+    });
+
+    socket.on('deliverLoadDir', (data) => {
+        /*
+        for (let i = 0; i < data.length; i++) {
+            //console.log(data[i].split(".").slice(0, -1));
+            console.log(data[i]);
+        }
+        */
+        // Show a menu with all of the files the user has saved.
+        // https://www.w3schools.com/howto/howto_js_popup.asp
+        let fileDisplay = document.getElementById("fileDisplay").style.display = 'block';
+        document.getElementById("loadWorkspaceName").value = "";
+        let fileList = document.getElementById("loadFileList");
+        removeAllChildNodes(fileList);
+        for (let i = 0; i < data.length; i++) {
+            let li = document.createElement('li');
+            li.addEventListener('click', function () {
+                let inputfield = document.getElementById("loadWorkspaceName");
+                inputfield.value = data[i];
+            });
+            $(li).text(data[i]);
+            fileList.appendChild(li);
+        }
+    });
+
+    socket.on('deliverSaveDir', (data) => {
+        // Show a menu with all of the files the user has saved.
+        // https://www.w3schools.com/howto/howto_js_popup.asp
+        let fileDisplay = document.getElementById("fileSaveDisplay").style.display = 'block';
+        document.getElementById("saveWorkspaceName").value = "";
+        let fileList = document.getElementById("saveFileList");
+        removeAllChildNodes(fileList);
+        for (let i = 0; i < data.length; i++) {
+            let li = document.createElement('li');
+            $(li).text(data[i]);
+            fileList.appendChild(li);
+        }
+    });
 })();
 
+function removeAllChildNodes(parent) {
+    while (parent.firstChild) {
+        parent.removeChild(parent.firstChild);
+    }
+}
 
 
 (function () {
@@ -192,6 +235,45 @@
             Game.tick();
         }
 
+        async function animateSpell(x, y) {
+            await pause(200);
+
+            console.log("xy", x, y);
+
+            let new_pos = y * map.cols + x;
+            let old_pos = -1;
+
+            if (Game.hero.currentDirection == FACING_DOWN) {
+                old_pos = (y - 1) * map.cols + x;
+            }
+            else if (Game.hero.currentDirection == FACING_LEFT) {
+                old_pos = y * map.cols + (x + 1);
+            }
+            else if (Game.hero.currentDirection == FACING_RIGHT) {
+                old_pos = y * map.cols + (x - 1);
+            }
+            else if (Game.hero.currentDirection == FACING_UP) {
+                old_pos = (y + 1) * map.cols + x;
+            }
+            else {
+                alert("Error in Spell Animation.");
+                return
+            }
+
+            console.log("spell path: ", old_pos, new_pos);
+
+            // Update the spell's location.
+            map.layers[1][new_pos] = 14;
+
+            // Clear the previous location.
+            map.layers[1][old_pos] = 0;
+
+            await pause(200);
+
+            // Update the game.
+            Game.tick();
+        }
+
         async function pickFlower() {
             await pause(100);
             
@@ -248,6 +330,155 @@
             Game.tick();
         }
 
+        async function pickUpTreasure() {
+            await pause(100);
+
+            $(window).trigger('pickUpSomeTreasure');
+        }
+
+        async function castMagic() {
+            await pause(100);
+
+            // Get the tiles infront of the character.
+            let coords = findSpaceInFront();
+            let check_col = coords[0];
+            let check_row = coords[1];
+
+            // Get the max number of possible tiles to check.
+            let numTilesToCheck = 0
+            if (Game.hero.currentDirection === FACING_DOWN) {
+                numTilesToCheck = map.rows - check_row
+            }
+            else if (Game.hero.currentDirection === FACING_LEFT) {
+                numTilesToCheck = check_col + 1
+            }
+            else if (Game.hero.currentDirection === FACING_RIGHT) {
+                numTilesToCheck = map.cols - check_col
+            }
+            else if (Game.hero.currentDirection === FACING_UP) {
+                numTilesToCheck = check_row + 1
+            }
+
+            // go through the number of possible tiles until a solid one is reached.
+            let first_solid_square = 0;
+            let check_x = Game.hero.x;
+            let check_y = Game.hero.y;
+            for (let i = 0; i < numTilesToCheck; i++) {
+                console.log(map.isSolidTileAtXY(check_x, check_y));
+                if (Game.hero.currentDirection == FACING_DOWN) {
+                    check_y += 64;
+                    is_solid = map.isSolidTileAtXY(check_x, check_y);
+                }
+                else if (Game.hero.currentDirection == FACING_LEFT) {
+                    check_x -= 64;
+                    is_solid = map.isSolidTileAtXY(check_x, check_y);
+                }
+                else if (Game.hero.currentDirection == FACING_RIGHT) {
+                    check_x += 64;
+                    is_solid = map.isSolidTileAtXY(check_x, check_y);
+                }
+                else if (Game.hero.currentDirection == FACING_UP) {
+                    check_y -= 64;
+                    is_solid = map.isSolidTileAtXY(check_x, check_y);
+                }
+                if (is_solid) {
+                    break
+                }
+                else {
+                    first_solid_square += 1
+                }
+            }
+
+            check_x = ((check_x - 32) / 64);
+            check_y = ((check_y - 32) / 64);
+
+            // Snake has tile number 4
+            const snake = 4;
+
+            // Get the value of the first solid block the character is looking at.
+            let tile_value_to_check = map.getTile(1, check_x, check_y)
+
+            // if there is a snake, animate the spell and remove the snake at the end of the animation.
+            if (tile_value_to_check === snake) {
+                let tile_pos_in_map = (check_y * map.cols) + check_x;
+
+                let x = ((Game.hero.x - 32) / 64);
+                let y = ((Game.hero.y - 32) / 64);
+                for (let i = 0; i < first_solid_square; i++) {
+                    if (Game.hero.currentDirection == FACING_DOWN) {
+                        y += 1;
+                        await animateSpell(x, y);
+                        
+                    }
+                    else if (Game.hero.currentDirection == FACING_LEFT) {
+                        x -= 1;
+                        await animateSpell(x, y);
+                        
+                    }
+                    else if (Game.hero.currentDirection == FACING_RIGHT) {
+                        x += 1;
+                        await animateSpell(x, y);
+                        
+                    }
+                    else if (Game.hero.currentDirection == FACING_UP) {
+                        y -= 1;
+                        await animateSpell(x, y);
+                        
+                    }
+                }
+
+                // Remove Snake
+                console.log("Hit Snake");
+                map.layers[1][tile_pos_in_map] = 0;
+
+                await pause(100);
+
+                // Remove Magic
+                let final_pos = (y * map.cols) + x;
+                map.layers[1][final_pos] = 0;
+
+                // Update the game.
+                Game.tick();
+            }
+
+            // if there isnt a snake, just animate the spell.
+            else {
+
+                let x = ((Game.hero.x - 32) / 64);
+                let y = ((Game.hero.y - 32) / 64);
+                for (let i = 0; i < first_solid_square; i++) {
+                    if (Game.hero.currentDirection == FACING_DOWN) {
+                        y += 1;
+                        await animateSpell(x, y);
+                    }
+                    else if (Game.hero.currentDirection == FACING_LEFT) {
+                        x -= 1;
+                        await animateSpell(x, y);
+                    }
+                    else if (Game.hero.currentDirection == FACING_RIGHT) {
+                        x += 1;
+                        await animateSpell(x, y);
+                    }
+                    else if (Game.hero.currentDirection == FACING_UP) {
+                        y -= 1;
+                        await animateSpell(x, y);
+                    }
+                }
+
+                let final_pos = (y * map.cols) + x;
+
+                await pause(100);
+
+                // Remove Magic
+                map.layers[1][final_pos] = 0;
+
+                // Update the game.
+                Game.tick();
+
+                console.log("Missed Snake");
+            }
+        }
+
         async function walk() {
             // This loop needs to fully complete before it can repeat
             for (var move in moves) {
@@ -276,6 +507,15 @@
                         await updatePosition(i, moves[move]);
                     }
                 }
+
+                else if (moves[move] == "pickUpTreasure") {
+                    await pickUpTreasure();
+                }
+
+                else if (moves[move] == "castMagicSpell") {
+                    await castMagic();
+                }
+
                 else {
                     await pause(100);
                     alert(`Error in Walk Function: Invalid Event ${moves[move]}.`);
@@ -358,7 +598,7 @@
     */
     
     $(window).on('pickOneFlower', function (event) {
-        // Pick the flower infront of the character..
+        // Pick the flower infront of the character.
         let coords = findSpaceInFront();
         let check_col = coords[0];
         let check_row = coords[1];
@@ -408,7 +648,39 @@
         }
         //console.log(map.layers);
     });
-    
+
+    $(window).on('pickUpSomeTreasure', function (event) {
+        // Pick the flower infront of the character..
+        let coords = findSpaceInFront();
+        let check_col = coords[0];
+        let check_row = coords[1];
+
+        let tile_value_to_check = map.getTile(1, check_col, check_row);
+        let tile_pos_in_map = check_row * map.cols + check_col;
+
+        // Treasure has tile number 9
+        const treasure = 9;
+
+        // If there is treasure grab it and replace it with an empty space.
+        if (tile_value_to_check === treasure) {
+            console.log("Grabbing Treasure");
+            map.layers[1][tile_pos_in_map] = 0;
+
+            // Update the game.
+            Game.tick();
+
+            $(window).trigger('successfullyGrabbedTreasure');
+        }
+        // There wasn't treasure to be grabbed so return an unsuccessful trigger.
+        else {
+            $(window).trigger('unsuccessfullyGrabbedTreasure');
+        }
+    });
+
+    $(window).on('castMagic', function (event) {
+        
+    });
+
     Game.tick = function (elapsed) {
         //window.requestAnimationFrame(this.tick);
 
@@ -453,25 +725,26 @@
         tsize: 64,
 
         // Map Layers.
-        layers: [[
+         layers: [[
             3, 3, 3, 3, 3, 3, 3, 3,
             3, 1, 1, 1, 1, 1, 1, 3,
+            3, 1, 1, 1, 1, 2, 1, 3,
             3, 1, 1, 1, 1, 1, 1, 3,
-            3, 1, 2, 1, 1, 1, 1, 3,
-            3, 1, 2, 2, 2, 2, 2, 2,
-            2, 2, 2, 1, 2, 1, 1, 3,
+            3, 1, 1, 2, 1, 1, 1, 3,
             3, 1, 1, 1, 2, 1, 1, 3,
-            3, 3, 3, 3, 2, 3, 3, 3
+            3, 1, 1, 1, 2, 1, 1, 3,
+            3, 3, 3, 1, 2, 3, 3, 3
         ], [
             0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 5, 0, 0, 0, 5, 0,
+            0, 0, 9, 0, 0, 0, 9, 0,
+            0, 0, 0, 0, 0, 0, 4, 0,
+             0, 0, 0, 5, 0, 0, 18, 0,
+            0, 0, 8, 0, 0, 11, 0, 0,
             0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 5, 0, 0, 5, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 5, 0,
+            0, 22, 0, 0, 5, 0, 0, 0,
             0, 0, 0, 0, 0, 0, 0, 0
         ]],
+
 
         getTile: function (layer, col, row) {
             return this.layers[layer][row * map.cols + col];
@@ -783,19 +1056,14 @@
         "5d167d235f5a8880ec432fc13206106f", // ROTATE_LEFT
 
         "850b147aa1a7c75f7b4aaacac2d73407", // PICK_ONE_FLOWER
-        "bcb6233cf8f73f40e0e02531e4c1312a" //CHECK_FLOWER_COLOR
+        "bcb6233cf8f73f40e0e02531e4c1312a", // CHECK_FLOWER_COLOR
+
+        "0e56db162647eb767eff3dbb1c774c24", // CAST_MAGIC
+        "ce495d13cc94ae8787006012f6aab0de"  // PICK_UP_TREASURE
     ]);
 
     // make qS a shortcut for document.querySelector
     const qS = document.querySelector.bind(document);
-
-    // Test an Animation.
-    qS("#ani").addEventListener('click', function () {
-        let moves = { 0: 68, 1: 68, 2: 83, 3: 83 }; // D, D, R, R
-        console.log("moves to be animated");
-        console.log(moves);
-        $(window).trigger('animate', moves);
-    });
 
     // when the user clicks 'execute'
     qS("#exe").addEventListener('click', function () {
@@ -810,6 +1078,10 @@
         //console.log(map.layers, curr_hero_x, curr_hero_y);
         let new_grid_world_data = "hero_x = " + curr_hero_x + "\n";
         new_grid_world_data += "hero_y = " + curr_hero_y + "\n\n";
+
+        // Save Map Size.
+        new_grid_world_data += "map_cols = " + map.cols + "\n";
+        new_grid_world_data += "map_rows = " + map.rows + "\n\n";
 
         // Get Hero's Direction.
         new_grid_world_data += "hero_direction = " + Game.hero.currentDirection + "\n\n";
@@ -856,12 +1128,19 @@
         $("#cmdOut").append("\nSuccessfully Picked the Flower.");
     });
     $(window).on('unsuccessfulPick', function (event) {
-        $("#cmdOut").append("\nUnsuccessfully Picked the Flower.");
+        $("#cmdOut").append("\nUnsuccessfully tried to pick some Flowers.");
     });
 
     $(window).on('sendColor', function (event, color) {
         console.log("COLOR: ", color);
         $("#cmdOut").append(`\nThe Flower is ${color}.`);
+    });
+
+    $(window).on('successfullyGrabbedTreasure', function (event) {
+        $("#cmdOut").append("\nSuccessfully grabbed the Treasure.");
+    });
+    $(window).on('unsuccessfullyGrabbedTreasure', function (event) {
+        $("#cmdOut").append("\nUnsuccessfully tried to grab some Treasure.");
     });
 
     socket.on('progOut', function (data) {
@@ -882,7 +1161,7 @@
             let testForToken = lines[line].split(":");
             let lineIsToken = false;
 
-            if (testForToken.length == 2 || testForToken.length == 3) {
+            if (testForToken.length >= 2) {
                 if (testForToken[0] == "TOKEN") {
                     if (tokens.has(testForToken[1].trim())) {
                         lineIsToken = true;
@@ -953,6 +1232,20 @@
                     else {
                         programOutput = programOutput + "The Flower is " + testForToken[2].trim() + "\n";
                     }
+                }
+
+                // PICK_UP_TREASURE
+                else if (token == "ce495d13cc94ae8787006012f6aab0de") {
+                    moves[num_moves] = "pickUpTreasure";
+                    num_moves++;
+                    $("#cmdOut").append("\nTrying to Pick Up Treasure.");
+                }
+
+                // CAST_MAGIC
+                else if (token == "0e56db162647eb767eff3dbb1c774c24") {
+                    moves[num_moves] = "castMagicSpell";
+                    num_moves++;
+                    $("#cmdOut").append("\nCasting a Magic Spell.");
                 }
             }
             else {
