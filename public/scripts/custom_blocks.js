@@ -5,16 +5,22 @@
  * MD5 Hashes calculated by https://www.md5hashgenerator.com/.
  * ----------------------------------------------------------------
  * 
- * TOKEN: e397b4fa67c25cc1c9eae980cfdd43eb    // MOVE_UP
- * TOKEN: 8b32429247158c80deab773f4e04e1c2    // MOVE_DOWN
- * TOKEN: d7aa835d76fc894935ade13f4d0624f8    // MOVE_LEFT
- * TOKEN: 3dc5ed1f827e8c9a6392edb90af992d5    // MOVE_RIGHT
+ * TOKEN:e397b4fa67c25cc1c9eae980cfdd43eb    // MOVE_UP
+ * TOKEN:8b32429247158c80deab773f4e04e1c2    // MOVE_DOWN
+ * TOKEN:d7aa835d76fc894935ade13f4d0624f8    // MOVE_LEFT
+ * TOKEN:3dc5ed1f827e8c9a6392edb90af992d5    // MOVE_RIGHT
  * 
- * TOKEN: 17ac59a0d27b38c77bd02f3bcefd5728    // ROTATE_RIGHT
- * TOKEN: 5d167d235f5a8880ec432fc13206106f    // ROTATE_LEFT
+ * TOKEN:17ac59a0d27b38c77bd02f3bcefd5728    // ROTATE_RIGHT
+ * TOKEN:5d167d235f5a8880ec432fc13206106f    // ROTATE_LEFT
  * 
- * TOKEN: 850b147aa1a7c75f7b4aaacac2d73407    // PICK_ONE_FLOWER
- * TOKEN: bcb6233cf8f73f40e0e02531e4c1312a    // CHECK_FLOWER_COLOR
+ * TOKEN:850b147aa1a7c75f7b4aaacac2d73407    // PICK_ONE_FLOWER
+ * TOKEN:bcb6233cf8f73f40e0e02531e4c1312a    // CHECK_FLOWER_COLOR
+ * No Token Needed                           // CHECK_FACING_FLOWER
+ * 
+ * TOKEN:0e56db162647eb767eff3dbb1c774c24    // CAST_MAGIC
+ * TOKEN:ce495d13cc94ae8787006012f6aab0de    // PICK_UP_TREASURE
+ * No Token Needed                           // CHECK_FACING_TREASURE
+ * No Token Needed                           // CHECK_FACING_SNAKE
  */
 
 (function () {
@@ -115,7 +121,7 @@
     };
     let pickUpTreasureJson = {
         "type": "pick_up_treasure",
-        "message0": "Pick up treasure.",
+        "message0": "Pick up Treasure",
         "previousStatement": null,
         "nextStatement": null,
         "colour": 80,
@@ -124,15 +130,15 @@
     };
     let checkFacingTreasureJson = {
         "type": "check_facing_treasure",
-        "message0": "Check if you are facing treasure.",
+        "message0": "Check if you are facing treasure",
         "output": "Boolean",
         "colour": 80,
         "tooltip": "Check if there exists a flower in front of the character.",
         "helpUrl": ""
     };
-    let checkFacingSnakeJson = {
-        "type": "check_facing_snake",
-        "message0": "Check if you can see a snake.",
+    let canSeeSnakeJson = {
+        "type": "can_see_snake",
+        "message0": "Look for Snakes",
         "output": "Boolean",
         "colour": 80,
         "tooltip": "Check if a snake is in range of your magic.",
@@ -233,10 +239,9 @@
             this.jsonInit(checkFacingTreasureJson);
         }
     };
-
-    Blockly.Blocks['check_facing_snake'] = {
+    Blockly.Blocks['can_see_snake'] = {
         init: function () {
-            this.jsonInit(checkFacingSnakeJson);
+            this.jsonInit(canSeeSnakeJson);
         }
     };
 
@@ -289,22 +294,22 @@
         //console.log(code);
         return code;
     };
-
+    
     // Treasure, Snake, and Magic.
     Blockly.Python['cast_magic'] = function (block) {
         let code = 'cast_magic()\n';
-        return [code, Blockly.Python.ORDER_NONE];
+        return code;
     };
     Blockly.Python['pick_up_treasure'] = function (block) {
         let code = 'pick_up_treasure()\n';
-        return [code, Blockly.Python.ORDER_NONE];
+        return code;
     };
     Blockly.Python['check_facing_treasure'] = function (block) {
         let code = 'check_facing_treasure()';
         return [code, Blockly.Python.ORDER_NONE];
     };
-    Blockly.Python['check_facing_snake'] = function (block) {
-        let code = 'check_facing_snake()';
+    Blockly.Python['can_see_snake'] = function (block) {
+        let code = 'can_see_snake()';
         return [code, Blockly.Python.ORDER_NONE];
     };
 })();

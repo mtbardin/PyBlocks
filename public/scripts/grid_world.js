@@ -1,15 +1,4 @@
 /*
- * Phaser.js library seems really helpful for grid world "games".
- * https://phaser.io/tutorials/making-your-first-phaser-3-game/part1
- * https://photonstorm.github.io/phaser3-docs/index.html
- * https://medium.com/@michaelwesthadley/modular-game-worlds-in-phaser-3-tilemaps-1-958fc7e6bbd6
- * https://developer.mozilla.org/en-US/docs/Learn/CSS/CSS_layout/Grids
- * 
- * https://labs.phaser.io/assets/
- * https://github.com/photonstorm/phaser3-examples
- */
-
-/*
  * https://developer.mozilla.org/en-US/docs/Games/Techniques/Tilemaps
  * https://developer.mozilla.org/en-US/docs/Games/Techniques/Tilemaps/Square_tilemaps_implementation:_Static_maps
  * https://medium.com/geekculture/make-your-own-tile-map-with-vanilla-javascript-a627de67b7d9
@@ -22,25 +11,6 @@
         toolbox: document.getElementById('toolbox'),
         scrollbars: false,
     });
-
-    // Tried to make it so the toolblox wouldn't close after a drag but there is some 
-    // strange interactions with deletion of blocks when dragged into the toolbox even when its closed.
-    // maybe make it so can only delete via trashcan if we want to always keep toolbox open
-    // also will need a much bigger space b/c some categories are very big to leave open.
-
-    //Blockly.Flyout.prototype.autoClose = false;
-
-    // Starts the Workspace with a Print Block inside it.
-    // this block can't be deleted.
-    /*
-    var xmlContent = '<xml id="initiated" style="display: none">' +
-        '  <block type="text_print" deletable="false">' +
-        '  </block>' +
-        '</xml>';;
-
-    dom = Blockly.Xml.textToDom(xmlContent);
-    Blockly.Xml.domToWorkspace(dom, workspace);
-    */
 })();
 
 (function () {
@@ -321,6 +291,12 @@ function removeAllChildNodes(parent) {
             Game.tick();
         }
 
+        async function pickUpTreasure() {
+            await pause(100);
+
+            $(window).trigger('pickUpSomeTreasure');
+        }
+
         async function walk() {
             // This loop needs to fully complete before it can repeat
             for (var move in moves) {
@@ -349,6 +325,11 @@ function removeAllChildNodes(parent) {
                         await updatePosition(i, moves[move]);
                     }
                 }
+
+                else if (moves[move] == "pickUpTreasure") {
+                    await pickUpTreasure();
+                }
+
                 else {
                     await pause(100);
                     alert(`Error in Walk Function: Invalid Event ${moves[move]}.`);
@@ -481,7 +462,35 @@ function removeAllChildNodes(parent) {
         }
         //console.log(map.layers);
     });
-    
+
+    $(window).on('pickUpSomeTreasure', function (event) {
+        // Pick the flower infront of the character..
+        let coords = findSpaceInFront();
+        let check_col = coords[0];
+        let check_row = coords[1];
+
+        let tile_value_to_check = map.getTile(1, check_col, check_row);
+        let tile_pos_in_map = check_row * map.cols + check_col;
+
+        // Treasure has tile number 9
+        const treasure = 9;
+
+        // If there is treasure grab it and replace it with an empty space.
+        if (tile_value_to_check === treasure) {
+            console.log("Grabbing Treasure");
+            map.layers[1][tile_pos_in_map] = 0;
+
+            // Update the game.
+            Game.tick();
+
+            $(window).trigger('successfullyGrabbedTreasure');
+        }
+        // There wasn't treasure to be brabbed so return an unsuccessful trigger.
+        else {
+            $(window).trigger('unsuccessfullyGrabbedTreasure');
+        }
+    });
+
     Game.tick = function (elapsed) {
         //window.requestAnimationFrame(this.tick);
 
@@ -857,7 +866,10 @@ function removeAllChildNodes(parent) {
         "5d167d235f5a8880ec432fc13206106f", // ROTATE_LEFT
 
         "850b147aa1a7c75f7b4aaacac2d73407", // PICK_ONE_FLOWER
-        "bcb6233cf8f73f40e0e02531e4c1312a" //CHECK_FLOWER_COLOR
+        "bcb6233cf8f73f40e0e02531e4c1312a", // CHECK_FLOWER_COLOR
+
+        "0e56db162647eb767eff3dbb1c774c24", // CAST_MAGIC
+        "ce495d13cc94ae8787006012f6aab0de"  // PICK_UP_TREASURE
     ]);
 
     // make qS a shortcut for document.querySelector
@@ -876,6 +888,10 @@ function removeAllChildNodes(parent) {
         //console.log(map.layers, curr_hero_x, curr_hero_y);
         let new_grid_world_data = "hero_x = " + curr_hero_x + "\n";
         new_grid_world_data += "hero_y = " + curr_hero_y + "\n\n";
+
+        // Save Map Size.
+        new_grid_world_data += "map_cols = " + map.cols + "\n";
+        new_grid_world_data += "map_rows = " + map.rows + "\n\n";
 
         // Get Hero's Direction.
         new_grid_world_data += "hero_direction = " + Game.hero.currentDirection + "\n\n";
@@ -922,12 +938,19 @@ function removeAllChildNodes(parent) {
         $("#cmdOut").append("\nSuccessfully Picked the Flower.");
     });
     $(window).on('unsuccessfulPick', function (event) {
-        $("#cmdOut").append("\nUnsuccessfully Picked the Flower.");
+        $("#cmdOut").append("\nUnsuccessfully tried to pick some Flowers.");
     });
 
     $(window).on('sendColor', function (event, color) {
         console.log("COLOR: ", color);
         $("#cmdOut").append(`\nThe Flower is ${color}.`);
+    });
+
+    $(window).on('successfullyGrabbedTreasure', function (event) {
+        $("#cmdOut").append("\nSuccessfully grabbed the Treasure.");
+    });
+    $(window).on('unsuccessfullyGrabbedTreasure', function (event) {
+        $("#cmdOut").append("\nUnsuccessfully tried to grab some Treasure.");
     });
 
     socket.on('progOut', function (data) {
@@ -1019,6 +1042,13 @@ function removeAllChildNodes(parent) {
                     else {
                         programOutput = programOutput + "The Flower is " + testForToken[2].trim() + "\n";
                     }
+                }
+
+                // PICK_UP_TREASURE
+                else if (token == "ce495d13cc94ae8787006012f6aab0de") {
+                    moves[num_moves] = "pickUpTreasure";
+                    num_moves++;
+                    $("#cmdOut").append("\nTrying to Pick Up Treasure.");
                 }
             }
             else {
