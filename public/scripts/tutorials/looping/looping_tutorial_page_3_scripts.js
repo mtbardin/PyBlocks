@@ -1,6 +1,6 @@
 $(document).ready(function () {
     // Listen for when the correct button is clicked.
-    $("#multiChoiceB").click(function () {
+    $("#multiChoiceD").click(function () {
 		$("#resultOne").text("Correct!");
 		$("#resultOne").css("background-color", "LimeGreen");
     });
@@ -14,7 +14,7 @@ $(document).ready(function () {
 		$("#resultOne").text("Incorrect, try again.");
 		$("#resultOne").css("background-color", "Crimson");
     });
-    $("#multiChoiceD").click(function () {
+    $("#multiChoiceB").click(function () {
 		$("#resultOne").text("Incorrect, try again.");
 		$("#resultOne").css("background-color", "Crimson");
     });

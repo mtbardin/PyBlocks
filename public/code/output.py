@@ -1,4 +1,8 @@
 from PyBlockFunctions import *
 from interactive_gwd import *
 
-cast_magic()
+i = None
+
+
+for i in range(15, 101, 12):
+  print('X')

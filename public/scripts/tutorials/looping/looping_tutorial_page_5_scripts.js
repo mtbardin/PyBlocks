@@ -5,7 +5,7 @@ $(document).ready(function () {
         let ans1 = $("#inputOne").val();
 
         // Check to see if the answer is right.
-        if (ans1 == "Interesting" || ans1 == "interesting"|| ans1 == "Complicated"|| ans1 == "complicated") {
+        if (ans1 == "nest" || ans1 == "Nest") {
 			$("#resultOne").text("Correct!");
 			$("#resultOne").css("background-color", "LimeGreen");
         }
