@@ -1,0 +1,2 @@
+<xml xmlns="https://developers.google.com/blockly/xml"><block type="python_text_block" id="wNiVQF7jWU.u(`:n~mtj" x="55" y="99"><field name="pythonCode">for i in range(3):
+    print("hello", end=" ")</field></block></xml>

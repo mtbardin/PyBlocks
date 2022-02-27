@@ -33,7 +33,16 @@
             fileName += ".xml";
         }
 
-        let userID = document.getElementById("userid").value;
+        // Extract data from cookies.
+        let cookies = {};
+        let decoded = decodeURIComponent(document.cookie).split(";");
+        for (let i = 0; i < decoded.length; i++) {
+            let nameValuePair = decoded[i].split("=");
+            cookies[nameValuePair[0]] = nameValuePair[1];
+        }
+
+        // Get user ID from cookies.
+        let userID = cookies.userId;
 
         let code = Blockly.Xml.workspaceToDom(Blockly.getMainWorkspace());
         code = Blockly.Xml.domToText(code);
@@ -45,7 +54,23 @@
 
     // Listen for load request.
     qS("#loadWorkspace").addEventListener('click', function () {
-        let userID = document.getElementById("userid").value;
+        /*
+        socket.emit('getCookies');
+        socket.on('getCookiesResponse', function(cookies) {
+            console.log(cookies);
+        });
+        */
+
+        // Extract data from cookies.
+        let cookies = {};
+        let decoded = decodeURIComponent(document.cookie).split(";");
+        for (let i = 0; i < decoded.length; i++) {
+            let nameValuePair = decoded[i].split("=");
+            cookies[nameValuePair[0]] = nameValuePair[1];
+        }
+
+        // Get user ID from cookies.
+        let userID = cookies.userId;
         let filePath = "/user_workspaces/" + userID + "/" + document.getElementById("loadWorkspaceName").value;
 
         socket.emit('loadWorkspace', filePath, (response) => {
@@ -55,7 +80,16 @@
 
     // Listen for delete file request.
     qS("#deleteFileButton").addEventListener('click', function () {
-        let userID = document.getElementById("userid").value;
+        // Extract data from cookies.
+        let cookies = {};
+        let decoded = decodeURIComponent(document.cookie).split(";");
+        for (let i = 0; i < decoded.length; i++) {
+            let nameValuePair = decoded[i].split("=");
+            cookies[nameValuePair[0]] = nameValuePair[1];
+        }
+
+        // Get user ID from cookies.
+        let userID = cookies.userId;
         let filePath = "/user_workspaces/" + userID + "/" + document.getElementById("loadWorkspaceName").value;
 
         socket.emit('deleteFile', filePath, (response) => {
@@ -72,7 +106,16 @@
 
     // Listen for get directory request.
     qS("#saveCode").addEventListener('click', function () {
-        let userID = document.getElementById("userid").value;
+        // Extract data from cookies.
+        let cookies = {};
+        let decoded = decodeURIComponent(document.cookie).split(";");
+        for (let i = 0; i < decoded.length; i++) {
+            let nameValuePair = decoded[i].split("=");
+            cookies[nameValuePair[0]] = nameValuePair[1];
+        }
+
+        // Get user ID from cookies.
+        let userID = cookies.userId;
         let filePath = "/user_workspaces/" + userID + "/";
 
         socket.emit('getSaveDir', filePath, userID, (response) => {
@@ -82,7 +125,16 @@
 
     // Listen for get directory request.
     qS("#loadCode").addEventListener('click', function () {
-        let userID = document.getElementById("userid").value;
+        // Extract data from cookies.
+        let cookies = {};
+        let decoded = decodeURIComponent(document.cookie).split(";");
+        for (let i = 0; i < decoded.length; i++) {
+            let nameValuePair = decoded[i].split("=");
+            cookies[nameValuePair[0]] = nameValuePair[1];
+        }
+
+        // Get user ID from cookies.
+        let userID = cookies.userId;
         let filePath = "/user_workspaces/" + userID + "/";
 
         socket.emit('getLoadDir', filePath, userID, (response) => {
@@ -620,7 +672,8 @@ function removeAllChildNodes(parent) {
         num_flowers = tile_value_to_check % atlas.rows;
 
         // 1 for blue, 2 for red, 3 for orange, 4 for yellow.
-        // color_of_flower = Math.floor(tile_value_to_check / atlas.rows);
+        colors = ["blue_flower", "red_flower", "orange_flower", "yellow_flower"]
+        color_of_flower = colors[Math.floor(tile_value_to_check / atlas.rows) - 1];
 
         // If picking a single flower replace it with an empty space.
         if (num_flowers == 1 && flowers.has(tile_value_to_check)) { // flower with one bloom.
@@ -630,7 +683,17 @@ function removeAllChildNodes(parent) {
             // Update the game.
             Game.tick();
 
-            $(window).trigger('successfulPick');
+            // Add the flower to the inventory.
+            Game.hero.inventory.push(`{color_of_flower}`);
+
+            // Add one to the total number of items in the inventory.
+            Game.hero.numItemsInInv += 1;
+
+            // Add image to visual inventory.
+            let img = `<img src="/assets/${color_of_flower}.png" id="invItem${Game.hero.numItemsInInv}"/>`;
+            document.getElementById("inventory").insertAdjacentHTML("beforeend", img);
+
+            $("#cmdOut").append("\nSuccessfully Picked the Flower.");
         }
         else if ((num_flowers == 2 || num_flowers == 3) && flowers.has(tile_value_to_check)) { // flower with two or three blooms.
             console.log("Picking Flower");
@@ -639,12 +702,23 @@ function removeAllChildNodes(parent) {
             // Update the game.
             Game.tick();
 
+            // Add the flower to the inventory.
+            console.log(Game.hero.inventory);
+            Game.hero.inventory.push(`${color_of_flower}`);
+
+            // Add one to the total number of items in the inventory.
+            Game.hero.numItemsInInv += 1;
+
+            // Add image to visual inventory.
+            let img = `<img src="/assets/${color_of_flower}.png" id="invItem${Game.hero.numItemsInInv}"/>`;
+            document.getElementById("inventory").insertAdjacentHTML("beforeend", img);
+
             $(window).trigger('successfulPick');
         }
 
         // There wasn't a flower to be picked so return an unsuccessful pick.
         else {
-            $(window).trigger('unsuccessfulPick');
+            $("#cmdOut").append("\nUnsuccessfully tried to pick some Flowers.");
         }
         //console.log(map.layers);
     });
@@ -669,11 +743,21 @@ function removeAllChildNodes(parent) {
             // Update the game.
             Game.tick();
 
-            $(window).trigger('successfullyGrabbedTreasure');
+            // Add the flower to the inventory.
+            Game.hero.inventory.push(`Treasure`);
+
+            // Add one to the total number of items in the inventory.
+            Game.hero.numItemsInInv += 1;
+
+            // Add image to visual inventory.
+            let img = `<img src="/assets/treasure.png" id="invItem${Game.hero.numItemsInInv}"/>`;
+            document.getElementById("inventory").insertAdjacentHTML("beforeend", img);
+
+            $("#cmdOut").append("\nSuccessfully grabbed the Treasure.");
         }
         // There wasn't treasure to be grabbed so return an unsuccessful trigger.
         else {
-            $(window).trigger('unsuccessfullyGrabbedTreasure');
+            $("#cmdOut").append("\nUnsuccessfully tried to grab some Treasure.");
         }
     });
 
@@ -834,10 +918,16 @@ function removeAllChildNodes(parent) {
         this.currentDirection = 0;
 
         this.image = Loader.getImage('hero');
+
+        // Inventory Array
+        this.inventory = new Array();
+        this.numItemsInInv = 0;
     }
 
     // changed from 256
     Hero.SPEED = 16; // pixels per animation
+
+    //Hero.inventory = [];
 
     //https://dev.to/martyhimmel/moving-a-sprite-sheet-character-with-javascript-3adg
     const FACING_DOWN = 0;
@@ -1086,6 +1176,9 @@ function removeAllChildNodes(parent) {
         // Get Hero's Direction.
         new_grid_world_data += "hero_direction = " + Game.hero.currentDirection + "\n\n";
 
+        // Get Hero's Inventory.
+        new_grid_world_data += "inventory = [" + Game.hero.inventory + "]\n\n";
+
         new_grid_world_data += "layers = [";
         for (let i = 0; i < map.layers.length; i++) {
             if (i + 1 != map.layers.length) {
@@ -1124,23 +1217,9 @@ function removeAllChildNodes(parent) {
         });
     });
 
-    $(window).on('successfulPick', function (event) {
-        $("#cmdOut").append("\nSuccessfully Picked the Flower.");
-    });
-    $(window).on('unsuccessfulPick', function (event) {
-        $("#cmdOut").append("\nUnsuccessfully tried to pick some Flowers.");
-    });
-
     $(window).on('sendColor', function (event, color) {
         console.log("COLOR: ", color);
         $("#cmdOut").append(`\nThe Flower is ${color}.`);
-    });
-
-    $(window).on('successfullyGrabbedTreasure', function (event) {
-        $("#cmdOut").append("\nSuccessfully grabbed the Treasure.");
-    });
-    $(window).on('unsuccessfullyGrabbedTreasure', function (event) {
-        $("#cmdOut").append("\nUnsuccessfully tried to grab some Treasure.");
     });
 
     socket.on('progOut', function (data) {

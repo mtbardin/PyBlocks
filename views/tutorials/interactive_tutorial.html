@@ -2,8 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <link href="css/coding_page_styles.css" type="text/css" rel="stylesheet">
-
+    <!-- <link href="css/coding_page_styles.css" type="text/css" rel="stylesheet"> -->
     <!-- Favicon Icon -->
     <link rel="icon" href="images/PyBlocks Logo.png">
 
@@ -16,29 +15,45 @@
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>
 
     <!-- Blockly Include -->
-    <!-- reroute the python_compressed into the node_modules folder? -->
-    <script src="https://unpkg.com/blockly/blockly.min.js"></script>
-    <!--<script src="/scripts/blockly_compressed.js"></script>-->
-    <script src="/scripts/python_compressed.js"></script>
+    <!--<script src="https://unpkg.com/blockly/blockly.min.js"></script>-->
+    <script src="/scripts/blockly/blockly_compressed.js"></script>
+    <script src="/scripts/blockly/blocks_compressed.js"></script>
+    <script src="/scripts/blockly/python_compressed.js"></script>
+    <script src="/scripts/blockly/msg/js/en.js"></script>
 
     <!-- Custom Blocks Scripts -->
     <script src="/scripts/custom_blocks.js"></script>
 
-    <link href="/css/save_n_load.css" type="text/css" rel="stylesheet">
+    <link href="/css/interactive_page.css" type="text/css" rel="stylesheet">
+
+    <script>
+        // Stop the default function of the tab button.
+        // Don't want tab navigation to keep changing the user's focus.
+        $(document).keydown(function (event) {
+            if (event.keyCode === 9) {  //tab pressed
+                event.preventDefault();
+            }
+        });
+    </script>
 </head>
 
-<body>
-    <div class="appContainer">
+<body inert>
+    <div class="app-container">
         <!-- Grid World Container -->
-        <div class="inline-block-child" style="width: 600px; height: 600px;">
-            <h2 class="inline-block-child" style="margin-bottom: 0px;">Grid World</h2>
-
+        <div class="grid-world-container">
+            <h2 style="margin-bottom: 0px;">Grid World</h2>
             <canvas id="gridWorld" style="width: 512px; height: 512px;"></canvas>
+            <h2>Inventory</h2>
+            <div id="inventory"></div>
+            <div class="cmdOutContainer">
+                <pre id="cmdOut">Commands Being Run: </pre>
+            </div>
         </div>
 
-        <div class="inline-block-child" style="width: 800px; height: 400px;">
+        <!-- Blockly Editor Area-->
+        <div class="blockly-editor-container">
             <!-- List for all blocks -->
-            <h2 class="inline-block-child">Block Section:</h2>
+            <h2>Block Section:</h2>
             <div class="blockly-editor">
                 <div id="blocklyDiv" style="height: 100%; width: 100%;"></div>
                 <xml xmlns="https://developers.google.com/blockly/xml" id="toolbox" style="display: none">
@@ -175,54 +190,35 @@
             </div>
         </div>
 
-        <div class="inline-block-child" style="width: 400px; height: 400px;">
+        <!-- area for executed output to be displayed -->
+        <div class="output-container">
             <h2>Program Output:</h2>
-            <!-- area for executed output to be displayed -->
-            <div class="outputContainer">
-                <pre id="output" style="margin-left: 5px; font-family: Consolas, 'Lucida Console'; font-size: 14px; white-space: pre-wrap;"></pre>
+            <pre id="output"></pre>
+        </div>
+
+        <!-- execute code in block button -->
+        <div class="exe-container" style="display: flex;">
+            <div style="margin-right: 5em;">
+                <h2>Execute Demo</h2>
+                <label for="exe"></label>
+                <input type="text" id="exefileName" value="output.py" hidden />
+                <button id="exe">Execute</button>
+            </div>
+
+            <!-- Save and Load Workspace-->
+            <div class="save-n-load" style="display: inline-block;">
+                <h2>Save and Load Workspace</h2>
+                <!--  -->
+                <label for="userid" hidden>User Id (will be set in the backend): </label>
+                <input type="text" id="userid" value="UserID1" hidden />
+
+                <button id="saveCode">Save Code</button>
+                <button id="loadCode">Load Code or Delete a Saved Code</button>
             </div>
         </div>
 
-        <div class="break" style="height: 100px;"></div>
-
-        <!-- execute code in block button -->
-        <div class="inline-block-child">
-            <h1>Execute Demo</h1>
-            <label for="exe"></label>
-            <input type="text" id="exefileName" value="output.py" hidden />
-            <button id="exe">Execute</button>
-        </div>
-
-        <div class="cmdOutContainer">
-            <pre id="cmdOut">Commands Being Run: </pre>
-        </div>
-
-        <!-- Save and Load Workspace-->
-        <div class="inline-block-child" style="margin-left: 100px;">
-            <h1>Save and Load Workspace</h1>
-            <label for="userid">User Id (will be set in the backend): </label>
-            <input type="text" id="userid" value="UserID1" />
-
-            <!--<label for="saveWorkspaceName">Save As: </label>
-            <input type="text" id="saveWorkspaceName" value="1" />
-            <button id="saveWorkspace">Save Workspace</button>
-
-            <label for="loadWorkspaceName">Load: </label>
-            <input type="text" id="loadWorkspaceName" value="1" />
-            <button id="loadWorkspace">Load Workspace</button>-->
-
-            <button id="saveCode">Save Code</button>
-            <button id="loadCode">Load Code or Delete a Saved Code</button>
-
-            <p>
-                to get tabs to work in the python text block we probably need to create a new field type that allows for \t characters. <br />
-                that seems to be the biggest problem from getting its full implementation.
-            </p>
-        </div>
+        
     </div>
-
-    <!-- Button to open the modal login form -->
-    <!--<button id="getSavedCodes" onclick="document.getElementById('id01').style.display='block'">Login</button>-->
 
     <!-- The Modal for saving. -->
     <div id="fileSaveDisplay" class="modal">
@@ -258,6 +254,7 @@
 
     <script src="/scripts/grid_world.js"></script>
     <!--script src="/scripts/interactive_demo.js"></script-->
+
     <script>
         // Get the modal
         var modal1 = document.getElementById('fileDisplay');

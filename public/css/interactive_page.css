@@ -1,0 +1,146 @@
+html {
+    font-family: "Roboto Light", sans-serif;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.app-container {
+    display: grid;
+    grid-template-columns: 1fr 4fr 2fr;
+    grid-template-rows: 2fr 1fr;
+    grid-template-areas:
+        'grid block out'
+        'grid exe save-load';
+    gap: 0px;
+    min-height: 100vh;
+}
+
+.grid-world-container {
+    grid-area: grid;
+    padding: 1em;
+    width: auto;
+    height: auto;
+    margin-right: 1em;
+}
+    .grid-world-container #inventory {
+        display: block;
+        width: 512px;
+        border: 1px solid black;
+        height: auto;
+        min-height: 64px;
+        /*padding: 1em;*/
+    }
+
+.blockly-editor-container {
+    grid-area: block;
+    height: 100%;
+    width: auto;
+    overflow: hidden;
+}
+.blockly-editor {
+    display: inline-block;
+    height: 85%;
+    width: 99%;
+    background-color: #eee;
+    border: 1px solid black;
+}
+
+.output-container {
+    grid-area: out;
+    display: inline-block;
+    height: 100%;
+    width: 100%;
+}
+    .output-container #output {
+        margin-left: 5px;
+        font-family: Consolas, 'Lucida Console';
+        font-size: 14px;
+        white-space: pre-wrap;
+        border: 1px solid #000;
+        height: 85%;
+        width: 90%;
+    }
+
+
+.exe-container {
+    grid-area: exe;
+}
+
+.save-n-load {
+    grid-area: save-load;
+}
+
+#loaddata {
+    resize: none;
+    display: block;
+}
+
+#savedata {
+    resize: none;
+    display: block;
+}
+
+/* The Modal (background) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1000; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    padding-top: 60px;
+}
+
+/* Modal Content/Box */
+.modal-content {
+    background-color: #fefefe;
+    margin: 5px auto; /* 15% from the top and centered */
+    padding: 10px;
+    border: 5px solid black;
+    width: 80%; /* Could be more or less, depending on screen size */
+}
+
+/* List of availible files css */
+.modal-content ul {
+    list-style: none;
+}
+    .modal-content ul li {
+        display: inline-block;
+        padding: 1em;
+        margin-left: 1em;  
+        margin-bottom: 1em; 
+        border: 1px solid black;
+    }
+
+/* Add Zoom Animation */
+.animate {
+    -webkit-animation: animatezoom 0.6s;
+    animation: animatezoom 0.6s
+}
+
+@-webkit-keyframes animatezoom {
+    from {
+        -webkit-transform: scale(0)
+    }
+
+    to {
+        -webkit-transform: scale(1)
+    }
+}
+
+@keyframes animatezoom {
+    from {
+        transform: scale(0)
+    }
+
+    to {
+        transform: scale(1)
+    }
+}

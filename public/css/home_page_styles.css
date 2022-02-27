@@ -1,109 +1,178 @@
-/* CSS for basic tags in html */
 html {
-    height: 100%;
-}
-
-.header {
-    background-color: lightblue;
-    text-align: center;
-    padding: 15px 0 0 0;
-    width: 100%;
-    height: 10%;
-    vertical-align: top;
+    font-family: "Roboto Light", sans-serif;
 }
 
 body {
+    margin: 0;
+    padding: 0; 
+}
+
+.site-container {
+    display: grid;
+    grid-template-columns: 1fr 5fr 1fr;
+    grid-template-rows: auto 1fr auto;
+    grid-template-areas:
+        'header header header'
+        'sidebar-one main sidebar-two'
+        'footer footer footer';
+    gap: 0px;
+    min-height: 100vh;
+    align-content: stretch;
+}
+
+.main-header {
+    grid-area: header;
+    background-color: #acdcee;
+    width: 100%;
+    height: fit-content;
+}
+.main-header nav {
+    padding: 1em;
+}
+    .main-header nav a {
+        color: #24527a;
+    }
+
+
+.main-content {
+    grid-area: main;
     height: 100%;
     width: 100%;
-    margin: 0;
-    padding: 0;
+    background-image: url("/images/triangle-mosaic.png");
+    background-color: #fafafa;
 }
 
-/* Normal Page CSS */
-#goto_code_button {
-    background-color: lightcoral;
-    font-size: 16px;
-    padding: 12px 28px;
+#animationContainer {
+    background-color: red;
+    height: 500px;
     text-align: center;
-    border-radius: 12px;
-    
-}
-.centered {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 50px;
-    border: 0 solid black;
 }
 
-/* Navigation Bar CSS */
-#navbar ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 10px;
-    box-sizing: border-box; /* makes padding not account for width */
-    background-color: lightgray;
-    overflow: hidden;
-    //position: fixed; /* fixed at top of screen */
-    //top: 0;
+#tryItOutContainer {
+    display: block;
+    width: 40%;
+    margin: auto;
+}
+    #tryItOutContainer h2 {
+        text-align: center;
+    }
+    #tryItOutContainer a {
+        margin-left: auto;
+        margin-right: auto;
+        display: block;
+        padding: 2em;
+        width: 7em;
+        text-align: center;
+        text-decoration: none;
+        color: #000;
+        border: 1px solid #000;
+        border-radius: 12px;
+        background-color: #ddd;
+    }
+
+#tutorialMenu {
+    width: 60%;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    align-content: center;
+    margin-top: 3em;
+    margin-bottom: 3em;
+}
+    #tutorialMenu h2 {
+        
+        text-align: center;
+    }
+
+.sidebar-one {
+    grid-area: sidebar-one;
+    height: 100%;
+    background-color: #d9dad7;
+}
+.sidebar-two {
+    grid-area: sidebar-two;
+    height: 100%;
+    background-color: #d9dad7;
+}
+
+.main-footer {
+    grid-area: footer;
+    background-color: #acdcee;
     width: 100%;
-    display: block;
+    height: fit-content;
 }
-#navbar li {
-    display: inline-block;
-    border-right: 1px solid white;
-    border-left: 1px solid white;
-    float: left;
-}
-#navbar a {
-    display: block;
-    color: black;
+.main-footer p {
     text-align: center;
-    padding: 10px;
-    text-decoration: none;
-    background-color: lightgray;
-}
-#navbar a:hover {
-    background-color: darkgray;
+    padding: 0px;
+    margin: 0px;
 }
 
-/* Tutorial List CSS */
-#tutorialList ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 10px;
-    box-sizing: border-box;
-    background-color: gray;
-    width: 100%;
-}
-#tutorialList li a {
-    display: block;
-    color: black;
-    border-right: 10px grey;
-    text-align: left;
-    padding: 10px;
-    text-decoration: none;
-    background-color: lightgray;
-}
-#tutorialList a:hover {
-    background-color: darkgray;
-}
+/*
 
 
-/* block display for div elements */
-.inline-block-child {
-    display: inline-block;
-    margin-right: 20px;
-}
-
-/* flex box container CSS */
-.break {
-    flex-basis: 100%;
-    height: 0;
-}
-
-.container {
-    display: flex;
+.main {
+    flex-grow: 1; /* Set the middle element to grow and stretch *
     flex-wrap: wrap;
+    flex-flow: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+    height: 100%;
+    background-image: url("/images/triangle-mosaic.png");
+    background-color: #fafafa;
+}
+*/
+
+/*Dropdown Menu CSS*/
+/* Dropdown Button */
+.dropbtn {
+    /*background-color: #3498DB;*/
+    background-color: #24527a;
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    border: 1px solid #fafafa; /* width, style, color */
+    border-left-width: 0px;
+    border-right-width: 0px;
+    cursor: pointer;
     width: 100%;
+}
+
+    /* Dropdown button on hover & focus */
+    .dropbtn:hover, .dropbtn:focus {
+        background-color: #2980B9;
+    }
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+    position: relative;
+    /* display: inline-block; */
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    width: 100%;
+}
+
+    /* Links inside the dropdown */
+    .dropdown-content a {
+        color: black;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+    }
+
+        /* Change color of dropdown links on hover */
+        .dropdown-content a:hover {
+            background-color: #ddd
+        }
+
+/* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
+.show {
+    display: block;
 }
