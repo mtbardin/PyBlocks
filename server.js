@@ -45,6 +45,17 @@ app.get("/interactive_tutorial", function (request, response) {
     response.sendFile(__dirname + "/views/tutorials/interactive_tutorial.html");
 });
 
+// define the routes for the basics tutorials.
+app.get("/tut_basics_1", function (request, response) {
+    response.sendFile(__dirname + "/views/tutorials/basics/tut_basics_1.html");
+});
+app.get("/tut_basics_2", function (request, response) {
+    response.sendFile(__dirname + "/views/tutorials/basics/tut_basics_2.html");
+});
+app.get("/tut_basics_3", function (request, response) {
+    response.sendFile(__dirname + "/views/tutorials/basics/tut_basics_3.html");
+});
+
 // define the routes for the branching tutorials.
 app.get("/tut_branching_page1", function (request, response) {
     response.sendFile(__dirname + "/views/tutorials/branching/tut_branching_page1.html");

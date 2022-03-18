@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<link href="css/branch_tutorial.css" type="text/css" rel="stylesheet">
+
+	<!-- include for socket.io -->
+	<script src="/socket.io/socket.io.js" type="text/javascript"></script>
+	<!-- jquery & jquey.ui includes -->
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+	<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
+
+	<!-- Favicon Icon -->
+	<link rel="icon" href="images/PyBlocks Logo.png">
+
+	<style>
+        #tab3 { background-color: #2980B9; }
+	</style>
+</head>
+
+<body>
+	<header>
+		<nav>
+			<a href="/">PyBlocks</a> |
+			<a href="/">Login</a>
+		</nav>
+	</header>
+
+	<div class="wrapper">
+		<aside class="aside_left"></aside>
+
+		<article class="main">
+			<nav>
+				<ul>
+					<li><a id="tab1" href="tut_basics_1">Vocabulary</a></li>
+					<li><a id="tab2" href="tut_basics_2">Hello World</a></li>
+					<li><a id="tab3" href="tut_basics_3">Grid World</a></li>
+					<li><a id="tab6" href="/">Back Home</a></li>
+				</ul>
+			</nav>
+
+			<!-- Why -->
+			<h2>Why</h2>
+			<article class="textInfo">
+				The Grid World provides a useful way to actually see what your code is doing.<br>
+				No more just looking at text on a screen, now you can see your wizard following the instructions you give it.<br>
+				This lets you more easily approach and understand what's happening, and fix something if it goes wrong.<br><br>
+			</article>
+			
+			<aside class="helpfulPicture">
+				<img src="/images/tutorials/branching/IMG_TwoPathGridworld.png">
+			</aside>
+
+			<!-- What -->
+			<h2 style="margin-top: 3.0em;">What</h2>
+			<article class="textInfo">
+				You'll have a little wizard that you instruct, and it does what you tell it to do.<br>
+				He's searching the forest for some things to bring home, and you'll be helping him!<br>
+				Some tutorials will have you pick flowers, others want you to look for treasure.<br>
+				There are some snakes in the forest, but your wizard can scare them off with a quick spell.<br>
+			</article>
+
+			<br />
+
+			<!-- How -->
+			<h2 style="margin-top: 2.0em;">How</h2>
+			<article class="textInfo">
+				Certain tutorials will let you help the wizard, but you can go to the "Interactive Tutorial" in the main menu too.<br>
+				If you do, there's no set goal, but you can set up whatever code you want, and it will run.<br>
+			</article>
+			
+			<br><br>
+
+			<!-- Spacer for the bottom buttons -->
+			<br />
+		</article>
+
+		<aside class="aside_right"></aside>
+	</div>
+
+	<div id="buttonContainer">
+		<a href="/" id="previousSection">Back to the Home Page</a>
+		<a href="tut_branching_page2" id="nextSection">Next Section</a>
+	</div>
+	
+	<footer>
+		<p>Footer Information will be added here</p>
+		<p>Line 2</p>
+		<p>Line 3</p>
+	</footer>
+
+	<!-- Blockly Include -->
+	<script src="https://unpkg.com/blockly/blockly.min.js"></script>
+	<script src="/scripts/python_compressed.js"></script>
+	<!-- PyBlock Scripts -->
+	<!--<script src="/scripts/tutorials.js"></script>-->
+</body>
+</html>
