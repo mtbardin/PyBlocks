@@ -1,8 +1,8 @@
 from PyBlockFunctions import *
 from interactive_gwd import *
 
-i = None
+someVariable = None
 
 
-for i in range(15, 101, 12):
-  print('X')
+someVariable = ['Entry 1', 'Entry 2', 'Entry 3']
+print(someVariable[2])

@@ -56,6 +56,17 @@ app.get("/tut_basics_3", function (request, response) {
     response.sendFile(__dirname + "/views/tutorials/basics/tut_basics_3.html");
 });
 
+// define the routes for the variables tutorials.
+app.get("/tut_variables_1", function (request, response) {
+    response.sendFile(__dirname + "/views/tutorials/variables/tut_variables_1.html");
+});
+app.get("/tut_variables_2", function (request, response) {
+    response.sendFile(__dirname + "/views/tutorials/variables/tut_variables_2.html");
+});
+app.get("/tut_variables_3", function (request, response) {
+    response.sendFile(__dirname + "/views/tutorials/variables/tut_variables_3.html");
+});
+
 // define the routes for the branching tutorials.
 app.get("/tut_branching_page1", function (request, response) {
     response.sendFile(__dirname + "/views/tutorials/branching/tut_branching_page1.html");
