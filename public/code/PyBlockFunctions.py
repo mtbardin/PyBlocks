@@ -176,12 +176,15 @@ def pick_one_flower():
     num_flowers = tile_value_to_check % atlas_rows;
 
     # 1 for blue, 2 for red, 3 for orange, 4 for yellow.
-    # color_of_flower = Math.floor(tile_value_to_check / atlas.rows);
+    colors = ["blue_flower", "red_flower", "orange_flower", "yellow_flower"]
+    color_of_flower = colors[floor(tile_value_to_check / atlas_rows) - 1]
 
     # If picking a single flower replace it with an empty space.
     if ((num_flowers == 1) and (tile_value_to_check in flowers)): # flower with one bloom.
         print("Picking Flower")
         gwd.layers[1][tile_pos_in_map] = 0
+
+        gwd.inventory.append(color_of_flower)
 
         #$(window).trigger('successfulPick')
         print("TOKEN:850b147aa1a7c75f7b4aaacac2d73407")
@@ -189,6 +192,8 @@ def pick_one_flower():
     elif (((num_flowers == 2) or (num_flowers == 3)) and (tile_value_to_check in flowers)): # flower with two or three blooms.
         print("Picking Flower")
         gwd.layers[1][tile_pos_in_map] -= 1
+
+        gwd.inventory.append(color_of_flower)
 
         #$(window).trigger('successfulPick')
         print("TOKEN:850b147aa1a7c75f7b4aaacac2d73407")
@@ -261,6 +266,9 @@ def pick_up_treasure():
     if (tile_value_to_check == treasure):
         print("Picking Up Treasure")
         gwd.layers[1][tile_pos_in_map] = 0
+
+        gwd.inventory.append("treasure")
+
         print("TOKEN:ce495d13cc94ae8787006012f6aab0de")
 
     # There wasn't treasure to be picked up so return an unsuccessful action.

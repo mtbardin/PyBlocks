@@ -1,16 +1,13 @@
 {
   "ExpandedNodes": [
     "",
+    "\\eval",
     "\\public",
     "\\public\\code",
-    "\\public\\css",
     "\\public\\scripts",
-    "\\public\\scripts\\tutorials",
-    "\\public\\scripts\\tutorials\\looping",
     "\\views",
-    "\\views\\tutorials",
-    "\\views\\tutorials\\looping"
+    "\\views\\tutorials"
   ],
-  "SelectedNode": "\\public\\css\\save_n_load.css",
+  "SelectedNode": "\\views\\home_page.html",
   "PreviewInSolutionExplorer": false
 }

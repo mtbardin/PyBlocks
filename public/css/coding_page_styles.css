@@ -75,3 +75,10 @@ input[type="text"]:disabled {
     background-color: #eee;
     border: 1px solid black;
 }
+
+#inventory {
+    display: block;
+    width: 512px;
+    border: 1px solid black;
+    /*padding: 1em;*/
+}
