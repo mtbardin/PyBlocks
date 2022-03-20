@@ -2,7 +2,7 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<link href="css/branch_tutorial.css" type="text/css" rel="stylesheet">
+	<link href="css/variables_tutorial.css" type="text/css" rel="stylesheet">
 
 	<!-- include for socket.io -->
 	<script src="/socket.io/socket.io.js" type="text/javascript"></script>
@@ -15,10 +15,10 @@
 	<link rel="icon" href="images/PyBlocks Logo.png">
 
 	<!-- Check Try It Answers -->
-	<script type="text/javascript" src="scripts/tutorials/branch/branch_tutorial_page2_scripts.js"></script>
+	<script type="text/javascript" src="scripts/tutorials/variables/variables_tutorial_page3_scripts.js"></script>
 
 	<style>
-        #tab2 { background-color: #2980B9; }
+        #tab3 { background-color: #2980B9; }
 	</style>
 </head>
 
@@ -36,63 +36,56 @@
 		<article class="main">
 			<nav>
 				<ul>
-					<li><a id="tab1" href="tut_branching_page1">General Knowledge</a></li>
-					<li><a id="tab2" href="tut_branching_page2">Single Branch</a></li>
-					<li><a id="tab3" href="tut_branching_page3">Two Branches</a></li>
-					<li><a id="tab4" href="tut_branching_page4">Three or More</a></li>
-					<li><a id="tab5" href="tut_branching_page5">Multiple Actions</a></li>
-					<li><a id="tab6" href="/">Back Home</a></li>
+					<li><a id="tab1" href="tut_variables_1">Intro to Variables</a></li>
+					<li><a id="tab2" href="tut_variables_2">Comparisons</a></li>
+					<li><a id="tab3" href="tut_variables_3">Lists</a></li>
+					<li><a id="tab4" href="/">Back Home</a></li>
 				</ul>
 			</nav>
 
 			<!-- Why -->
 			<h2>Why</h2>
 			<article class="textInfo">
-				<p>
-					In case you every want to do something small, of course!<br><br>
-					As you're walking around looking for flowers, you just need to pick it up.<br><br>
-					This is how you would do that.<br>
-				</p>
+				You'll use lists for storing larger amounts of information, like a list of names or ages.<br><br>
+				It can be of any type, but I will warn you against putting different types of variables in a single list.<br><br>
+				You can do it, but actually using that data for things other than printing will cause issues for you later.<br><br><br>
 			</article>
+			
+			<aside class="helpfulPicture">
+				<img src="/images/tutorials/variables/IMG_variables_5.png">
+			</aside>
 
 			<!-- What -->
 			<h2 style="margin-top: 3.0em;">What</h2>
 			<article class="textInfo">
-				<p>
-					The absolute most basic form of branching. A very simple "if" check. <br><br>
-					No "elses", no "else-if's", nothing to complicate it.<br><br>
-					Just a simple "if this thing is true, act like this, and then move on."<br>
-				</p>
+				Lists are just what the name implies. A list of variables.<br><br>
+				The computer puts all these variables in a row so that you can check on them later.<br><br>
 			</article>
-
-			<aside class="helpfulPicture">
-				<img src="/images/tutorials/branching/IMG_SingBranEx.png">
-			</aside>
 
 			<br />
 
 			<!-- How -->
 			<h2 style="margin-top: 2.0em;">How</h2>
 			<article class="textInfo">
-				<p>
-					Just use the block you already know, and add no other bits to it.<br><br>
-					It really is just that simple.<br>
-				</p>
+				Drag the one of the "create list" blocks onto the workspace, and fill it with what variables you want.<br><br>
+				There's a cog in the top left that lets you add more spots for the variables if you need to.<br><br>
+				You'll need to drag out and connect a variable block as well, so the computer knows how to get to the list later.<br><br><br>
 			</article>
-
-			<!-- Try It Question 2. -->
+			
+			<br><br>
+			
+			<!-- Try It Question. -->
 			<article class="tryIt">
 				<h3 class="tryItInstructions">Try It Section</h3>
 				<p class="tryItInstructions">
-					What is the output for this "if" block when X is equal to 0?<br>
-					<img src="/images/tutorials/branching/IMG_SingBranTutEx.png">
+					If I have this code, what is printed?<br>
+					<img src="/images/tutorials/variables/IMG_variables_6.png">
+					<br>
 				</p>
 				<div class="tryItQuestion">
-					<button id="multiChoiceA" class="multipleChoiceButton">Pleasant Morning, isn't it Joe and Jim?</button>
-					<button id="multiChoiceB" class="multipleChoiceButton">Fine Morning, isn't it Joe and Jim?</button>
-					<button id="multiChoiceC" class="multipleChoiceButton">Pleasant Morning, isn't it Jim?</button>
-					<button id="multiChoiceD" class="multipleChoiceButton">Fine Morning, isn't it Jim?</button>
+					Answer: <input id="inputOne" />
 				</div>
+				<button id="submitButtonOne" class="tryItSubmitButton"> Submit Answer</button>
 			</article>
 			<br />
 			<p id="resultOne" class="tryItResults"></p>
@@ -106,7 +99,7 @@
 
 	<div id="buttonContainer">
 		<a href="/" id="previousSection">Back to the Home Page</a>
-		<a href="tut_branching_page3" id="nextSection">Next Section</a>
+		<a href="tut_branching_page2" id="nextSection">Next Section</a>
 	</div>
 	
 	<footer>

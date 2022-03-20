@@ -221,3 +221,18 @@ footer {
     border: 1px solid black;
     flex-grow: 1;
 }
+
+/*Containers for 'Try It' Multiple Choice*/
+.multipleChoiceButton {
+	display: block;
+    background-color: #24527a;
+    float: left;
+    margin-right: 15%;
+    padding: 10px;
+    border: 1px solid black;
+    color: white;
+    text-decoration: none;
+}
+    .multipleChoiceButton:hover {
+        background-color: #2980B9;
+    }

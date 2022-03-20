@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<link href="css/branch_tutorial.css" type="text/css" rel="stylesheet">
+
+	<!-- include for socket.io -->
+	<script src="/socket.io/socket.io.js" type="text/javascript"></script>
+	<!-- jquery & jquey.ui includes -->
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+	<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
+
+	<!-- Favicon Icon -->
+	<link rel="icon" href="images/PyBlocks Logo.png">
+
+	<!-- Check Try It Answers -->
+	<script type="text/javascript" src="scripts/tutorials/basics/basics_tutorial_page1_scripts.js"></script>
+
+	<style>
+        #tab1 { background-color: #2980B9; }
+	</style>
+</head>
+
+<body>
+	<header>
+		<nav>
+			<a href="/">PyBlocks</a> |
+			<a href="/">Login</a>
+		</nav>
+	</header>
+
+	<div class="wrapper">
+		<aside class="aside_left"></aside>
+
+		<article class="main">
+			<nav>
+				<ul>
+					<li><a id="tab1" href="tut_basics_1">Vocabulary</a></li>
+					<li><a id="tab2" href="tut_basics_2">Hello World</a></li>
+					<li><a id="tab3" href="tut_basics_3">Grid World</a></li>
+					<li><a id="tab6" href="/">Back Home</a></li>
+				</ul>
+			</nav>
+
+			<!-- Why -->
+			<h2>Why</h2>
+			<article class="textInfo">
+				Understanding some basic level vocabulary words is super important to ensuring you can learn better.<br>
+				The worst thing when reading a tutorial is coming across a word you don't understand that's important to understanding the whole thing.<br>
+				So, let's get some easy stuff out of the way here.<br><br>
+			</article>
+			
+			<aside class="helpfulPicture">
+				<img src="/images/tutorials/basics/IMG_basics1.jpg">
+			</aside>
+
+			<!-- What -->
+			<h2 style="margin-top: 3.0em;">What</h2>
+			<article class="textInfo">
+				A "program" is a collection of instructions that is put together and run on a computer to do something that is hard for a human, but easy for a computer.<br><br>
+				"Running" a program is when the computer is following the instructions the program is telling it to, one after another. (it follows the same way you read, top to bottom, left to right).<br><br>
+				A "block" is something you'll be using to make coding a little easier to understand, before being brought to the harder writing later.<br><br>
+				"Variables" have their own tutorial later, but for now they're something computers use to keep track of things that can change as the program runs.<br> <br>
+				The "block creator" is something you can see in the image below. It's where you can use the blocks from the menus to create your own programs.<br><br>
+				The "workspace" is the large, blank area to the right of the block creator. Dragging blocks from the creator onto this space is how you create your program. Give it a try!<br><br>
+			</article>
+
+			<br />
+			
+			<br><br>
+			
+			<!-- Try It Question. -->
+			<article class="tryIt">
+				<h3 class="tryItInstructions">Try It Section</h3>
+				<p class="tryItInstructions">
+					If I have this code, what runs first?<br>
+					run(ProgramA) run(ProgramB)<br>
+					run(ProgramC)<br>
+					run(ProgramD)<br>
+				</p>
+				<div class="tryItQuestion">
+					<button id="multiChoiceA" class="multipleChoiceButton">A</button>
+					<button id="multiChoiceB" class="multipleChoiceButton">B</button>
+					<button id="multiChoiceC" class="multipleChoiceButton">C</button>
+					<button id="multiChoiceD" class="multipleChoiceButton">D</button>
+				</div>
+			</article>
+			<br />
+			<p id="resultOne" class="tryItResults"></p>
+
+			<!-- Spacer for the bottom buttons -->
+			<br />
+		</article>
+
+		<aside class="aside_right"></aside>
+	</div>
+
+	<div id="buttonContainer">
+		<a href="/" id="previousSection">Back to the Home Page</a>
+		<a href="tut_branching_page2" id="nextSection">Next Section</a>
+	</div>
+	
+	<footer>
+		<p>Footer Information will be added here</p>
+		<p>Line 2</p>
+		<p>Line 3</p>
+	</footer>
+
+	<!-- Blockly Include -->
+	<script src="https://unpkg.com/blockly/blockly.min.js"></script>
+	<script src="/scripts/python_compressed.js"></script>
+	<!-- PyBlock Scripts -->
+	<!--<script src="/scripts/tutorials.js"></script>-->
+</body>
+</html>

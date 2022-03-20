@@ -1,129 +1,45 @@
 $(document).ready(function () {
-	
-	// make qS a shortcut for document.querySelector for usage in answer checking.
-	const qS = document.querySelector.bind(document);
-	
-    // Listen for when the submit button for the Try It is clicked.
+    // Listen for when the submit button for Try It one is clicked.
     $("#submitButtonOne").click(function () {
+        // Get the info the user has submitted.
+        let ans1 = $("#inputOne").val(); // Should be friend
+        let ans2 = $("#inputTwo").val(); // Should be 00
+        let ans3 = $("#inputThr").val(); // Should be Howdy!
+        let ans4 = $("#inputFour").val();// Should be Good Morning!
+        let ans5 = $("#inputFive").val();// Should be Good Afternoon.
 
-		// get program from workspace.
-		let code = Blockly.Python.workspaceToCode(Blockly.getMainWorkspace());
-
-		// set the filename.
-		const fileName = "output.py";
-		
-		// listen for the output of the code execution.
-		var socket = io();
-		
-		// save program first before running.
-		//console.log(code);
-		socket.emit('save', fileName, code, (response) => {
-			console.log(response.status);
-		});
-
-		// now we can run program.
-		socket.emit('run', fileName, (response) => {
-			console.log(response.status);
-		});
-		
-		socket.on('progOut', function (data) {
-			// jQuery method of inputting data into an HTML element.
-			let ans = data.output;
-			// Check to see if the answer is right.
-			if (ans == "Good Morning, World!\r\n") {
-				$("#resultOne").text("Nice job!");
-				$("#resultOne").css("background-color", "LimeGreen");
-				$("#userOut").text("");
-
-				// Replace the submit button with a golden star?
+        // Check to see if the answer is right.
+        if (ans1 == "friend" || ans1 == "Friend") {
+			if(ans2 == "00"){
+				if(ans3 == "Howdy!"){
+					if(ans4 == "Good Morning!"){
+						if(ans5 == "Good Afternoon."){
+							$("#resultOne").text("Correct!");
+							$("#resultOne").css("background-color", "LimeGreen");
+						}
+						else{
+							$("#resultOne").text("Incorrect, try again. Check punctuation, especially in the 'else' block.");
+							$("#resultOne").css("background-color", "Crimson");
+						}
+					}
+					else{
+						$("#resultOne").text("Incorrect, try again. Make sure your punctuation is right. Or just copy and paste.");
+						$("#resultOne").css("background-color", "Crimson");
+					}
+				}
+				else{
+					$("#resultOne").text("Incorrect, try again. Cowboys used to say this, which is why I do.");
+					$("#resultOne").css("background-color", "Crimson");
+				}
 			}
-			else {
-				$("#resultOne").text("Incorrect, try again.");
+			else{
+				$("#resultOne").text("Incorrect, try again. Noon is simplified to 12:XX on digital calculators. What is X?");
 				$("#resultOne").css("background-color", "Crimson");
-				$("#userOut").text(ans);
 			}
-			
-			
-			});
-
+        }
+        else {
+            $("#resultOne").text("Incorrect, try again. Pay close attention to the first 'if' block comparison.");
+            $("#resultOne").css("background-color", "Crimson");
+        }
     });
-	
-	//Tutorial: Branching. Section: Three Branches
-    var workspaceTutBranchThree = Blockly.inject('blocklyDivBranchThree', {
-        toolbox: document.getElementById('toolbox'),
-        scrollbars: false,
-    });
-
-    var xmlContentTutBranchThree = '<xml id="initiated" style="display: none">' +
-		'	<block type="variables_set" deletable="false" movable="false">' +
-		'		<field name="VAR">X</field>' +
-		'		<value name="VALUE">' +
-		'			<block type="math_number" deletable="false" movable="false">' +
-		'				<field name="NUM">10</field>' +
-		'			</block>' +
-		'		</value>' +
-		'	</block>' +
-        '  <block type="controls_if" inline="false" deletable="false" x="0" y="50">' +
-		'		<mutation else="1" elseif="1"></mutation>' +
-		'		<statement name="IF0">' +
-		'			<block type="logic_compare" deletable="false">' +
-		'				<field name="OP">EQ</field>' +
-		'				<value name="A">' +
-		'					<block type="variables_get">' +
-		'						<field name="VAR">X</field>' +
-		'					</block>' +
-		'				</value>' +
-		'				<value name="B">' +
-		'					<block type="math_number">' +
-		'						<field name="NUM">2</field>' +
-		'					</block>' +
-		'				</value>' +
-		'			</block>' +
-		'		</statement>' +
-		'		<statement name="DO0">' +
-		'			<block type="text_print" deletable="false" movable="false">' +
-		'				<value name="TEXT">' +
-		'					<block type="text" deletable="false" movable="false">' +
-		'						<field name="TEXT">Good Morning, World!</field>' +
-		'					</block>' +
-		'				</value>' +
-		'			</block>' +
-		'		</statement>' +
-		'		<statement name="IF1">' +
-		'			<block type="logic_compare" deletable="false">' +
-		'				<field name="OP">EQ</field>' +
-		'				<value name="A">' +
-		'					<block type="variables_get">' +
-		'						<field name="VAR">X</field>' +
-		'					</block>' +
-		'				</value>' +
-		'				<value name="B">' +
-		'					<block type="math_number">' +
-		'						<field name="NUM">2</field>' +
-		'					</block>' +
-		'				</value>' +
-		'			</block>' +
-		'		</statement>' +
-		'		<statement name="DO1">' +
-		'			<block type="text_print" deletable="false" movable="false">' +
-		'				<value name="TEXT">' +
-		'					<block type="text" deletable="false" movable="false">' +
-		'						<field name="TEXT">Good Night, World.</field>' +
-		'					</block>' +
-		'				</value>' +
-		'			</block>' +
-		'		</statement>' +
-		'		<statement name="ELSE">' +
-		'			<block type="text_print" deletable="false" movable="false">' +
-		'				<value name="TEXT">' +
-		'					<block type="text" deletable="false" movable="false">' +
-		'						<field name="TEXT">Goodbye, World...</field>' +
-		'					</block>' +
-		'				</value>' +
-		'			</block>' +
-		'		</statement>' +
-        '  </block>' +
-        '</xml>';
-    domTBGK = Blockly.Xml.textToDom(xmlContentTutBranchThree);
-    Blockly.Xml.domToWorkspace(domTBGK, workspaceTutBranchThree);
 });

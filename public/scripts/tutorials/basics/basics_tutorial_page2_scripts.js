@@ -5,13 +5,13 @@ $(document).ready(function () {
         let ans1 = $("#inputOne").val();
 
         // Check to see if the answer is right.
-        if (ans1 == "Interesting" || ans1 == "interesting"|| ans1 == "Complicated"|| ans1 == "complicated") {
+        if (ans1 == "Hello World!") {
 			$("#resultOne").text("Correct!");
 			$("#resultOne").css("background-color", "LimeGreen");
         }
         else {
-            $("#resultOne").text("Incorrect, try again.");
-            $("#resultOne").css("background-color", "Crimson");
+			$("#resultOne").text("Not quite, remember: Hello World!");
+			$("#resultOne").css("background-color", "Crimson");
         }
     });
 });

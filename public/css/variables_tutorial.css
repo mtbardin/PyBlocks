@@ -84,10 +84,6 @@ body {
                     text-decoration: none;
                 }
 
-                .main nav ul li a.active {
-                    background-color: #2980B9;
-                }
-
                 .main nav ul li:first-child {
                     border-left: 1px solid black;
                 }
@@ -166,11 +162,11 @@ footer {
     }
 
     .tryItQuestion #inputOne {
-        width: 35px;
+        width: 50px;
     }
 
     .tryItQuestion #inputTwo {
-        width: 35px;
+        width: 40px;
     }
 
 .tryItResults {

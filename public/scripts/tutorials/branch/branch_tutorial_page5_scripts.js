@@ -2,96 +2,31 @@ $(document).ready(function () {
     // Listen for when the submit button for Try It one is clicked.
     $("#submitButtonOne").click(function () {
         // Get the info the user has submitted.
-        let ans = $("#inputOne").val();
+        let ans1 = $("#inputOne").val();
+        let ans2 = $("#inputTwo").val();
+        let ans3 = $("#inputThr").val();
 
         // Check to see if the answer is right.
-        if (ans == "6") {
-            $("#resultOne").text("Correct!");
-            $("#resultOne").css("background-color", "LimeGreen");
-
-            // Replace the submit button with a golden star?
+		if (ans1 == "15") {
+			if (ans2 != ans1){
+					if (ans3 == ans2){
+						$("#resultOne").text("Correct!");
+						$("#resultOne").css("background-color", "LimeGreen");
+					}
+					else{
+						$("#resultOne").text("Incorrect, check your second print statement.");
+						$("#resultOne").css("background-color", "Crimson");
+						
+					}
+			}
+			else{
+				$("#resultOne").text("Incorrect, you have to change the value of x, not leave it the same.");
+				$("#resultOne").css("background-color", "Crimson");
+			}
         }
         else {
-            $("#resultOne").text("Incorrect, try again.");
+            $("#resultOne").text("Incorrect, try checking the initial value of x. It's given above the 'if'.");
             $("#resultOne").css("background-color", "Crimson");
         }
     });
-
-
-	//Tutorial: Branching. Section: Two Branches
-    var workspaceTut = Blockly.inject('blocklyDiv', {
-        toolbox: document.getElementById('toolbox'),
-        scrollbars: true,
-    });
-
-    var xmlContentTut = '<xml id="initiated" style="display: none">' +
-	'	<block type="move_left" id="left1" deletable="false" movable="false">'+
-	'		<next>'+
-	'		  <block type="move_down" id="down1" deletable="false" movable="false">'+
-	'			<next>'+
-	'			  <block type="move_down" id="down2" deletable="false" movable="false">'+
-	'				<next>'+
-	'				  <block type="rotate_left" id="rotLeft1" deletable="false" movable="false">'+
-	'					<next>'+
-	'					  <block type="controls_if" id="flow1Check">'+
-	'						<next>'+
-	'						  <block type="move_down" id="down3" deletable="false" movable="false">'+
-	'							<next>'+
-	'							  <block type="controls_if" id="flow2Check">'+
-	'								<next>'+
-	'								  <block type="move_right" id="right1" deletable="false" movable="false">'+
-	'									<next>'+
-	'									  <block type="move_right" id="right2" deletable="false" movable="false">'+
-	'										<next>'+
-	'										  <block type="move_right" id="right3" deletable="false" movable="false">'+
-	'											<next>'+
-	'											  <block type="move_right" id="right4" deletable="false" movable="false">'+
-	'												<next>'+
-	'												  <block type="rotate_left" id="rotLeft2" deletable="false" movable="false">'+
-	'													<next>'+
-	'													  <block type="controls_if" id="flow3Check">'+
-	'														<next>'+
-	'														  <block type="move_right" id="right5" deletable="false" movable="false">'+
-	'															<next>'+
-	'															  <block type="move_up" id="up1" deletable="false" movable="false">'+
-	'																<next>'+
-	'																  <block type="move_up" id="up2" deletable="false" movable="false">'+
-	'																	<next>'+
-	'																	  <block type="controls_if" id="flow4check">'+
-	'																	  </block>'+
-	'																	</next>'+
-	'																  </block>'+
-	'																</next>'+
-	'															  </block>'+
-	'															</next>'+
-	'														  </block>'+
-	'														</next>'+
-	'													  </block>'+
-	'													</next>'+
-	'												  </block>'+
-	'												</next>'+
-	'											  </block>'+
-	'											</next>'+
-	'										  </block>'+
-	'										</next>'+
-	'									  </block>'+
-	'									</next>'+
-	'								  </block>'+
-	'								</next>'+
-	'							  </block>'+
-	'							</next>'+
-	'						  </block>'+
-	'						</next>'+
-	'					  </block>'+
-	'					</next>'+
-	'				  </block>'+
-	'				</next>'+
-	'			  </block>'+
-	'			</next>'+
-	'		  </block>'+
-	'		</next>'+
-	'	  </block>'+
-        '</xml>';
-    domTBGK = Blockly.Xml.textToDom(xmlContentTut);
-    Blockly.Xml.domToWorkspace(domTBGK, workspaceTut);
 });
