@@ -37,8 +37,8 @@ body {
 .blockly-editor-container {
     grid-area: block;
     height: 100%;
-    width: auto;
-    overflow: hidden;
+    width: 100%;
+    /*overflow: hidden;*/
 }
 .blockly-editor {
     display: inline-block;
@@ -46,6 +46,41 @@ body {
     width: 99%;
     background-color: #eee;
     border: 1px solid black;
+}
+
+#textEditor {
+    height: 85%;
+    width: 99%;
+    display: none;
+    border: 1px solid black;
+}
+#textToolbox {
+    display: inline-block;
+    width: auto;
+    vertical-align: top;
+    margin-bottom: auto;
+}
+    #textToolbox ul {
+        list-style-type: none;
+        /*margin: 0;*/
+        margin-bottom: 1em;
+        padding-left: 1em;
+    }
+    #textToolbox li {
+        list-style-type: none;
+    }
+    #textToolbox li ul {
+        list-style-type: none;
+    }
+        #textToolbox li ul li {
+            list-style-type: circle;
+        }
+#userTextInput {
+    height: 100%;
+    /*width: 76%;*/
+    width: 51.6em;
+    resize: none;
+    box-sizing: border-box;
 }
 
 .output-container {
@@ -81,6 +116,20 @@ body {
 #savedata {
     resize: none;
     display: block;
+}
+
+.cmdOutContainer {
+    border: 1px solid black;
+    margin-top: 0.5em;
+}
+#cmdOut {
+    height: auto;
+    max-height: 10em;
+    overflow: auto;
+
+    word-break: normal !important;
+    word-wrap: normal !important;
+    white-space: pre !important;
 }
 
 /* The Modal (background) */

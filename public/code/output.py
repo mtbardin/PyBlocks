@@ -1,5 +1,5 @@
 from PyBlockFunctions import *
 from interactive_gwd import *
 
-rotate_right()
-cast_magic()
+for count in range(50):
+  move_down()

@@ -13,6 +13,10 @@
     });
 })();
 
+// 1 = blocklyWorkspace
+// 0 = textWorkspace
+let currentActiveWorkspace = 1;
+
 (function () {
     // listen for the output of the code execution.
     var socket = io();
@@ -20,17 +24,71 @@
     // make qS a shortcut for document.querySelector
     const qS = document.querySelector.bind(document);
 
+    // Get the modal
+    let blocklyWorkspace = document.getElementById('blocklyEditor');
+    let textWorkspace = document.getElementById('textEditor');
+
+    // Listen for switch to text only mode.
+    qS("#styleSwitchBtn").addEventListener('click', function () {
+        console.log(blocklyWorkspace.style.display, textWorkspace.style.display);
+        if (blocklyWorkspace.style.display.localeCompare("none") === 0) {
+            blocklyWorkspace.style.display = "inline-block";
+            textWorkspace.style.display = "none";
+            currentActiveWorkspace = 1;
+        }
+        else {
+            blocklyWorkspace.style.display = "none";
+            textWorkspace.style.display = "inline-block";
+            currentActiveWorkspace = 0;
+        }
+    });
+
+    document.getElementById('userTextInput').addEventListener('keydown', function (e) {
+        // If tab key is pressed.
+        if (e.key == 'Tab') {
+            e.preventDefault();
+
+            // Get location of caret (where the user is typing / text they have selected).
+            var start = this.selectionStart;
+            var end = this.selectionEnd;
+
+            // Update the text in the textarea with 4 spaces where the caret is.
+            this.value = this.value.substring(0, start) +
+                "    " + this.value.substring(end);
+
+            // Update the new caret position.
+            this.selectionStart = this.selectionEnd = start + 4;
+        }
+    });
+
+
     // Listen for save request.
     qS("#saveWorkspace").addEventListener('click', function () {
         // Do more sanitization on the file name but fine for now.
         let fileName = document.getElementById("saveWorkspaceName").value;
 
-        let checkFileName = fileName.split('.');
-        if (checkFileName.length > 2) {
-            return
+        // I want to have .py files for the text only saved codes.
+        // I want .xml files for the blockly saved codes.
+
+        // if blockly workspace is active.
+        if (currentActiveWorkspace === 1) {
+            let checkFileName = fileName.split('.');
+            if (checkFileName.length > 2) {
+                return
+            }
+            else if (checkFileName[1] !== "xml") {
+                fileName += ".xml";
+            }
         }
-        else if (checkFileName[1] != "xml") {
-            fileName += ".xml";
+        // if text only workspace is active.
+        else {
+            let checkFileName = fileName.split('.');
+            if (checkFileName.length > 2) {
+                return
+            }
+            else if (checkFileName[1] !== "py") {
+                fileName += ".py";
+            }
         }
 
         // Extract data from cookies.
@@ -44,9 +102,21 @@
         // Get user ID from cookies.
         let userID = cookies.userId;
 
-        let code = Blockly.Xml.workspaceToDom(Blockly.getMainWorkspace());
-        code = Blockly.Xml.domToText(code);
+        let code = "";
 
+        // if blockly workspace is active.
+        if (currentActiveWorkspace === 1) {
+            // get the blocks in the workspace
+            code = Blockly.Xml.workspaceToDom(Blockly.getMainWorkspace());
+
+            // covert to a saveable format.
+            code = Blockly.Xml.domToText(code);
+        }
+        // if text only workspace is active.
+        else {
+            code = document.getElementById('userTextInput').value;
+        }
+        
         socket.emit('saveWorkspace', userID, fileName, code, (response) => {
             console.log(response.status);
         });
@@ -54,13 +124,6 @@
 
     // Listen for load request.
     qS("#loadWorkspace").addEventListener('click', function () {
-        /*
-        socket.emit('getCookies');
-        socket.on('getCookiesResponse', function(cookies) {
-            console.log(cookies);
-        });
-        */
-
         // Extract data from cookies.
         let cookies = {};
         let decoded = decodeURIComponent(document.cookie).split(";");
@@ -98,11 +161,18 @@
     });
 
     socket.on('loadWorkspaceData', (data) => {
-        let workspace = Blockly.getMainWorkspace();
-        workspace.clear();
-        Blockly.Xml.domToWorkspace(Blockly.Xml.textToDom(data), workspace);
+        // if blockly workspace is active.
+        if (currentActiveWorkspace === 1) {
+            let workspace = Blockly.getMainWorkspace();
+            workspace.clear();
+            Blockly.Xml.domToWorkspace(Blockly.Xml.textToDom(data), workspace);
+        }
+
+        // if text only workspace is active.
+        else {
+            document.getElementById('userTextInput').value = data;
+        }
     });
-    //$(window).on('', function (event) { });
 
     // Listen for get directory request.
     qS("#saveCode").addEventListener('click', function () {
@@ -143,12 +213,6 @@
     });
 
     socket.on('deliverLoadDir', (data) => {
-        /*
-        for (let i = 0; i < data.length; i++) {
-            //console.log(data[i].split(".").slice(0, -1));
-            console.log(data[i]);
-        }
-        */
         // Show a menu with all of the files the user has saved.
         // https://www.w3schools.com/howto/howto_js_popup.asp
         let fileDisplay = document.getElementById("fileDisplay").style.display = 'block';
@@ -281,7 +345,7 @@ function removeAllChildNodes(parent) {
         const pause = ms => new Promise(res => setTimeout(res, ms))
 
         async function updatePosition(step, move) {
-            await pause(100);
+            await pause(200);
             console.log("step: ", step);
             $(window).trigger('autoPress', move);
             Game.tick();
@@ -327,19 +391,19 @@ function removeAllChildNodes(parent) {
         }
 
         async function pickFlower() {
-            await pause(100);
+            await pause(200);
             
             $(window).trigger('pickOneFlower');
         }
 
         async function checkFlowerColor() {
-            await pause(100);
+            await pause(200);
 
             $(window).trigger('checkFlowerColor');
         }
 
         async function rotateRight() {
-            await pause(100);
+            await pause(300);
 
             if (Game.hero.currentDirection == FACING_DOWN) {
                 Game.hero.currentDirection = FACING_RIGHT;
@@ -361,7 +425,7 @@ function removeAllChildNodes(parent) {
         }
 
         async function rotateLeft() {
-            await pause(100);
+            await pause(300);
 
             if (Game.hero.currentDirection == FACING_DOWN) {
                 Game.hero.currentDirection = FACING_LEFT;
@@ -383,13 +447,13 @@ function removeAllChildNodes(parent) {
         }
 
         async function pickUpTreasure() {
-            await pause(100);
+            await pause(200);
 
             $(window).trigger('pickUpSomeTreasure');
         }
 
         async function castMagic() {
-            await pause(100);
+            await pause(200);
 
             // Get the tiles infront of the character.
             let coords = findSpaceInFront();
@@ -684,7 +748,7 @@ function removeAllChildNodes(parent) {
             Game.tick();
 
             // Add the flower to the inventory.
-            Game.hero.inventory.push(`{color_of_flower}`);
+            Game.hero.inventory.push(`"${color_of_flower}"`);
 
             // Add one to the total number of items in the inventory.
             Game.hero.numItemsInInv += 1;
@@ -693,7 +757,7 @@ function removeAllChildNodes(parent) {
             let img = `<img src="/assets/${color_of_flower}.png" id="invItem${Game.hero.numItemsInInv}"/>`;
             document.getElementById("inventory").insertAdjacentHTML("beforeend", img);
 
-            $("#cmdOut").append("\nSuccessfully Picked the Flower.");
+            $("#cmdOut").append("Successfully Picked the Flower.\n");
         }
         else if ((num_flowers == 2 || num_flowers == 3) && flowers.has(tile_value_to_check)) { // flower with two or three blooms.
             console.log("Picking Flower");
@@ -704,7 +768,7 @@ function removeAllChildNodes(parent) {
 
             // Add the flower to the inventory.
             console.log(Game.hero.inventory);
-            Game.hero.inventory.push(`${color_of_flower}`);
+            Game.hero.inventory.push(`"${color_of_flower}"`);
 
             // Add one to the total number of items in the inventory.
             Game.hero.numItemsInInv += 1;
@@ -718,7 +782,7 @@ function removeAllChildNodes(parent) {
 
         // There wasn't a flower to be picked so return an unsuccessful pick.
         else {
-            $("#cmdOut").append("\nUnsuccessfully tried to pick some Flowers.");
+            $("#cmdOut").append("Unsuccessfully tried to pick some Flowers.\n");
         }
         //console.log(map.layers);
     });
@@ -744,7 +808,7 @@ function removeAllChildNodes(parent) {
             Game.tick();
 
             // Add the flower to the inventory.
-            Game.hero.inventory.push(`Treasure`);
+            Game.hero.inventory.push(`"Treasure"`);
 
             // Add one to the total number of items in the inventory.
             Game.hero.numItemsInInv += 1;
@@ -753,11 +817,11 @@ function removeAllChildNodes(parent) {
             let img = `<img src="/assets/treasure.png" id="invItem${Game.hero.numItemsInInv}"/>`;
             document.getElementById("inventory").insertAdjacentHTML("beforeend", img);
 
-            $("#cmdOut").append("\nSuccessfully grabbed the Treasure.");
+            $("#cmdOut").append("Successfully grabbed the Treasure.\n");
         }
         // There wasn't treasure to be grabbed so return an unsuccessful trigger.
         else {
-            $("#cmdOut").append("\nUnsuccessfully tried to grab some Treasure.");
+            $("#cmdOut").append("Unsuccessfully tried to grab some Treasure.\n");
         }
     });
 
@@ -1159,7 +1223,7 @@ function removeAllChildNodes(parent) {
     qS("#exe").addEventListener('click', function () {
         // clear the output form first.
         document.getElementById("output").innerHTML = "";
-        document.getElementById("cmdOut").innerHTML = "Commands Being Run: ";
+        document.getElementById("cmdOut").innerHTML = "";
 
         // Update the python library file that holds the grid world data for the
         // user's program.
@@ -1197,16 +1261,26 @@ function removeAllChildNodes(parent) {
             console.log(response.status);
         });
 
-        // get program from workspace.
+        // begin building the code to compile and execute.
+        // add the needed libraries.
         let code = "from PyBlockFunctions import *\n";
         code += "from interactive_gwd import *\n\n";
-        code += Blockly.Python.workspaceToCode(Blockly.getMainWorkspace());
+
+        // then get program from workspace.
+        // if blockly workspace is active.
+        if (currentActiveWorkspace === 1) {
+            code += Blockly.Python.workspaceToCode(Blockly.getMainWorkspace());
+        }
+
+        // if text only workspace is active.
+        else {
+            code += document.getElementById('userTextInput').value;
+        }
 
         // set the filename.
         const fileName = "output.py";
 
         // save program first before running.
-        //console.log(code);
         socket.emit('save', fileName, code, (response) => {
             console.log(response.status);
         });
@@ -1219,7 +1293,7 @@ function removeAllChildNodes(parent) {
 
     $(window).on('sendColor', function (event, color) {
         console.log("COLOR: ", color);
-        $("#cmdOut").append(`\nThe Flower is ${color}.`);
+        $("#cmdOut").append(`The Flower is ${color}.\n`);
     });
 
     socket.on('progOut', function (data) {
@@ -1257,38 +1331,38 @@ function removeAllChildNodes(parent) {
                 if (token == "e397b4fa67c25cc1c9eae980cfdd43eb") {
                     moves[num_moves] = 87;
                     num_moves++;
-                    $("#cmdOut").append("\nMoved Up.");
+                    $("#cmdOut").append("Moved Up.\n");
                 }
                 // MOVE_DOWN
                 else if (token == "8b32429247158c80deab773f4e04e1c2") {
                     moves[num_moves] = 83;
                     num_moves++;
-                    $("#cmdOut").append("\nMoved Down.");
+                    $("#cmdOut").append("Moved Down.\n");
                 }
                 // MOVE_LEFT
                 else if (token == "d7aa835d76fc894935ade13f4d0624f8") {
                     moves[num_moves] = 65;
                     num_moves++;
-                    $("#cmdOut").append("\nMoved Left.");
+                    $("#cmdOut").append("Moved Left.\n");
                 }
                 // MOVE_RIGHT
                 else if (token == "3dc5ed1f827e8c9a6392edb90af992d5") {
                     moves[num_moves] = 68;
                     num_moves++;
-                    $("#cmdOut").append("\nMoved Right.");
+                    $("#cmdOut").append("Moved Right.\n");
                 }
 
                 // ROTATE_RIGHT
                 else if (token == "17ac59a0d27b38c77bd02f3bcefd5728") {
                     moves[num_moves] = "rotateRight";
                     num_moves++;
-                    $("#cmdOut").append("\nRotated Right.");
+                    $("#cmdOut").append("Rotated Right.\n");
                 }
                 // ROTATE_LEFT
                 else if (token == "5d167d235f5a8880ec432fc13206106f") {
                     moves[num_moves] = "rotateLeft";
                     num_moves++;
-                    $("#cmdOut").append("\nRotated Left.");
+                    $("#cmdOut").append("Rotated Left.\n");
                 }
 
                 // PICK_1_FLOWER
@@ -1296,14 +1370,14 @@ function removeAllChildNodes(parent) {
                     //$(window).trigger('pickOneFlower');
                     moves[num_moves] = "pickOneFlower";
                     num_moves++;
-                    $("#cmdOut").append("\nTrying to Pick a Flower.");
+                    $("#cmdOut").append("Trying to Pick a Flower.\n");
                 }
                 // CHECK_FLOWER_COLOR
                 else if (token == "bcb6233cf8f73f40e0e02531e4c1312a") {
                     //$(window).trigger('pickOneFlower');
                     moves[num_moves] = "checkFlowerColor";
                     num_moves++;
-                    $("#cmdOut").append("\nLooking at a Flower's Color.");
+                    $("#cmdOut").append("Looking at a Flower's Color.\n");
 
                     if (testForToken[2].trim() == "No Flower") {
                         programOutput = programOutput + "There is " + testForToken[2].trim() + "\n";
@@ -1317,14 +1391,14 @@ function removeAllChildNodes(parent) {
                 else if (token == "ce495d13cc94ae8787006012f6aab0de") {
                     moves[num_moves] = "pickUpTreasure";
                     num_moves++;
-                    $("#cmdOut").append("\nTrying to Pick Up Treasure.");
+                    $("#cmdOut").append("Trying to Pick Up Treasure.\n");
                 }
 
                 // CAST_MAGIC
                 else if (token == "0e56db162647eb767eff3dbb1c774c24") {
                     moves[num_moves] = "castMagicSpell";
                     num_moves++;
-                    $("#cmdOut").append("\nCasting a Magic Spell.");
+                    $("#cmdOut").append("Casting a Magic Spell.\n");
                 }
             }
             else {

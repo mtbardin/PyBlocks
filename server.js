@@ -188,20 +188,11 @@ function redirector(req, res, pagePath) {
 
 // Socket.IO code.
 io.on('connection', function (socket) {
-    /*
-    socket.on('getCookies', function () {
-        let cookies = "";
-        socket.emit('getCookiesResponse', cookies);
-    });
-    */
-
     socket.on('save', (fileName, code, callback) => {
         //console.log("In Server, Save");
         var code_path = "/code/" + fileName;
         console.log("saving:", code_path);
-
-        //let body = '';
-        //body += code;
+        
         fs.writeFileSync(path.join(baseDir, code_path), code);
         callback({
             status: "File Saved."

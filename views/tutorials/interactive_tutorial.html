@@ -46,15 +46,16 @@
             <h2>Inventory</h2>
             <div id="inventory"></div>
             <div class="cmdOutContainer">
-                <pre id="cmdOut">Commands Being Run: </pre>
+                <pre>Commands Being Run: </pre>
+                <pre id="cmdOut"></pre>
             </div>
         </div>
-
+        
         <!-- Blockly Editor Area-->
         <div class="blockly-editor-container">
             <!-- List for all blocks -->
-            <h2>Block Section:</h2>
-            <div class="blockly-editor">
+            <h2>Coding Section:</h2>
+            <div class="blockly-editor" id="blocklyEditor">
                 <div id="blocklyDiv" style="height: 100%; width: 100%;"></div>
                 <xml xmlns="https://developers.google.com/blockly/xml" id="toolbox" style="display: none">
                     <category name="Text" colour="120">
@@ -188,6 +189,41 @@
                     </category>
                 </xml>
             </div>
+            <div id="textEditor">
+                <div id="textToolbox">
+                    <ul>
+                        <li>
+                            Movement
+                            <ul>
+                                <li>move_up()</li>
+                                <li>move_down()</li>
+                                <li>move_left()</li>
+                                <li>move_right()</li>
+                                <li>rotate_right()</li>
+                                <li>rotate_left()</li>
+                            </ul>
+                        </li>
+                        <li>
+                            Flowers
+                            <ul>
+                                <li>pick_one_flower()</li>
+                                <li>check_flower_color()</li>
+                                <li>check_facing_flower()</li>
+                            </ul>
+                        </li>
+                        <li>
+                            Grid World
+                            <ul>
+                                <li>pick_up_treasure()</li>
+                                <li>check_facing_treasure()</li>
+                                <li>can_see_snake()</li>
+                                <li>cast_magic()</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <textarea id="userTextInput"></textarea>
+            </div>
         </div>
 
         <!-- area for executed output to be displayed -->
@@ -199,7 +235,7 @@
         <!-- execute code in block button -->
         <div class="exe-container" style="display: flex;">
             <div style="margin-right: 5em;">
-                <h2>Execute Demo</h2>
+                <h2>Execute Program</h2>
                 <label for="exe"></label>
                 <input type="text" id="exefileName" value="output.py" hidden />
                 <button id="exe">Execute</button>
@@ -208,22 +244,25 @@
             <!-- Save and Load Workspace-->
             <div class="save-n-load" style="display: inline-block;">
                 <h2>Save and Load Workspace</h2>
-                <!--  -->
-                <label for="userid" hidden>User Id (will be set in the backend): </label>
-                <input type="text" id="userid" value="UserID1" hidden />
+                <!-- <label for="userid" hidden>User Id (will be set in the backend): </label> -->
+                <!-- <input type="text" id="userid" value="UserID1" hidden /> -->
 
                 <button id="saveCode">Save Code</button>
                 <button id="loadCode">Load Code or Delete a Saved Code</button>
+                <br />
+                <br />
+                <h2>Switch Coding Style</h2>
+                <button id="styleSwitchBtn">Switch</button>
             </div>
         </div>
 
-        
+
     </div>
 
     <!-- The Modal for saving. -->
     <div id="fileSaveDisplay" class="modal">
         <span onclick="document.getElementById('fileSave').style.display='none'"
-              class="close" title="Close Modal">&times;</span>
+              class="close" title="Close Modal"></span>
 
         <!-- Modal Content -->
         <div class="modal-content animate">
@@ -239,7 +278,7 @@
     <!-- The Modal for loading -->
     <div id="fileDisplay" class="modal">
         <span onclick="document.getElementById('fileDisplay').style.display='none'"
-              class="close" title="Close Modal">&times;</span>
+              class="close" title="Close Modal"></span>
 
         <!-- Modal Content -->
         <div class="modal-content animate">
@@ -257,8 +296,8 @@
 
     <script>
         // Get the modal
-        var modal1 = document.getElementById('fileDisplay');
-        var modal2 = document.getElementById('fileSaveDisplay');
+        let modal1 = document.getElementById('fileDisplay');
+        let modal2 = document.getElementById('fileSaveDisplay');
 
         // When the user clicks anywhere outside of the modal, close it
         window.onclick = function (event) {
@@ -268,7 +307,13 @@
             if (event.target == modal2) {
                 modal2.style.display = "none";
             }
-        } 
+        }
     </script>
+
+    <!--
+        add functionality so that there is a variable called currentActiveWorkspace
+        and then edit the save, load, and execute program buttons to take into account
+        whether the user is currently using the blockly or text workspace.
+    -->
 </body>
 </html>
