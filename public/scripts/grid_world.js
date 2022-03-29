@@ -13,13 +13,30 @@
     });
 })();
 
+const pause = ms => new Promise(res => setTimeout(res, ms));
+
 // 1 = blocklyWorkspace
 // 0 = textWorkspace
 let currentActiveWorkspace = 1;
 
+// Flags for locking and canceling the gridworld animation.
+let asyncBreak = false;
+let locked = false;
+
+// Store the previous data here.
+let old_x = 0;
+let old_y = 0;
+let oldDirection = 0;
+let oldInventory = [];
+let oldNumItemsInInv = 0;
+let oldLayers = [];
+
+// Initialize the code mirror variable outside the functions to make it global.
+let myCodeMirror = {};
+
 (function () {
     // listen for the output of the code execution.
-    var socket = io();
+    let socket = io();
 
     // make qS a shortcut for document.querySelector
     const qS = document.querySelector.bind(document);
@@ -28,9 +45,28 @@ let currentActiveWorkspace = 1;
     let blocklyWorkspace = document.getElementById('blocklyEditor');
     let textWorkspace = document.getElementById('textEditor');
 
+    // Load up the code mirror editor on page load.
+    window.addEventListener("load", function () {
+        let myTextArea = document.getElementById("userTextInput");
+        myCodeMirror = CodeMirror.fromTextArea(myTextArea, {
+            mode: "python",
+            lineNumbers: true,
+            theme: "midnight",
+            tabSize: 4,
+            extraKeys: {
+                "Tab": function (cm) {
+                    cm.replaceSelection("    ", "end");
+                }
+            },
+            autocorrect: false,
+            autocapitalize: false
+            //viewportMargin: Infinity
+        });
+        myCodeMirror.refresh();
+    });
+
     // Listen for switch to text only mode.
     qS("#styleSwitchBtn").addEventListener('click', function () {
-        console.log(blocklyWorkspace.style.display, textWorkspace.style.display);
         if (blocklyWorkspace.style.display.localeCompare("none") === 0) {
             blocklyWorkspace.style.display = "inline-block";
             textWorkspace.style.display = "none";
@@ -40,6 +76,9 @@ let currentActiveWorkspace = 1;
             blocklyWorkspace.style.display = "none";
             textWorkspace.style.display = "inline-block";
             currentActiveWorkspace = 0;
+
+            // Add a refresh to the code mirror to make sure the line numbers display correctly.
+            myCodeMirror.refresh();
         }
     });
 
@@ -111,10 +150,14 @@ let currentActiveWorkspace = 1;
 
             // covert to a saveable format.
             code = Blockly.Xml.domToText(code);
+
+            // Get generated python code.
+            //Blockly.Python.workspaceToCode(Blockly.getMainWorkspace());
         }
         // if text only workspace is active.
         else {
-            code = document.getElementById('userTextInput').value;
+            //code = document.getElementById('userTextInput').value;
+            code = myCodeMirror.getValue();
         }
         
         socket.emit('saveWorkspace', userID, fileName, code, (response) => {
@@ -170,7 +213,8 @@ let currentActiveWorkspace = 1;
 
         // if text only workspace is active.
         else {
-            document.getElementById('userTextInput').value = data;
+            //document.getElementById('userTextInput').value = data;
+            myCodeMirror.getDoc().setValue(data);
         }
     });
 
@@ -239,6 +283,10 @@ let currentActiveWorkspace = 1;
         removeAllChildNodes(fileList);
         for (let i = 0; i < data.length; i++) {
             let li = document.createElement('li');
+            li.addEventListener('click', function () {
+                let inputfield = document.getElementById("saveWorkspaceName");
+                inputfield.value = data[i];
+            });
             $(li).text(data[i]);
             fileList.appendChild(li);
         }
@@ -339,22 +387,25 @@ function removeAllChildNodes(parent) {
          * https://stackoverflow.com/questions/3583724/how-do-i-add-a-delay-in-a-javascript-loop 
          */
 
-        console.log("In Animation Loop");
-        console.log("moves = ", moves);
-
-        const pause = ms => new Promise(res => setTimeout(res, ms))
+        //console.log("In Animation Loop");
+        //console.log("moves = ", moves);
 
         async function updatePosition(step, move) {
-            await pause(200);
-            console.log("step: ", step);
-            $(window).trigger('autoPress', move);
-            Game.tick();
+            if (asyncBreak) {
+                return;
+            }
+            else {
+                await pause(200);
+                //console.log("step: ", step);
+                $(window).trigger('autoPress', move);
+                Game.tick();
+            }
         }
 
         async function animateSpell(x, y) {
             await pause(200);
 
-            console.log("xy", x, y);
+            //console.log("xy", x, y);
 
             let new_pos = y * map.cols + x;
             let old_pos = -1;
@@ -376,7 +427,7 @@ function removeAllChildNodes(parent) {
                 return
             }
 
-            console.log("spell path: ", old_pos, new_pos);
+            //console.log("spell path: ", old_pos, new_pos);
 
             // Update the spell's location.
             map.layers[1][new_pos] = 14;
@@ -480,7 +531,7 @@ function removeAllChildNodes(parent) {
             let check_x = Game.hero.x;
             let check_y = Game.hero.y;
             for (let i = 0; i < numTilesToCheck; i++) {
-                console.log(map.isSolidTileAtXY(check_x, check_y));
+                //console.log(map.isSolidTileAtXY(check_x, check_y));
                 if (Game.hero.currentDirection == FACING_DOWN) {
                     check_y += 64;
                     is_solid = map.isSolidTileAtXY(check_x, check_y);
@@ -544,7 +595,7 @@ function removeAllChildNodes(parent) {
                 }
 
                 // Remove Snake
-                console.log("Hit Snake");
+                //console.log("Hit Snake");
                 map.layers[1][tile_pos_in_map] = 0;
 
                 await pause(100);
@@ -559,7 +610,6 @@ function removeAllChildNodes(parent) {
 
             // if there isnt a snake, just animate the spell.
             else {
-
                 let x = ((Game.hero.x - 32) / 64);
                 let y = ((Game.hero.y - 32) / 64);
                 for (let i = 0; i < first_solid_square; i++) {
@@ -591,14 +641,20 @@ function removeAllChildNodes(parent) {
                 // Update the game.
                 Game.tick();
 
-                console.log("Missed Snake");
+                //console.log("Missed Snake");
             }
         }
 
         async function walk() {
             // This loop needs to fully complete before it can repeat
             for (var move in moves) {
-                console.log(moves[move]);
+                if (asyncBreak) {
+                    asyncBreak = false;
+                    $(window).trigger('cancel');
+                    break;
+                }
+
+                //console.log(moves[move]);
 
                 // Flowers.
                 if (moves[move] == "pickOneFlower") {
@@ -613,6 +669,9 @@ function removeAllChildNodes(parent) {
                     await rotateRight();
                 }
                 else if (moves[move] == "rotateLeft") {
+                    if (asyncBreak) {
+                        break;
+                    }
                     await rotateLeft();
                 }
 
@@ -741,7 +800,7 @@ function removeAllChildNodes(parent) {
 
         // If picking a single flower replace it with an empty space.
         if (num_flowers == 1 && flowers.has(tile_value_to_check)) { // flower with one bloom.
-            console.log("Picking Flower");
+            //console.log("Picking Flower");
             map.layers[1][tile_pos_in_map] = 0;
 
             // Update the game.
@@ -760,14 +819,14 @@ function removeAllChildNodes(parent) {
             $("#cmdOut").append("Successfully Picked the Flower.\n");
         }
         else if ((num_flowers == 2 || num_flowers == 3) && flowers.has(tile_value_to_check)) { // flower with two or three blooms.
-            console.log("Picking Flower");
+            //console.log("Picking Flower");
             map.layers[1][tile_pos_in_map] -= 1;
 
             // Update the game.
             Game.tick();
 
             // Add the flower to the inventory.
-            console.log(Game.hero.inventory);
+            //console.log(Game.hero.inventory);
             Game.hero.inventory.push(`"${color_of_flower}"`);
 
             // Add one to the total number of items in the inventory.
@@ -801,14 +860,14 @@ function removeAllChildNodes(parent) {
 
         // If there is treasure grab it and replace it with an empty space.
         if (tile_value_to_check === treasure) {
-            console.log("Grabbing Treasure");
+            //console.log("Grabbing Treasure");
             map.layers[1][tile_pos_in_map] = 0;
 
             // Update the game.
             Game.tick();
 
             // Add the flower to the inventory.
-            Game.hero.inventory.push(`"Treasure"`);
+            Game.hero.inventory.push(`"treasure"`);
 
             // Add one to the total number of items in the inventory.
             Game.hero.numItemsInInv += 1;
@@ -892,7 +951,6 @@ function removeAllChildNodes(parent) {
             0, 22, 0, 0, 5, 0, 0, 0,
             0, 0, 0, 0, 0, 0, 0, 0
         ]],
-
 
         getTile: function (layer, col, row) {
             return this.layers[layer][row * map.cols + col];
@@ -1221,78 +1279,188 @@ function removeAllChildNodes(parent) {
 
     // when the user clicks 'execute'
     qS("#exe").addEventListener('click', function () {
-        // clear the output form first.
-        document.getElementById("output").innerHTML = "";
-        document.getElementById("cmdOut").innerHTML = "";
+        // Only let the code be generated, executed, and displayed if
+        // there isn't a program running already.
+        if (!locked) {
+            locked = true;
 
-        // Update the python library file that holds the grid world data for the
-        // user's program.
-        let curr_hero_x = ((Game.hero.x - 32) / 64);
-        let curr_hero_y = ((Game.hero.y - 32) / 64);
-        //console.log(map.layers, curr_hero_x, curr_hero_y);
-        let new_grid_world_data = "hero_x = " + curr_hero_x + "\n";
-        new_grid_world_data += "hero_y = " + curr_hero_y + "\n\n";
+            // Save data before executing.
+            old_x = Game.hero.x;
+            old_y = Game.hero.y;
+            oldDirection = Game.hero.currentDirection;
+            oldNumItemsInInv = Game.hero.numItemsInInv;
+            // Make sure to save a copy using JSON parsing, instead of passing by reference.
+            // Needs this work around since layers is a nested list. otherwise i'd use spread.
+            oldInventory = JSON.parse(JSON.stringify(Game.hero.inventory));
+            oldLayers = JSON.parse(JSON.stringify(map.layers));
 
-        // Save Map Size.
-        new_grid_world_data += "map_cols = " + map.cols + "\n";
-        new_grid_world_data += "map_rows = " + map.rows + "\n\n";
+            // clear the output form first.
+            document.getElementById("output").innerHTML = "";
+            document.getElementById("cmdOut").innerHTML = "";
 
-        // Get Hero's Direction.
-        new_grid_world_data += "hero_direction = " + Game.hero.currentDirection + "\n\n";
+            // Update the python library file that holds the grid world data for the
+            // user's program.
+            let curr_hero_x = ((Game.hero.x - 32) / 64);
+            let curr_hero_y = ((Game.hero.y - 32) / 64);
+            //console.log(map.layers, curr_hero_x, curr_hero_y);
+            let new_grid_world_data = "hero_x = " + curr_hero_x + "\n";
+            new_grid_world_data += "hero_y = " + curr_hero_y + "\n\n";
 
-        // Get Hero's Inventory.
-        new_grid_world_data += "inventory = [" + Game.hero.inventory + "]\n\n";
+            // Save Map Size.
+            new_grid_world_data += "map_cols = " + map.cols + "\n";
+            new_grid_world_data += "map_rows = " + map.rows + "\n\n";
 
-        new_grid_world_data += "layers = [";
-        for (let i = 0; i < map.layers.length; i++) {
-            if (i + 1 != map.layers.length) {
-                new_grid_world_data += "[" + map.layers[i] + "],";
+            // Get Hero's Direction.
+            new_grid_world_data += "hero_direction = " + Game.hero.currentDirection + "\n\n";
+
+            // Get Hero's Inventory.
+            new_grid_world_data += "inventory = [" + Game.hero.inventory + "]\n\n";
+
+            new_grid_world_data += "layers = [";
+            for (let i = 0; i < map.layers.length; i++) {
+                if (i + 1 != map.layers.length) {
+                    new_grid_world_data += "[" + map.layers[i] + "],";
+                }
+                else {
+                    new_grid_world_data += "[" + map.layers[i] + "]";
+                }
             }
+            new_grid_world_data += "]";
+            //console.log(new_grid_world_data);
+
+            // set the filename.
+            const gwdFileName = "interactive_gwd.py";
+            socket.emit('save', gwdFileName, new_grid_world_data, (response) => {
+                console.log(response.status);
+            });
+
+            // begin building the code to compile and execute.
+            // add the needed libraries.
+            let code = "from PyBlockFunctions import *\n";
+            code += "from interactive_gwd import *\n\n";
+
+            // then get program from workspace.
+            // if blockly workspace is active.
+            if (currentActiveWorkspace === 1) {
+                code += Blockly.Python.workspaceToCode(Blockly.getMainWorkspace());
+            }
+
+            // if text only workspace is active.
             else {
-                new_grid_world_data += "[" + map.layers[i] + "]";
+                //code += document.getElementById('userTextInput').value;
+                code += myCodeMirror.getValue();
             }
+
+            // set the filename.
+            const fileName = "output.py";
+
+            // save program first before running.
+            socket.emit('save', fileName, code, (response) => {
+                console.log(response.status);
+            });
+
+            // now we can run program.
+            socket.emit('run', fileName, (response) => {
+                console.log(response.status);
+            });
         }
-        new_grid_world_data += "]";
-        console.log(new_grid_world_data);
-
-        // set the filename.
-        const gwdFileName = "interactive_gwd.py";
-        socket.emit('save', gwdFileName, new_grid_world_data, (response) => {
-            console.log(response.status);
-        });
-
-        // begin building the code to compile and execute.
-        // add the needed libraries.
-        let code = "from PyBlockFunctions import *\n";
-        code += "from interactive_gwd import *\n\n";
-
-        // then get program from workspace.
-        // if blockly workspace is active.
-        if (currentActiveWorkspace === 1) {
-            code += Blockly.Python.workspaceToCode(Blockly.getMainWorkspace());
-        }
-
-        // if text only workspace is active.
         else {
-            code += document.getElementById('userTextInput').value;
+            alert("Wait for the animation to finish before executing again.");
         }
+    });
 
-        // set the filename.
-        const fileName = "output.py";
+    // when the user clicks 'cancel'
+    qS("#cancel").addEventListener('click', function () {
+        /* // Only cancel if an animation is currently playing i.e. locked == true.
+        if (locked) {
 
-        // save program first before running.
-        socket.emit('save', fileName, code, (response) => {
-            console.log(response.status);
-        });
+        else {
+            alert("You can only cancel an animation when one is playing.");
+        }*/
 
-        // now we can run program.
-        socket.emit('run', fileName, (response) => {
-            console.log(response.status);
+        console.log("Aborting...");
+
+        // Update flags.
+        asyncBreak = true;
+        locked = false;
+
+        $(window).on('cancel', function (event) {
+            // Set data to what it was before executing.
+            Game.hero.x = old_x;
+            Game.hero.y = old_y;
+            Game.hero.currentDirection = oldDirection;
+            Game.hero.inventory = oldInventory;
+            Game.hero.numItemsInInv = oldNumItemsInInv;
+            map.layers = oldLayers;
+
+            // Regenerate inventory images from inventory list.
+            while (document.getElementById("inventory").firstChild) {
+                document.getElementById("inventory").removeChild(document.getElementById("inventory").lastChild);
+            }
+            for (i in oldInventory) {
+                // Add .slice(1, -1) to get rid of the double quotes needed to save into a python file.
+                let img = `<img src="/assets/${oldInventory[i].slice(1, -1)}.png" id="invItem${i}"/>`;
+                document.getElementById("inventory").insertAdjacentHTML("beforeend", img);
+            }
+
+            // Just clear out the text outputs.
+            document.getElementById("output").innerHTML = "";
+            document.getElementById("cmdOut").innerHTML = "";
+
+            // Redraw the grid world.
+            Game.tick();
+
+            console.log("Abort Successful");
         });
     });
 
+    // when the user clicks 'reset'
+    qS("#reset").addEventListener('click', function () {
+        console.log("Resetting...");
+
+        // Set data to what it was on page load.
+        Game.hero.x = 160;
+        Game.hero.y = 160;
+        Game.hero.currentDirection = 0;
+        Game.hero.inventory = [];
+        Game.hero.numItemsInInv = 0;
+        map.layers = [[
+            3, 3, 3, 3, 3, 3, 3, 3,
+            3, 1, 1, 1, 1, 1, 1, 3,
+            3, 1, 1, 1, 1, 2, 1, 3,
+            3, 1, 1, 1, 1, 1, 1, 3,
+            3, 1, 1, 2, 1, 1, 1, 3,
+            3, 1, 1, 1, 2, 1, 1, 3,
+            3, 1, 1, 1, 2, 1, 1, 3,
+            3, 3, 3, 1, 2, 3, 3, 3
+        ], [
+            0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 9, 0, 0, 0, 9, 0,
+            0, 0, 0, 0, 0, 0, 4, 0,
+            0, 0, 0, 5, 0, 0, 18, 0,
+            0, 0, 8, 0, 0, 11, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0,
+            0, 22, 0, 0, 5, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0
+        ]];
+
+        // Clear visual inventory.
+        while (document.getElementById("inventory").firstChild) {
+            document.getElementById("inventory").removeChild(document.getElementById("inventory").lastChild);
+        }
+
+        // Clear command output and text output.
+        document.getElementById("output").innerHTML = "";
+        document.getElementById("cmdOut").innerHTML = "";
+
+        // Redraw the grid world.
+        Game.tick();
+
+        console.log("Finished Reset.");
+    });
+
     $(window).on('sendColor', function (event, color) {
-        console.log("COLOR: ", color);
+        //console.log("COLOR: ", color);
         $("#cmdOut").append(`The Flower is ${color}.\n`);
     });
 
@@ -1411,7 +1579,7 @@ function removeAllChildNodes(parent) {
             lineIsToken = false;
         }
 
-        console.log("moves: ", moves);
+        //console.log("moves: ", moves);
         if (Object.keys(moves).length >= 1) {
             console.log("triggering animation queue.")
             $(window).trigger('animate', moves);
@@ -1420,18 +1588,8 @@ function removeAllChildNodes(parent) {
         // jQuery method of inputting data into an HTML element.
         $("#output").text(programOutput);
 
-        // String for comparison needs to have "\r\n" added to the end,
-        // otherwise the whole thing won't work.
-        /*
-        if (programOutput == "Hello World!\r\n") {
-            $("#announcement").text("You Did it Right, Great Job!");
-        }
-        else if (programOutput == "Hello World\r\n") {
-            $("#announcement").text("Try being a little more excited!");
-        }
-        else {
-            $("#announcement").text("You made a Mistake, Try Again.");
-        }
-        */
+        // Finished animating the code so set locked to false
+        // to allow use to run another program.
+        locked = false;
     });
 })();

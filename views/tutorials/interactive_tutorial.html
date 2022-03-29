@@ -26,6 +26,20 @@
 
     <link href="/css/interactive_page.css" type="text/css" rel="stylesheet">
 
+    <!-- CodeMirror 6 Libraries -->
+    <script src="/lib/codemirror.js"></script>
+    <link rel="stylesheet" href="/lib/codemirror.css">
+    <link rel="stylesheet" href="/theme/midnight.css">
+    <script src="/mode/python/python.js"></script>
+
+    <style>
+        .CodeMirror {
+            display: inline-block;
+            height: 100%;
+            width: 52em;
+        }
+    </style>
+
     <script>
         // Stop the default function of the tab button.
         // Don't want tab navigation to keep changing the user's focus.
@@ -165,6 +179,10 @@
                         </block>
                         <block type="lists_sort"></block>
                     </category>
+                    <category name="Comments" colour="300">
+                        <block type="single_line_comment"></block>
+                        <block type="multi_line_comment"></block>
+                    </category>
                     <category name="Movement" colour="260">
                         <block type="move_up"></block>
                         <block type="move_down"></block>
@@ -189,6 +207,7 @@
                     </category>
                 </xml>
             </div>
+
             <div id="textEditor">
                 <div id="textToolbox">
                     <ul>
@@ -235,17 +254,28 @@
         <!-- execute code in block button -->
         <div class="exe-container" style="display: flex;">
             <div style="margin-right: 5em;">
-                <h2>Execute Program</h2>
-                <label for="exe"></label>
+                <h2>Program Controls</h2>
                 <input type="text" id="exefileName" value="output.py" hidden />
                 <button id="exe">Execute</button>
+                <button id="cancel">Cancel</button>
+                <button id="reset">Reset</button>
+            </div>
+
+            <div style="margin-right: 5em;">
+                <h2>Map Selection</h2>
+                <select id="map_id" size="1">
+                    <option value="1">Map 1</option>
+                    <option value="2">Map 2</option>
+                    <option value="3">Map 3</option>
+                    <option value="4">Map 4</option>
+                    <option value="5">Map 5</option>
+                </select>
+                <button id="map-btn">Load Map</button>
             </div>
 
             <!-- Save and Load Workspace-->
             <div class="save-n-load" style="display: inline-block;">
                 <h2>Save and Load Workspace</h2>
-                <!-- <label for="userid" hidden>User Id (will be set in the backend): </label> -->
-                <!-- <input type="text" id="userid" value="UserID1" hidden /> -->
 
                 <button id="saveCode">Save Code</button>
                 <button id="loadCode">Load Code or Delete a Saved Code</button>
@@ -309,11 +339,5 @@
             }
         }
     </script>
-
-    <!--
-        add functionality so that there is a variable called currentActiveWorkspace
-        and then edit the save, load, and execute program buttons to take into account
-        whether the user is currently using the blockly or text workspace.
-    -->
 </body>
 </html>

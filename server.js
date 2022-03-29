@@ -32,6 +32,9 @@ app.use('/scripts', express.static(__dirname + '/node_modules/blockly/'));
 // Manually create a route for the assets.
 app.use('/assets', express.static('assets'));
 
+// Manually create a link for codemirror library.
+app.use(express.static(__dirname + '/node_modules/codemirror/'));
+
 // define the route for "/"
 app.get("/", function (request, response){
     //show this file when the "/" is requested
@@ -217,7 +220,7 @@ io.on('connection', function (socket) {
         
         fs.writeFileSync(path.join(baseDir, code_path), code);
         callback({
-            status: "File Saved."
+            status: `File: ${fileName} Saved.`
         });
     });
 
@@ -251,7 +254,7 @@ io.on('connection', function (socket) {
         exeCode(fileName);
 
         callback({
-            status: "File Executed."
+            status: `File: ${fileName} Executed.`
         });
     });
 
