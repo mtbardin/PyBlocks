@@ -3,10 +3,11 @@
     "",
     "\\public",
     "\\public\\code",
+    "\\public\\css",
     "\\public\\scripts",
     "\\views",
     "\\views\\tutorials"
   ],
-  "SelectedNode": "\\public\\scripts\\grid_world.js",
+  "SelectedNode": "\\public\\css\\interactive_page.css",
   "PreviewInSolutionExplorer": false
 }

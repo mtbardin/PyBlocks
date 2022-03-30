@@ -256,9 +256,9 @@
             <div style="margin-right: 5em;">
                 <h2>Program Controls</h2>
                 <input type="text" id="exefileName" value="output.py" hidden />
-                <button id="exe">Execute</button>
-                <button id="cancel">Cancel</button>
-                <button id="reset">Reset</button>
+                <button id="exe">Execute Code</button>
+                <button id="cancel">Cancel Animation</button>
+                <button id="reset">Reset Grid World</button>
             </div>
 
             <div style="margin-right: 5em;">
@@ -298,6 +298,12 @@
         <div class="modal-content animate">
             <p>Currently Saved Files:</p>
             <ul id="saveFileList"></ul>
+            <div>
+                <div class="pyFile" style="width: 25px; height: 25px; display: inline-block"></div>
+                <p style="display: inline-block;">= Text Code File</p>
+                <div class="xmlFile" style="width: 25px; height: 25px; display: inline-block"></div>
+                <p style="display: inline-block;">= Block Code File</p>
+            </div>
             <p><strong>WARNING!</strong> saving a file with the same name will rewrite the file.</p>
             <button id="saveWorkspace" onclick="document.getElementById('fileSaveDisplay').style.display = 'none'">Save Program As: </button>
             <input id="saveWorkspaceName" />
@@ -314,6 +320,12 @@
         <div class="modal-content animate">
             <p>Load or Delete a File.</p>
             <ul id="loadFileList"></ul>
+            <div>
+                <div class="pyFile" style="width: 25px; height: 25px; display: inline-block"></div>
+                <p style="display: inline-block;">= Text Code File</p>
+                <div class="xmlFile" style="width: 25px; height: 25px; display: inline-block"></div>
+                <p style="display: inline-block;">= Block Code File</p>
+            </div>
             <button id="loadWorkspace" onclick="document.getElementById('fileDisplay').style.display = 'none'">Load Program: </button>
             <input id="loadWorkspaceName" />
             <button id="deleteFileButton" onclick="document.getElementById('fileDisplay').style.display = 'none'">Delete Program</button>

@@ -269,6 +269,18 @@ let myCodeMirror = {};
                 let inputfield = document.getElementById("loadWorkspaceName");
                 inputfield.value = data[i];
             });
+
+            // If the file is a .py file.
+            let fileName = data[i].split(".");
+            if (fileName[fileName.length - 1].localeCompare("py") === 0) {
+                // made the background color light green.
+                li.classList.add("pyFile");
+            }
+            // if the file is a .xml file.
+            else {
+                li.classList.add("xmlFile");
+            }
+
             $(li).text(data[i]);
             fileList.appendChild(li);
         }
@@ -287,6 +299,18 @@ let myCodeMirror = {};
                 let inputfield = document.getElementById("saveWorkspaceName");
                 inputfield.value = data[i];
             });
+
+            // If the file is a .py file.
+            let fileName = data[i].split(".");
+            if (fileName[fileName.length - 1].localeCompare("py") === 0) {
+                // made the background color light green.
+                li.classList.add("pyFile");
+            }
+            // if the file is a .xml file.
+            else {
+                li.classList.add("xmlFile");
+            }
+
             $(li).text(data[i]);
             fileList.appendChild(li);
         }

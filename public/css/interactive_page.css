@@ -13,7 +13,7 @@ body {
     grid-template-rows: 2fr 1fr;
     grid-template-areas:
         'grid block out'
-        'grid exe save-load';
+        'grid exe exe';
     gap: 0px;
     min-height: 100vh;
 }
@@ -168,6 +168,13 @@ body {
         border: 1px solid black;
     }
 
+.pyFile {
+    background-color: yellowgreen;
+}
+.xmlFile {
+    background-color: violet;
+}
+
 /* Add Zoom Animation */
 .animate {
     -webkit-animation: animatezoom 0.6s;
@@ -192,4 +199,22 @@ body {
     to {
         transform: scale(1)
     }
+}
+
+
+/* Program Control Buttons */
+#exe {
+    padding: 1em;
+    margin-right: 1em;
+    background-color: lightgreen;
+}
+#cancel {
+    padding: 1em;
+    margin-right: 1em;
+    background-color: indianred;
+}
+#reset {
+    padding: 1em;
+    margin-right: 1em;
+    background-color: lightgoldenrodyellow;
 }
