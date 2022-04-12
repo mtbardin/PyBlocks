@@ -191,6 +191,42 @@
 	  "helpUrl": ""
 	};
 
+    // Comment Blocks
+    let commentBlockJson = {
+        "type": "single_line_comment",
+        "message0": "Comment %1",
+        "args0": [
+            {
+                "type": "field_input",
+                "name": "input_value",
+                "spellcheck": false
+            }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": 300,
+        "tooltip": "Add a single-line comment to your code.",
+        "helpUrl": ""
+    };
+    let multilineCommentBlockJson = {
+        "type": "multi_line_comment",
+        "message0": "Multi-line %1 Comment %2",
+        "args0": [
+            {
+                "type": "input_dummy"
+            },
+            {
+                "type": "field_multilinetext",
+                "name": "input_value",
+                "spellcheck": false
+            }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": 300,
+        "tooltip": "Add a multi-line comment to your code.",
+        "helpUrl": ""
+    };
 
     // Create the block using the JSON.
     Blockly.Blocks['move_up'] = {
@@ -283,6 +319,17 @@
         }
     };
 
+    // Comments
+    Blockly.Blocks['single_line_comment'] = {
+        init: function () {
+            this.jsonInit(commentBlockJson);
+        }
+    };
+    Blockly.Blocks['multi_line_comment'] = {
+        init: function () {
+            this.jsonInit(multilineCommentBlockJson);
+        }
+    };
 
     // Build the python code the block creates.
     Blockly.Python['move_up'] = function (block) {
@@ -357,5 +404,15 @@
     Blockly.Python['can_see_snake'] = function (block) {
         let code = 'can_see_snake()';
         return [code, Blockly.Python.ORDER_NONE];
+    };
+
+    // Comments.
+    Blockly.Python['single_line_comment'] = function (block) {
+        let code = '# ' + block.getFieldValue('input_value') + '\n';
+        return code;
+    };
+    Blockly.Python['multi_line_comment'] = function (block) {
+        let code = '""" ' + block.getFieldValue('input_value') + '"""\n';
+        return code;
     };
 })();

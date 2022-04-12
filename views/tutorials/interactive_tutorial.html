@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <!-- <link href="css/coding_page_styles.css" type="text/css" rel="stylesheet"> -->
+
     <!-- Favicon Icon -->
     <link rel="icon" href="images/PyBlocks Logo.png">
 
@@ -15,7 +15,6 @@
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>
 
     <!-- Blockly Include -->
-    <!--<script src="https://unpkg.com/blockly/blockly.min.js"></script>-->
     <script src="/scripts/blockly/blockly_compressed.js"></script>
     <script src="/scripts/blockly/blocks_compressed.js"></script>
     <script src="/scripts/blockly/python_compressed.js"></script>
@@ -25,6 +24,20 @@
     <script src="/scripts/custom_blocks.js"></script>
 
     <link href="/css/interactive_page.css" type="text/css" rel="stylesheet">
+
+    <!-- CodeMirror 6 Libraries -->
+    <script src="/lib/codemirror.js"></script>
+    <link rel="stylesheet" href="/lib/codemirror.css">
+    <link rel="stylesheet" href="/theme/midnight.css">
+    <script src="/mode/python/python.js"></script>
+
+    <style>
+        .CodeMirror {
+            display: inline-block;
+            height: 100%;
+            width: 52em;
+        }
+    </style>
 
     <script>
         // Stop the default function of the tab button.
@@ -165,6 +178,10 @@
                         </block>
                         <block type="lists_sort"></block>
                     </category>
+                    <category name="Comments" colour="300">
+                        <block type="single_line_comment"></block>
+                        <block type="multi_line_comment"></block>
+                    </category>
                     <category name="Movement" colour="260">
                         <block type="move_up"></block>
                         <block type="move_down"></block>
@@ -189,6 +206,7 @@
                     </category>
                 </xml>
             </div>
+
             <div id="textEditor">
                 <div id="textToolbox">
                     <ul>
@@ -220,6 +238,37 @@
                                 <li>cast_magic()</li>
                             </ul>
                         </li>
+                        <li>
+                            If Statement
+                            <ul>
+                                <li>
+                                    if(yes/no question): <br />
+                                    &emsp; do_this_if_yes <br />
+                                    else: <br />
+                                    &emsp; do_this_if_no
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            For Loops
+                            <ul>
+                                <li>
+                                    for(number of times):<br />
+                                    &emsp; do_this<br />
+                                    &emsp; repeat?
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            While loops
+                            <ul>
+                                <li>
+                                    while(question is true):<br />
+                                    &emsp; do_this<br />
+                                    &emsp; repeat?
+                                </li>
+                            </ul>
+                        </li>
                     </ul>
                 </div>
                 <textarea id="userTextInput"></textarea>
@@ -235,28 +284,35 @@
         <!-- execute code in block button -->
         <div class="exe-container" style="display: flex;">
             <div style="margin-right: 5em;">
-                <h2>Execute Program</h2>
-                <label for="exe"></label>
+                <h2>Program Controls</h2>
                 <input type="text" id="exefileName" value="output.py" hidden />
-                <button id="exe">Execute</button>
+                <button id="exe">Execute Code</button>
+                <button id="cancel">Cancel Animation</button>
+                <button id="reset">Reset Grid World</button>
+            </div>
+
+            <div style="margin-right: 5em;">
+                <h2>Map Selection</h2>
+                <select id="map_id" size="1">
+                    <option value="1">Map 1</option>
+                    <option value="2">Map 2</option>
+                    <option value="3">Map 3</option>
+                    <option value="4">Map 4</option>
+                    <option value="5">Map 5</option>
+                </select>
+                <button id="map-btn">Load Map</button>
             </div>
 
             <!-- Save and Load Workspace-->
-            <div class="save-n-load" style="display: inline-block;">
-                <h2>Save and Load Workspace</h2>
-                <!-- <label for="userid" hidden>User Id (will be set in the backend): </label> -->
-                <!-- <input type="text" id="userid" value="UserID1" hidden /> -->
+            <div class="save-n-load" style="display: block;">
+                <h3>Save and Load Workspace</h3>
 
                 <button id="saveCode">Save Code</button>
                 <button id="loadCode">Load Code or Delete a Saved Code</button>
-                <br />
-                <br />
-                <h2>Switch Coding Style</h2>
+                <h3>Switch Coding Style</h3>
                 <button id="styleSwitchBtn">Switch</button>
             </div>
         </div>
-
-
     </div>
 
     <!-- The Modal for saving. -->
@@ -268,6 +324,12 @@
         <div class="modal-content animate">
             <p>Currently Saved Files:</p>
             <ul id="saveFileList"></ul>
+            <div>
+                <div class="pyFile" style="width: 25px; height: 25px; display: inline-block"></div>
+                <p style="display: inline-block;">= Text Code File</p>
+                <div class="xmlFile" style="width: 25px; height: 25px; display: inline-block"></div>
+                <p style="display: inline-block;">= Block Code File</p>
+            </div>
             <p><strong>WARNING!</strong> saving a file with the same name will rewrite the file.</p>
             <button id="saveWorkspace" onclick="document.getElementById('fileSaveDisplay').style.display = 'none'">Save Program As: </button>
             <input id="saveWorkspaceName" />
@@ -284,6 +346,12 @@
         <div class="modal-content animate">
             <p>Load or Delete a File.</p>
             <ul id="loadFileList"></ul>
+            <div>
+                <div class="pyFile" style="width: 25px; height: 25px; display: inline-block"></div>
+                <p style="display: inline-block;">= Text Code File</p>
+                <div class="xmlFile" style="width: 25px; height: 25px; display: inline-block"></div>
+                <p style="display: inline-block;">= Block Code File</p>
+            </div>
             <button id="loadWorkspace" onclick="document.getElementById('fileDisplay').style.display = 'none'">Load Program: </button>
             <input id="loadWorkspaceName" />
             <button id="deleteFileButton" onclick="document.getElementById('fileDisplay').style.display = 'none'">Delete Program</button>
@@ -292,7 +360,6 @@
     </div>
 
     <script src="/scripts/grid_world.js"></script>
-    <!--script src="/scripts/interactive_demo.js"></script-->
 
     <script>
         // Get the modal
@@ -309,11 +376,5 @@
             }
         }
     </script>
-
-    <!--
-        add functionality so that there is a variable called currentActiveWorkspace
-        and then edit the save, load, and execute program buttons to take into account
-        whether the user is currently using the blockly or text workspace.
-    -->
 </body>
 </html>

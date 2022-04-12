@@ -1,13 +1,13 @@
 {
   "ExpandedNodes": [
     "",
-    "\\eval",
     "\\public",
     "\\public\\code",
+    "\\public\\css",
     "\\public\\scripts",
     "\\views",
     "\\views\\tutorials"
   ],
-  "SelectedNode": "\\views\\home_page.html",
+  "SelectedNode": "\\public\\css\\interactive_page.css",
   "PreviewInSolutionExplorer": false
 }
