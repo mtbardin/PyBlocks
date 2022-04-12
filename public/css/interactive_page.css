@@ -10,10 +10,10 @@ body {
 .app-container {
     display: grid;
     grid-template-columns: 1fr 4fr 2fr;
-    grid-template-rows: 2fr 1fr;
+    grid-template-rows: 0.5fr 4fr;
     grid-template-areas:
-        'grid block out'
-        'grid exe exe';
+        'grid exe exe'
+        'grid block out';
     gap: 0px;
     min-height: 100vh;
 }

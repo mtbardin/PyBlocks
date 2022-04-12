@@ -27,18 +27,18 @@ app.use(express.urlencoded({
 }));
 
 // Manually create a route for the blockly library in node_modules.
-app.use('/scripts', express.static(__dirname + '/node_modules/blockly/'));
+app.use('/scripts', express.static(path.join(__dirname, 'node_modules', 'blockly')));
 
 // Manually create a route for the assets.
 app.use('/assets', express.static('assets'));
 
 // Manually create a link for codemirror library.
-app.use(express.static(__dirname + '/node_modules/codemirror/'));
+app.use(express.static(path.join(__dirname, 'node_modules', 'codemirror')));
 
 // define the route for "/"
 app.get("/", function (request, response){
     //show this file when the "/" is requested
-    response.sendFile(__dirname + "/views/home_page.html");
+    response.sendFile(path.join(__dirname, 'views', 'home_page.html'));
 
     // Create a date 10 years from now to make sure the cookie never expires.
     const expireDate = new Date();
@@ -104,93 +104,99 @@ app.get("/", function (request, response){
 
 // define the route for "/coding_page"
 app.get("/coding_page.html", function (request, response) {
-    let path = "/views/coding_page.html";
-    redirector(request, response, path);
+    let myPath = path.join('views', 'coding_page.html');
+    redirector(request, response, myPath);
 });
 
 // define the route for "/base_tutorial"
 app.get("/basics_tutorial", function (request, response) {
-    let path = "/views/tutorials/basics_tutorial.html";
-    redirector(request, response, path);
+    let myPath = path.join('views', 'tutorials', 'basics_tutorial.html');
+    redirector(request, response, myPath);
 });
 
 // Temporarily define the route for "/interactive_demo"
 // accessed by the TBD section.
 app.get("/interactive_tutorial", function (request, response) {
-    let path = "/views/tutorials/interactive_tutorial.html";
-    redirector(request, response, path);
+    let myPath = path.join('views', 'tutorials', 'interactive_tutorial.html');
+    redirector(request, response, myPath);
 });
 
 // define the routes for the basics tutorials.
 app.get("/tut_basics_1", function (request, response) {
-    response.sendFile(__dirname + "/views/tutorials/basics/tut_basics_1.html");
+    let myPath = path.join('views', 'tutorials', 'basics', 'tut_basics_1.html');
+    redirector(request, response, myPath);
 });
 app.get("/tut_basics_2", function (request, response) {
-    response.sendFile(__dirname + "/views/tutorials/basics/tut_basics_2.html");
+    let myPath = path.join('views', 'tutorials', 'basics', 'tut_basics_2.html');
+    redirector(request, response, myPath);
 });
 app.get("/tut_basics_3", function (request, response) {
-    response.sendFile(__dirname + "/views/tutorials/basics/tut_basics_3.html");
+    let myPath = path.join('views', 'tutorials', 'basics', 'tut_basics_3.html');
+    redirector(request, response, myPath);
 });
 
 // define the routes for the variables tutorials.
 app.get("/tut_variables_1", function (request, response) {
-    response.sendFile(__dirname + "/views/tutorials/variables/tut_variables_1.html");
+    let myPath = path.join('views', 'tutorials', 'variables', 'tut_variables_1.html');
+    redirector(request, response, myPath);
 });
 app.get("/tut_variables_2", function (request, response) {
-    response.sendFile(__dirname + "/views/tutorials/variables/tut_variables_2.html");
+    let myPath = path.join('views', 'tutorials', 'variables', 'tut_variables_2.html');
+    redirector(request, response, myPath);
 });
 app.get("/tut_variables_3", function (request, response) {
-    response.sendFile(__dirname + "/views/tutorials/variables/tut_variables_3.html");
+    let myPath = path.join('views', 'tutorials', 'variables', 'tut_variables_3.html');
+    redirector(request, response, myPath);
 });
 
 // define the routes for the branching tutorials.
 app.get("/tut_branching_page1", function (request, response) {
-    let path = "/views/tutorials/branching/tut_branching_page1.html";
-    redirector(request, response, path);
+    let myPath = path.join('views', 'tutorials', 'branching', 'tut_branching_page1.html');
+    redirector(request, response, myPath);
 });
 app.get("/tut_branching_page2", function (request, response) {
-    let path = "/views/tutorials/branching/tut_branching_page2.html";
-    redirector(request, response, path);
+    let myPath = path.join('views', 'tutorials', 'branching', 'tut_branching_page2.html');
+    redirector(request, response, myPath);
 });
 app.get("/tut_branching_page3", function (request, response) {
-    let path = "/views/tutorials/branching/tut_branching_page3.html";
-    redirector(request, response, path);
+    let myPath = path.join('views', 'tutorials', 'branching', 'tut_branching_page3.html');
+    redirector(request, response, myPath);
 });
 app.get("/tut_branching_page4", function (request, response) {
-    let path = "/views/tutorials/branching/tut_branching_page4.html";
-    redirector(request, response, path);
+    let myPath = path.join('views', 'tutorials', 'branching', 'tut_branching_page4.html');
+    redirector(request, response, myPath);
 });
 app.get("/tut_branching_page5", function (request, response) {
-    let path = "/views/tutorials/branching/tut_branching_page5.html";
-    redirector(request, response, path);
+    let myPath = path.join('views', 'tutorials', 'branching', 'tut_branching_page5.html');
+    redirector(request, response, myPath);
 });
 
 // define the routes for the looping tutorials.
 app.get("/looping_tutorial_page_1", function (request, response) {
-    let path = "/views/tutorials/looping/looping_tutorial_page_1.html";
-    redirector(request, response, path);
+    let myPath = path.join('views', 'tutorials', 'looping', 'looping_tutorial_page_1.html');
+    redirector(request, response, myPath);
 });
 app.get("/looping_tutorial_page_2", function (request, response) {
-    let path = "/views/tutorials/looping/looping_tutorial_page_2.html";
-    redirector(request, response, path);
+    let myPath = path.join('views', 'tutorials', 'looping', 'looping_tutorial_page_2.html');
+    redirector(request, response, myPath);
 });
 app.get("/looping_tutorial_page_3", function (request, response) {
-    let path = "/views/tutorials/looping/looping_tutorial_page_3.html";
-    redirector(request, response, path);
+    let myPath = path.join('views', 'tutorials', 'looping', 'looping_tutorial_page_3.html');
+    redirector(request, response, myPath);
 });
 app.get("/looping_tutorial_page_4", function (request, response) {
-    let path = "/views/tutorials/looping/looping_tutorial_page_4.html";
-    redirector(request, response, path);
+    let myPath = path.join('views', 'tutorials', 'looping', 'looping_tutorial_page_4.html');
+    redirector(request, response, myPath);
 });
 app.get("/looping_tutorial_page_5", function (request, response) {
-    let path = "/views/tutorials/looping/looping_tutorial_page_5.html";
-    redirector(request, response, path);
+    let myPath = path.join('views', 'tutorials', 'looping', 'looping_tutorial_page_5.html');
+    redirector(request, response, myPath);
 });
 
 // define the route for "/xml_craft"
 app.get("/xml_craft", function (request, response) {
-    let path = "/views/xml_craft.html";
-    redirector(request, response, path);
+    let myPath = path.join('views', 'xml_craft.html');
+    redirector(request, response, myPath);
 });
 
 // If the user has never visited the site before we want to make sure 
@@ -202,7 +208,7 @@ function redirector(req, res, pagePath) {
     // If the user has accessed the site before.
     if (cookie.hasVisited === "true") {
         // Deliver the correct page.
-        res.sendFile(__dirname + pagePath);
+        res.sendFile(path.join(__dirname, pagePath));
     }
     // If the user has never accessed the site before.
     else {
@@ -229,8 +235,8 @@ io.on('connection', function (socket) {
             const { spawn } = require("child_process");
 
             // run cmd command with node.js
-            const codeDir = "public\\code\\";
-            const runPy = spawn("python", [codeDir + "auto_comp.py", codeDir + fileName]);
+            const codeDir = path.join('public', 'code');
+            const runPy = spawn("python", [path.join(codeDir, "auto_comp.py"), path.join(codeDir, fileName)]);
 
             runPy.stdout.on("data", data => {
                 console.log(`stdout: ${data}`);
@@ -260,7 +266,7 @@ io.on('connection', function (socket) {
 
     // Save Workspace Server Side Code.
     socket.on('saveWorkspace', (userId, fileName, code, callback) => {
-        var codePath = "/user_workspaces/" + userId;
+        var codePath = path.join('user_workspaces', userId);
         //console.log(path.join(baseDir, codePath));
 
         if (!fs.existsSync(path.join(baseDir, codePath))) {
@@ -269,7 +275,7 @@ io.on('connection', function (socket) {
             });
         }  
 
-        codePath += "/" + fileName + "/";
+        codePath = path.join(codePath, fileName);
         console.log("Saving:", codePath);
 
         fs.writeFile(path.join(baseDir, codePath), code, function (err) {

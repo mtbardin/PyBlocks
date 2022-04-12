@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <!-- <link href="css/coding_page_styles.css" type="text/css" rel="stylesheet"> -->
+
     <!-- Favicon Icon -->
     <link rel="icon" href="images/PyBlocks Logo.png">
 
@@ -15,7 +15,6 @@
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>
 
     <!-- Blockly Include -->
-    <!--<script src="https://unpkg.com/blockly/blockly.min.js"></script>-->
     <script src="/scripts/blockly/blockly_compressed.js"></script>
     <script src="/scripts/blockly/blocks_compressed.js"></script>
     <script src="/scripts/blockly/python_compressed.js"></script>
@@ -239,6 +238,37 @@
                                 <li>cast_magic()</li>
                             </ul>
                         </li>
+                        <li>
+                            If Statement
+                            <ul>
+                                <li>
+                                    if(yes/no question): <br />
+                                    &emsp; do_this_if_yes <br />
+                                    else: <br />
+                                    &emsp; do_this_if_no
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            For Loops
+                            <ul>
+                                <li>
+                                    for(number of times):<br />
+                                    &emsp; do_this<br />
+                                    &emsp; repeat?
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            While loops
+                            <ul>
+                                <li>
+                                    while(question is true):<br />
+                                    &emsp; do_this<br />
+                                    &emsp; repeat?
+                                </li>
+                            </ul>
+                        </li>
                     </ul>
                 </div>
                 <textarea id="userTextInput"></textarea>
@@ -274,19 +304,15 @@
             </div>
 
             <!-- Save and Load Workspace-->
-            <div class="save-n-load" style="display: inline-block;">
-                <h2>Save and Load Workspace</h2>
+            <div class="save-n-load" style="display: block;">
+                <h3>Save and Load Workspace</h3>
 
                 <button id="saveCode">Save Code</button>
                 <button id="loadCode">Load Code or Delete a Saved Code</button>
-                <br />
-                <br />
-                <h2>Switch Coding Style</h2>
+                <h3>Switch Coding Style</h3>
                 <button id="styleSwitchBtn">Switch</button>
             </div>
         </div>
-
-
     </div>
 
     <!-- The Modal for saving. -->
@@ -334,7 +360,6 @@
     </div>
 
     <script src="/scripts/grid_world.js"></script>
-    <!--script src="/scripts/interactive_demo.js"></script-->
 
     <script>
         // Get the modal
