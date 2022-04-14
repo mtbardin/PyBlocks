@@ -34,6 +34,114 @@ let oldLayers = [];
 // Initialize the code mirror variable outside the functions to make it global.
 let myCodeMirror = {};
 
+// Store extra map data.
+const maps = [
+    [
+         160,   // x pos
+         160,   // y pos
+         0,     // curr direction
+         [],    // inventory
+         0,     // num items in inv.
+         [[     // map layers
+             3, 3, 3, 3, 3, 3, 3, 3,
+             3, 1, 1, 1, 1, 1, 1, 3,
+             3, 1, 1, 1, 1, 2, 1, 3,
+             3, 1, 1, 1, 1, 1, 1, 3,
+             3, 1, 1, 2, 1, 1, 1, 3,
+             3, 1, 1, 1, 2, 1, 1, 3,
+             3, 1, 1, 1, 2, 1, 1, 3,
+             3, 3, 3, 1, 2, 3, 3, 3
+         ], [
+             0, 0, 0, 0, 0, 0, 0, 0,
+             0, 0, 9, 0, 0, 0, 9, 0,
+             0, 0, 0, 0, 0, 0, 4, 0,
+             0, 0, 0, 5, 0, 0, 18, 0,
+             0, 0, 8, 0, 0, 11, 0, 0,
+             0, 0, 0, 0, 0, 0, 0, 0,
+             0, 22, 0, 0, 5, 0, 0, 0,
+             0, 0, 0, 0, 0, 0, 0, 0
+         ]]
+    ],
+    [
+        352,   // x pos
+        288,   // y pos
+        1,     // curr direction
+        [],    // inventory
+        0,     // num items in inv.
+        [[     // map layers
+            3, 3, 3, 3, 3, 3, 3, 3,
+            3, 1, 1, 1, 1, 1, 1, 3,
+            3, 1, 1, 1, 1, 1, 1, 3,
+            3, 1, 1, 10, 10, 1, 1, 3,
+            3, 1, 1, 10, 10, 2, 1, 3,
+            3, 1, 1, 1, 1, 1, 1, 3,
+            3, 1, 1, 1, 1, 1, 1, 3,
+            3, 3, 3, 3, 3, 3, 3, 3
+        ], [
+            0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 8, 0, 0, 0, 0,
+            0, 0, 11, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0,
+            0, 4, 0, 0, 0, 0, 0, 0,
+            0, 9, 4, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0
+            ]]
+    ],
+    [
+        288,   // x pos
+        96,   // y pos
+        2,     // curr direction
+        [],    // inventory
+        0,     // num items in inv.
+        [[     // map layers
+            3, 3, 3, 3, 3, 3, 3, 3,
+            3, 10, 10, 1, 1, 10, 10, 3,
+            3, 10, 1, 1, 1, 1, 10, 3,
+            3, 1, 1, 1, 1, 1, 1, 3,
+            3, 1, 1, 1, 1, 1, 1, 3,
+            3, 10, 1, 1, 1, 1, 10, 3,
+            3, 10, 10, 1, 1, 10, 10, 3,
+            3, 3, 3, 3, 3, 3, 3, 3
+        ], [
+            0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 18, 18, 0, 0, 0,
+            0, 0, 0, 18, 18, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0
+        ]]
+    ],
+    [
+        96,   // x pos
+        416,   // y pos
+        3,     // curr direction
+        [],    // inventory
+        0,     // num items in inv.
+        [[     // map layers
+            3, 3, 3, 3, 3, 3, 3, 3,
+            3, 1, 1, 1, 1, 10, 10, 3,
+            3, 1, 1, 1, 1, 10, 10, 3,
+            3, 1, 2, 1, 1, 1, 1, 3,
+            3, 1, 2, 1, 1, 1, 1, 3,
+            3, 2, 1, 1, 1, 1, 1, 3,
+            3, 2, 1, 1, 1, 10, 10, 3,
+            3, 3, 3, 3, 3, 3, 3, 3
+        ], [
+            0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 12, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0,
+            0, 21, 0, 0, 0, 0, 9, 0,
+            0, 0, 0, 0, 0, 17, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 4, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0
+        ]]
+    ]
+];
+
 (function () {
     // listen for the output of the code execution.
     let socket = io();
@@ -325,6 +433,40 @@ function removeAllChildNodes(parent) {
 
 
 (function () {
+    // Helper function to reset map.
+    function resetMap(ID) {
+        // Set data to what it was on page load.
+        Game.hero.x = maps[ID][0];
+        Game.hero.y = maps[ID][1];
+        Game.hero.currentDirection = maps[ID][2];
+        Game.hero.inventory = maps[ID][3];
+        Game.hero.numItemsInInv = maps[ID][4];
+        map.layers = JSON.parse(JSON.stringify(maps[ID][5]));
+
+        // Clear visual inventory.
+        while (document.getElementById("inventory").firstChild) {
+            document.getElementById("inventory").removeChild(document.getElementById("inventory").lastChild);
+        }
+
+        // Clear command output and text output.
+        document.getElementById("output").innerHTML = "";
+        document.getElementById("cmdOut").innerHTML = "";
+
+        // Redraw the grid world.
+        Game.tick();
+    }
+
+    // Listen for map change request.
+    document.getElementById("map-btn").addEventListener('click', function () {
+        // Get layout to switch to.
+        let changeId = parseInt(document.getElementById("map_id").value);
+        console.log(`Switching Map to layout ${changeId+1}...`);
+
+        resetMap(changeId);
+
+        console.log(`Finshed Switching Map to layout ${changeId}...`);
+    });
+
     // https://github.com/mozdevs/gamedev-js-tiles/blob/gh-pages/square/layers.js
 
     // Asset loader
@@ -1441,44 +1583,9 @@ function removeAllChildNodes(parent) {
     // when the user clicks 'reset'
     qS("#reset").addEventListener('click', function () {
         console.log("Resetting...");
+        let changeId = document.getElementById("map_id").value;
 
-        // Set data to what it was on page load.
-        Game.hero.x = 160;
-        Game.hero.y = 160;
-        Game.hero.currentDirection = 0;
-        Game.hero.inventory = [];
-        Game.hero.numItemsInInv = 0;
-        map.layers = [[
-            3, 3, 3, 3, 3, 3, 3, 3,
-            3, 1, 1, 1, 1, 1, 1, 3,
-            3, 1, 1, 1, 1, 2, 1, 3,
-            3, 1, 1, 1, 1, 1, 1, 3,
-            3, 1, 1, 2, 1, 1, 1, 3,
-            3, 1, 1, 1, 2, 1, 1, 3,
-            3, 1, 1, 1, 2, 1, 1, 3,
-            3, 3, 3, 1, 2, 3, 3, 3
-        ], [
-            0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 9, 0, 0, 0, 9, 0,
-            0, 0, 0, 0, 0, 0, 4, 0,
-            0, 0, 0, 5, 0, 0, 18, 0,
-            0, 0, 8, 0, 0, 11, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0,
-            0, 22, 0, 0, 5, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0
-        ]];
-
-        // Clear visual inventory.
-        while (document.getElementById("inventory").firstChild) {
-            document.getElementById("inventory").removeChild(document.getElementById("inventory").lastChild);
-        }
-
-        // Clear command output and text output.
-        document.getElementById("output").innerHTML = "";
-        document.getElementById("cmdOut").innerHTML = "";
-
-        // Redraw the grid world.
-        Game.tick();
+        resetMap(changeId);
 
         console.log("Finished Reset.");
     });

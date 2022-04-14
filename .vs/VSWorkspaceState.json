@@ -2,12 +2,10 @@
   "ExpandedNodes": [
     "",
     "\\public",
-    "\\public\\code",
-    "\\public\\css",
     "\\public\\scripts",
     "\\views",
     "\\views\\tutorials"
   ],
-  "SelectedNode": "\\public\\css\\interactive_page.css",
+  "SelectedNode": "\\public\\scripts\\grid_world.js",
   "PreviewInSolutionExplorer": false
 }
