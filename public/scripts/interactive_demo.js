@@ -3,25 +3,6 @@
         toolbox: document.getElementById('toolbox'),
         scrollbars: false,
     });
-
-    // Tried to make it so the toolblox wouldn't close after a drag but there is some 
-    // strange interactions with deletion of blocks when dragged into the toolbox even when its closed.
-    // maybe make it so can only delete via trashcan if we want to always keep toolbox open
-    // also will need a much bigger space b/c some categories are very big to leave open.
-
-    //Blockly.Flyout.prototype.autoClose = false;
-
-    // Starts the Workspace with a Print Block inside it.
-    // this block can't be deleted.
-    /*
-    var xmlContent = '<xml id="initiated" style="display: none">' +
-        '  <block type="text_print" deletable="false">' +
-        '  </block>' +
-        '</xml>';;
-
-    dom = Blockly.Xml.textToDom(xmlContent);
-    Blockly.Xml.domToWorkspace(dom, workspace);
-    */
 })();
 
 (function () {
