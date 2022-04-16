@@ -1,10 +1,10 @@
-hero_x = 2
+hero_x = 3
 hero_y = 2
 
 map_cols = 8
 map_rows = 8
 
-hero_direction = 0
+hero_direction = 2
 
 inventory = []
 
